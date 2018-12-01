@@ -1,5 +1,5 @@
 
-
+import sys
 DEBUG = 1
 
 def print_debug(msg):
@@ -59,12 +59,25 @@ def day_1_part_1():
     return answer_string
 
 
+def day_1_part_2():
+    return "test"
+
 def main():
-    global DEBUG
-    DEBUG = 0
+
+    print("Script arguments are {}".format(sys.argv))
+
+    try:
+        global DEBUG
+        DEBUG = 0
+        if sys.argv[1] == "debug":
+            DEBUG = 1
+    except:
+        pass
 
 
     print("\n")
     print("Answer for 'Day 1: Chronal Calibration - Part 1':\n------------------------\n" + str(day_1_part_1()))
+    print("\n")
+    print("Answer for 'Day 1: Chronal Calibration - Part 2':\n------------------------\n" + str(day_1_part_2()))
     print("\n")
 main()

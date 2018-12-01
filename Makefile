@@ -8,6 +8,9 @@ test:
 run:
 	python code_advent.py
 
+run_debug:
+	python code_advent.py "debug"
+
 gitpass:
 	git commit -am "WIP - tests pass" ; git push origin master
 
