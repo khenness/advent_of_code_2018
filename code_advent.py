@@ -20,19 +20,43 @@ def read_file_into_list(filepath):
             line = fp.readline()
 
     return line_list
-            
+
+def parse_problem_1_string(input_string):
+    return_tuple = (input_string[0], int(input_string[1:]))
+    print_debug("Found tuple - {}".format(return_tuple))
+    return return_tuple
+
 #https://adventofcode.com/2018/day/1
-def problem_1():
+def day_1_part_1():
 
     lines = read_file_into_list("problem_1_input.txt")
     
     print_debug("Problem 1 input data is:")
     print_debug(lines)
 
+    starting_value = 0
+
+    running_total = starting_value
+    for line in lines:
+        mytuple = parse_problem_1_string(line)
+        if mytuple[0] == '+':
+            new_running_total = running_total + mytuple[1]
+            print_debug("I had the value {} and added on {} to get {}".format(running_total, mytuple[1], new_running_total))
+            running_total = new_running_total
+        elif mytuple[0] =='-':
+            new_running_total = running_total - mytuple[1]
+            print_debug("I had the value {} and subtracted {} to get {}".format(running_total, mytuple[1], new_running_total))
+            running_total = new_running_total
+        else:
+            raise ValueError("Found invalid input")
+
+    answer = running_total
+
+    answer_string = "For starting_value of {}, the answer is {}".format(starting_value, answer)
 
 
 
-    #print(read_data)
+    return answer_string
 
 
 def main():
@@ -41,6 +65,6 @@ def main():
 
 
     print("\n")
-    print("Answer for 'Day 1: Chronal Calibration':\n------------------------\n" + str(problem_1()))
+    print("Answer for 'Day 1: Chronal Calibration - Part 1':\n------------------------\n" + str(day_1_part_1()))
     print("\n")
 main()
