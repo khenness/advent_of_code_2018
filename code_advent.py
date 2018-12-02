@@ -119,6 +119,38 @@ def day_1_part_2():
     answer_string = "For starting_value of {}, the frequency that shows up twice is {}. I had to read the list {} times to find it.".format(starting_value, answer, list_iteration_count)
     return answer_string
 
+
+def string_has_N_same_letters(input_string, N):
+
+    return True
+
+def how_many_have_letters_twice(lines):
+    count = 0
+    for line in lines:
+        if string_has_N_same_letters(line, 2):
+            count += 1
+    return count
+
+def how_many_have_letters_three_times(lines):
+    count = 0
+    for line in lines:
+        if string_has_N_same_letters(line, 2):
+            count += 1
+    return count
+
+def day_2_part_1():
+    lines = read_file_into_list("problem_2_input.txt")
+
+    elements_with_two_similar_letters = how_many_have_letters_twice(lines)
+    elements_with_three_similar_letters = how_many_have_letters_three_times(lines)
+
+    answer_checksum = elements_with_two_similar_letters * elements_with_three_similar_letters
+
+    answer_string = "Num of elements with two of the same letters was {}\n" \
+                    "Num of elements with three of the same letters was {}\n" \
+                    "Therefore the computed checksum is {}".format(elements_with_two_similar_letters, elements_with_three_similar_letters, answer_checksum)
+    return answer_string
+
 def main():
 
     print("\nScript arguments are:\n------------------------\n{}".format(sys.argv))
@@ -133,8 +165,10 @@ def main():
 
 
     print("\n")
-    print("Answer for 'Day 1: Chronal Calibration - Part 1':\n------------------------\n" + str(day_1_part_1()))
+    print("Answer for Day 1 - Part 1 - 'Chronal Calibration':\n------------------------\n" + str(day_1_part_1()))
     print("\n")
-    print("Answer for 'Day 1: Chronal Calibration - Part 2':\n------------------------\n" + str(day_1_part_2()))
+    print("Answer for Day 1 - Part 2 - 'Chronal Calibration':':\n------------------------\n" + str(day_1_part_2()))
+    print("\n")
+    print("Answer for Day 2 - Part 1 - 'Inventory Management System':\n------------------------\n" + str(day_2_part_1()))
     print("\n")
 main()
