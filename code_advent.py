@@ -1,3 +1,5 @@
+import difflib
+from fuzzywuzzy import fuzz
 
 import sys
 DEBUG = 1
@@ -67,8 +69,8 @@ def check_seen(running_total, seen_frequencies):
     seen_frequencies[running_total] = times_seen
 
     if times_seen == 2:
-        print_debug("Found the answer it is {}".format(running_total))
-        print_debug("The seen_frequencies dictionary is: {}".format(seen_frequencies))
+        #print_debug("Found the answer it is {}".format(running_total))
+        #print_debug("The seen_frequencies dictionary is: {}".format(seen_frequencies))
         return running_total, True
 
     return None, False
@@ -122,15 +124,25 @@ def day_1_part_2():
 
 
 def check_box_pair(box1, box2):
-    return ("hello", "world", ("a","b"))
 
-def check_boxes(box_list):
+    answer_box_1 = None
+    answer_box_2 = None
+    answer_letter_tuple = (None, None)
+
     #Given two IDs
     #Do they have exactly one character different?
 
     #If so, is that character in the same place?
     #If so, what are the characters that are in the same place?
 
+    letter_differences_and_position = [(box1[i], box2[i],i) for i in range(len(box1)) if box1[i] != box2[i]]
+    if len(letter_differences_and_position) == 1:
+        print_debug("Looking at\nbox1 '{}' and \nbox2 '{}'\n"
+                    "letter_differences_and_position is {}\n\n".format(box1,box2,letter_differences_and_position))
+        return (box1, box2, (letter_differences_and_position[0][0], letter_differences_and_position[0][1]))
+    #return (answer_box_1, answer_box_2, answer_letter_tuple)
+    return None
+def check_boxes(box_list):
 
     for box_i in box_list:
         for box_j in box_list:
@@ -140,7 +152,7 @@ def check_boxes(box_list):
                 answer_tuple = check_box_pair(box_i, box_j)
                 if answer_tuple:
                     return answer_tuple
-    return (None, None, (None,None))
+    return (None, None, None)
 
 
 def day_2_part_2():
@@ -168,9 +180,9 @@ def string_has_exactly_N_same_letters(input_string, N):
 
 
     if N in count_dict.values():
-        print_debug("Looking at input_string: " + input_string)
-        print_debug("count_dict is {}".format(count_dict))
-        print_debug("I found {} in the dictionary values.\n".format(N))
+        #print_debug("Looking at input_string: " + input_string)
+        #print_debug("count_dict is {}".format(count_dict))
+        #print_debug("I found {} in the dictionary values.\n".format(N))
         return True
 
     return False
