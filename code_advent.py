@@ -120,6 +120,41 @@ def day_1_part_2():
     return answer_string
 
 
+
+def check_box_pair(box1, box2):
+    return ("hello", "world", ("a","b"))
+
+def check_boxes(box_list):
+    #Given two IDs
+    #Do they have exactly one character different?
+
+    #If so, is that character in the same place?
+    #If so, what are the characters that are in the same place?
+
+
+    for box_i in box_list:
+        for box_j in box_list:
+            if box_i == box_j:
+                pass
+            else:
+                answer_tuple = check_box_pair(box_i, box_j)
+                if answer_tuple:
+                    return answer_tuple
+    return (None, None, (None,None))
+
+
+def day_2_part_2():
+    lines = read_file_into_list("problem_2_input.txt")
+
+    box1, box2, letter_tuple = check_boxes(lines)
+
+    answer_string = "The two boxes that contain the santa suit are {} and {}.\n" \
+                    "The letter_tuple found is {}".format(box1, box2, letter_tuple)
+    return answer_string
+
+
+
+
 def string_has_exactly_N_same_letters(input_string, N):
 
     #print_debug("Looking at input_string: "+input_string)
@@ -187,4 +222,7 @@ def main():
     print("\n")
     print("Answer for Day 2 - Part 1 - 'Inventory Management System':\n------------------------\n" + str(day_2_part_1()))
     print("\n")
+    print("Answer for Day 2 - Part 2 - 'Inventory Management System':\n------------------------\n" + str(day_2_part_2()))
+    print("\n")
+
 main()
