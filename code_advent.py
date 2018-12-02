@@ -41,11 +41,11 @@ def day_1_part_1():
         mytuple = parse_problem_1_string(line)
         if mytuple[0] == '+':
             new_running_total = running_total + mytuple[1]
-            print_debug("I had the value {} and added on {} to get {}".format(running_total, mytuple[1], new_running_total))
+            #print_debug("I had the value {} and added on {} to get {}".format(running_total, mytuple[1], new_running_total))
             running_total = new_running_total
         elif mytuple[0] =='-':
             new_running_total = running_total - mytuple[1]
-            print_debug("I had the value {} and subtracted {} to get {}".format(running_total, mytuple[1], new_running_total))
+            #print_debug("I had the value {} and subtracted {} to get {}".format(running_total, mytuple[1], new_running_total))
             running_total = new_running_total
         else:
             raise ValueError("Found invalid input")
@@ -96,16 +96,16 @@ def day_1_part_2():
             if mytuple[0] == '+':
                 new_running_total = running_total + mytuple[1]
 
-                print_debug(
-                    "I had the value {} and added on {} to get {}".format(running_total, mytuple[1], new_running_total))
+                #print_debug(
+                #    "I had the value {} and added on {} to get {}".format(running_total, mytuple[1], new_running_total))
                 running_total = new_running_total
 
             elif mytuple[0] == '-':
                 new_running_total = running_total - mytuple[1]
 
 
-                print_debug(
-                    "I had the value {} and subtracted {} to get {}".format(running_total, mytuple[1], new_running_total))
+                #print_debug(
+                #    "I had the value {} and subtracted {} to get {}".format(running_total, mytuple[1], new_running_total))
 
                 running_total = new_running_total
             else:
@@ -120,21 +120,37 @@ def day_1_part_2():
     return answer_string
 
 
-def string_has_N_same_letters(input_string, N):
+def string_has_exactly_N_same_letters(input_string, N):
 
-    return True
+    #print_debug("Looking at input_string: "+input_string)
+
+    count_dict = {}
+    for letter in input_string:
+        current_count = count_dict.get(letter, 0)
+        current_count += 1
+        count_dict[letter] = current_count
+
+
+
+    if N in count_dict.values():
+        print_debug("Looking at input_string: " + input_string)
+        print_debug("count_dict is {}".format(count_dict))
+        print_debug("I found {} in the dictionary values.\n".format(N))
+        return True
+
+    return False
 
 def how_many_have_letters_twice(lines):
     count = 0
     for line in lines:
-        if string_has_N_same_letters(line, 2):
+        if string_has_exactly_N_same_letters(line, 2):
             count += 1
     return count
 
 def how_many_have_letters_three_times(lines):
     count = 0
     for line in lines:
-        if string_has_N_same_letters(line, 2):
+        if string_has_exactly_N_same_letters(line, 3):
             count += 1
     return count
 
