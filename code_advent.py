@@ -218,7 +218,13 @@ def day_2_part_1():
 
 class Rectangle:
 
-    def make_intersection_rect(self, input_rect):
+    def make_intersection_rect(self, rectB):
+
+        #scenario 1 - no intersection
+
+
+        #scenario 2 - rectB point
+
 
         pass
 
@@ -252,8 +258,18 @@ class Rectangle:
 
         return cls(id, xpos, ypos, x_length, y_length)
 
+
+
+
     def does_point_intersect(self, x, y):
-        return True
+
+        if self.x_pos <=x and \
+                self.x_pos+self.x_length > x and\
+                self.y_pos <= y and\
+                self.y_pos+self.y_length > y :
+            return True
+        else:
+            return False
 
 
     def __init__(self, id, x_pos, y_pos, x_length, y_length):
@@ -309,8 +325,60 @@ def how_many_rects_does_point_intersect(x, y, rectangle_list):
 
     return count
 
+
+class Grid:
+
+    def __init__(self):
+        self.grid_x_max = 1000
+        self.grid_y_max = 1000
+        self.grid = [['.' for i in range(self.grid_x_max)] for j in range(self.grid_y_max)]
+
+
+    def get_answer(self):
+        count = 0
+        x = 0
+        for list in self.grid:
+            y =0
+            for elem in list:
+                # do something
+                if self.grid[x][y] != "." and int(self.grid[x][y]) >=2:
+                    count +=1
+                y += 1
+            x += 1
+
+        return count
+    def pretty_print(self):
+        print("\nPrinting grid:\n")
+
+        for list in self.grid:
+
+            mystring = ""
+            for elem in list:
+                mystring= mystring + elem+" "
+            print(mystring)
+
+
+    def add_rectangle(self, rect):
+
+        x = 0
+        for list in self.grid:
+            y =0
+            for elem in list:
+                # do something
+
+                if rect.does_point_intersect(x,y):
+                    if self.grid[x][y] == ".":
+                        self.grid[x][y] = str(1)
+                    else:
+                        self.grid[x][y] = str(int(self.grid[x][y]) +1 )
+
+
+                y+=1
+            x+=1
+
 def day_3_part_1():
     lines = read_file_into_list("problem_3_input.txt")
+    #lines = read_file_into_list("problem_3_dummy_input.txt")
 
 
     rectangle_list = []
@@ -320,23 +388,21 @@ def day_3_part_1():
         rectangle_list.append(myRectangle)
 
 
-    #read through the whole canvas
-    #for each inch, we check if it overlaps with more than one and count it
 
-    intersection_rects = []
-    for rect1 in rectangle_list:
-        for rect2 in rectangle_list:
+    my_grid = Grid()
 
-            new_rect = rect1.make_intersection_rect(rect2)
-            if new_rect:
-                intersection_rects.append(new_rect)
+    #my_grid.pretty_print()
 
-    #answer_string = "hello ".format(rectangle_list)
-    #x_max, y_max = get_max_canvas_size(lines)
-    #print_debug("\nx_max = {}".format(x_max))
-    #print_debug("y_max = {}".format(y_max))
-    count = 0
-    answer_string = "number of inches = {}".format(count)
+    for rect in rectangle_list:
+        my_grid.add_rectangle(rect)
+
+    print_debug("rectangle_list = {}".format(rectangle_list))
+    #my_grid.pretty_print()
+
+
+    answer = my_grid.get_answer()
+
+    answer_string = "number of inches = {}.".format(answer)
     return answer_string
 
 def main():
