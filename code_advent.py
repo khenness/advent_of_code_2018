@@ -214,6 +214,63 @@ def day_2_part_1():
                     "Therefore the computed checksum is {}".format(elements_with_two_similar_letters, elements_with_three_similar_letters, answer_checksum)
     return answer_string
 
+
+class Rectangle:
+
+    @classmethod
+    def make_from_input_line(cls, line):
+        # String looks like this '#1257 @ 707,747: 23x18'
+        # Constructor to chop out the various bits
+        print_debug("Looking at line '{}'".format(line))
+
+        # Get ID
+        my_list = line.split('@')
+        id = int(my_list[0].replace("#","").replace(" ",""))
+        print_debug("id = {}".format(id))
+
+
+        # Get x_pos and ypos
+        my_list = line.split(' ')
+
+        xpos = int(my_list[2].split(',')[0])
+        print_debug("xpos = {}".format(xpos))
+        ypos = int(my_list[2].split(',')[1].replace(':',""))
+        print_debug("ypos = {}".format(ypos))
+
+
+        # Get x_length and y_length
+        my_list = line.split(' ')
+        x_length = int(my_list[3].split('x')[0])
+        print_debug("x_length = {}".format(x_length))
+        y_length = int(my_list[3].split('x')[1])
+        print_debug("y_length = {}".format(y_length))
+
+
+        return cls(id, xpos, ypos, x_length, y_length)
+
+
+
+
+    def __init__(self, id, x_pos, y_pos, x_length, y_length):
+        self.id = id
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.x_length = x_length
+        self.y_length = y_length
+
+def day_3_part_1():
+    lines = read_file_into_list("problem_3_input.txt")
+
+    rectangle_list = []
+    for line in lines:
+        #print_debug("Looking at line '"+line+"':")
+        myRectangle = Rectangle.make_from_input_line(line)
+        rectangle_list.append(myRectangle)
+
+    answer_string = "hello ".format(rectangle_list)
+
+    return answer_string
+
 def main():
 
     print("\nScript arguments are:\n------------------------\n{}".format(sys.argv))
@@ -235,6 +292,8 @@ def main():
     print("Answer for Day 2 - Part 1 - 'Inventory Management System':\n------------------------\n" + str(day_2_part_1()))
     print("\n")
     print("Answer for Day 2 - Part 2 - 'Inventory Management System':\n------------------------\n" + str(day_2_part_2()))
+    print("\n")
+    print("Answer for Day 3 - Part 1 - 'No Matter How You Slice It':\n------------------------\n" + str(day_3_part_1()))
     print("\n")
 
 main()
