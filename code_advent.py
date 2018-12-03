@@ -215,13 +215,18 @@ def day_2_part_1():
     return answer_string
 
 
+
 class Rectangle:
+
+    def make_intersection_rect(self, input_rect):
+
+        pass
 
     @classmethod
     def make_from_input_line(cls, line):
         # String looks like this '#1257 @ 707,747: 23x18'
         # Constructor to chop out the various bits
-        print_debug("Looking at line '{}'".format(line))
+        print_debug("\nLooking at line '{}'".format(line))
 
         # Get ID
         my_list = line.split('@')
@@ -231,7 +236,6 @@ class Rectangle:
 
         # Get x_pos and ypos
         my_list = line.split(' ')
-
         xpos = int(my_list[2].split(',')[0])
         print_debug("xpos = {}".format(xpos))
         ypos = int(my_list[2].split(',')[1].replace(':',""))
@@ -243,12 +247,13 @@ class Rectangle:
         x_length = int(my_list[3].split('x')[0])
         print_debug("x_length = {}".format(x_length))
         y_length = int(my_list[3].split('x')[1])
-        print_debug("y_length = {}".format(y_length))
+        print_debug("y_length = {}\n".format(y_length))
 
 
         return cls(id, xpos, ypos, x_length, y_length)
 
-
+    def does_point_intersect(self, x, y):
+        return True
 
 
     def __init__(self, id, x_pos, y_pos, x_length, y_length):
@@ -258,8 +263,55 @@ class Rectangle:
         self.x_length = x_length
         self.y_length = y_length
 
+        self.intersecting_rects = []
+
+
+
+def get_max_canvas_size(lines):
+
+    highest_x = 0
+    highest_y = 0
+
+    for line in lines:
+        print_debug("\nline = '{}'".format(line))
+
+        mylist = line.split(" ")
+        x_1 = int(mylist[2].split(",")[0])
+        print_debug("x_1 = {}".format(x_1))
+        x_2 = int(mylist[3].split('x')[0])
+        print_debug("x_2 = {}".format(x_2))
+
+        y_1 = int(mylist[2].split(",")[1].replace(':',''))
+        print_debug("y_1 = {}".format(y_1))
+        y_2 = int(mylist[3].split('x')[1])
+        print_debug("y_2 = {}".format(y_2))
+
+        x_answer = x_1 + x_2
+        if x_answer > highest_x:
+            highest_x = x_answer
+
+        y_answer = y_1 + y_2
+        if y_answer > highest_y:
+            highest_y = y_answer
+
+
+    return highest_x, highest_y
+
+def how_many_rects_does_point_intersect(x, y, rectangle_list):
+
+    count = 0
+    for rect in rectangle_list:
+        check = rect.does_point_intersect(x,y)
+        if check is True:
+            print("got to here")
+            count+=1
+
+
+    return count
+
 def day_3_part_1():
     lines = read_file_into_list("problem_3_input.txt")
+
 
     rectangle_list = []
     for line in lines:
@@ -267,8 +319,24 @@ def day_3_part_1():
         myRectangle = Rectangle.make_from_input_line(line)
         rectangle_list.append(myRectangle)
 
-    answer_string = "hello ".format(rectangle_list)
 
+    #read through the whole canvas
+    #for each inch, we check if it overlaps with more than one and count it
+
+    intersection_rects = []
+    for rect1 in rectangle_list:
+        for rect2 in rectangle_list:
+
+            new_rect = rect1.make_intersection_rect(rect2)
+            if new_rect:
+                intersection_rects.append(new_rect)
+
+    #answer_string = "hello ".format(rectangle_list)
+    #x_max, y_max = get_max_canvas_size(lines)
+    #print_debug("\nx_max = {}".format(x_max))
+    #print_debug("y_max = {}".format(y_max))
+    count = 0
+    answer_string = "number of inches = {}".format(count)
     return answer_string
 
 def main():
