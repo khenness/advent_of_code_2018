@@ -531,11 +531,55 @@ def day_3_part_2():
     return answer_string
 
 
+
+class Schedule:
+
+
+    def build_dict(self, lines):
+        for line in lines:
+            print_debug("looking at line: '{}'".format(line))
+
+
+
+
+
+            #guard begin shift event
+            if line.split('] ')[1].split(" ")[0] == "Guard":
+                guard_string = "Guard "+line.split('] ')[1].split(" ")[1]
+                print_debug("Adding {} to dictionary".format(guard_string))
+                self.guard_dict[guard_string] = None
+
+            print_debug("")
+            #fall asleep event
+
+            #wake up event
+
+            pass
+
+    def __init__(self, lines):
+        self.guard_dict = {}
+
+        self.build_dict(lines)
+        current_guard = None
+
+
+
+    def pretty_print(self):
+        print("guard_dict = {}".format(self.guard_dict))
+
 def day_4_part1():
-    lines = read_file_into_list("problem_4_input.txt")
-    #lines = read_file_into_list("problem_4_dummy_input.txt")
+    #lines = read_file_into_list("problem_4_input.txt")
+    lines = read_file_into_list("problem_4_dummy_input.txt")
 
+    lines.sort()
+    for line in lines:
 
+        date_string = line.split(']')[0]
+        #print(date_string)
+        print(line)
+
+    my_schedule = Schedule(lines)
+    my_schedule.pretty_print()
     return "WIP"
 
 def main():
