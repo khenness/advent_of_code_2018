@@ -331,8 +331,8 @@ def how_many_rects_does_point_intersect(x, y, rectangle_list):
 class Grid:
 
     def __init__(self):
-        self.grid_x_max = 10
-        self.grid_y_max = 10
+        self.grid_x_max = 1000
+        self.grid_y_max = 1000
         self.grid = [['.' for i in range(self.grid_x_max)] for j in range(self.grid_y_max)]
         self.rect_ids_candidates = []
         self.intersecting_rect_ids = []
@@ -401,7 +401,7 @@ class Grid:
             mystring = ""
             for elem in list:
                 mystring= mystring + elem+" "
-            print(mystring)
+            print_debug(mystring)
 
     def pretty_print_id_grid(self):
         print_debug("\nPrinting ID grid:\n")
@@ -498,8 +498,8 @@ def day_3_part_1():
 
 
 def day_3_part_2():
-    #lines = read_file_into_list("problem_3_input.txt")
-    lines = read_file_into_list("problem_3_dummy_input.txt")
+    lines = read_file_into_list("problem_3_input.txt")
+    #lines = read_file_into_list("problem_3_dummy_input.txt")
 
     rectangle_list = []
     for line in lines:

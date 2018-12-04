@@ -17,6 +17,10 @@ gitpass:
 gitwip:
 	git commit -am "Work In Progress" ; git push origin master
 
+profile:
+	python -m cProfile code_advent.py
+
+
 pyshell:
 	winpty python
 
