@@ -337,7 +337,47 @@ class Grid:
         self.rect_ids_candidates = []
         self.intersecting_rect_ids = []
 
-        self.id_grid = [['.' for i in range(self.grid_x_max)] for j in range(self.grid_y_max)]
+        self.id_set = set()
+
+        self.id_grid = [[[] for i in range(self.grid_x_max)] for j in range(self.grid_y_max)]
+
+
+        self.candidate_id_dict = {}
+
+
+
+    def get_answer_2(self):
+
+        x = 0
+        for row in self.grid:
+            y = 0
+            for collision_elem in row:
+                # do something
+                if self.grid[x][y] == "1" \
+                        and len(self.id_grid[x][y]) == 1 and \
+                        self.candidate_id_dict.get(self.id_grid[x][y][0]) != "invalid":
+                    self.candidate_id_dict[self.id_grid[x][y][0]] = "valid"
+
+                else:
+                    for id in self.id_grid[x][y]:
+                        self.candidate_id_dict[id] = "invalid"
+
+                y += 1
+            x += 1
+        print_debug("")
+        print_debug("candidate_id_dict = {}".format(self.candidate_id_dict))
+        print_debug("")
+
+        answer = None
+        for key in self.candidate_id_dict:
+
+            if self.candidate_id_dict[key] == "valid":
+                answer = key
+
+
+        return answer
+
+
 
     def get_answer(self):
         count = 0
@@ -352,10 +392,6 @@ class Grid:
             x += 1
 
         return count
-
-
-    def get_answer_2(self):
-        return "WIP"
 
     def pretty_print(self):
         print("\nPrinting collision grid:\n")
@@ -377,6 +413,8 @@ class Grid:
                 mystring= mystring + str(elem)+" "
             print(mystring)
 
+        print()
+        print("id_set = {}".format(self.id_set))
 
     def add_rectangle(self, rect):
 
@@ -404,14 +442,16 @@ class Grid:
     def add_rectangle_for_part2(self, rect):
         rect_hit_another = False
 
+        self.id_set.add(rect.id)
+
         x = 0
         for list in self.grid:
             y =0
             for elem in list:
                 # do something
 
-                if rect.does_point_intersect(x,y):
-                    self.id_grid[x][y] = rect.id
+                if rect.does_point_intersect(x, y):
+                    self.id_grid[x][y].append(rect.id) # = self.id_grid[x][y]
 
                     if self.grid[x][y] == ".":
                         self.grid[x][y] = str(1)
