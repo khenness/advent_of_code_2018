@@ -536,6 +536,36 @@ def day_3_part_2():
 
 class Schedule:
 
+    def build_guard_dict(self):
+
+        print_debug("\nBuilding totals:")
+        for shift in self.shift_list:
+            guard_string = shift["guard"]
+            minutes_asleep_this_shift = 0
+            for minute_char in shift["minutes_asleep"]:
+                if minute_char == '#':
+                    minutes_asleep_this_shift+=1
+
+            current_guard = self.guard_dict.get(guard_string, {"minutes_asleep_total": 0})
+            current_guard["minutes_asleep_total"] += minutes_asleep_this_shift
+
+            self.guard_dict[guard_string] = current_guard
+            print_debug("current guard_dict is {}".format(self.guard_dict))
+
+        highest_minutes_asleep = 0
+        for guard in self.guard_dict:
+            if self.guard_dict[guard]["minutes_asleep_total"] > highest_minutes_asleep:
+                highest_minutes_asleep = self.guard_dict[guard]["minutes_asleep_total"]
+                laziest_guard = guard
+
+        print_debug("laziest_guard is {} with a total of {} minutes".format(laziest_guard, highest_minutes_asleep))
+
+
+
+    def get_answer_part_1(self):
+
+
+        return None
 
     def build_dict(self, lines):
         for line in lines:
@@ -597,7 +627,14 @@ class Schedule:
     def __init__(self, lines):
         self.shift_list = []
 
+        self.guard_dict = {}
+
         self.build_dict(lines)
+
+        self.build_guard_dict()
+        self.highest_minutes_asleep = 0
+        self.laziest_guard = None
+
         current_guard = None
 
 
@@ -605,9 +642,9 @@ class Schedule:
     def pretty_print(self):
         #print("\nshift_list = {}\n".format(self.shift_list))
 
-        print_debug("Date   ID   Minute")
-        print_debug("            000000000011111111112222222222333333333344444444445555555555")
-        print_debug("            012345678901234567890123456789012345678901234567890123456789")
+        print("Date   ID   Minute")
+        print("            000000000011111111112222222222333333333344444444445555555555")
+        print("            012345678901234567890123456789012345678901234567890123456789")
 
 
 
@@ -616,13 +653,13 @@ class Schedule:
             print_string = shift["date"]+"  "+shift["guard"].replace("Guard ","")+"  "
             for minute_char in shift["minutes_asleep"]:
                 print_string +=minute_char
-            print_debug(print_string)
+            print(print_string)
 
         #given a day, a guard ID and a minute
 
 def day_4_part1():
-    #lines = read_file_into_list("problem_4_input.txt")
     lines = read_file_into_list("problem_4_dummy_input.txt")
+    #lines = read_file_into_list("problem_4_input.txt")
 
     lines.sort()
     for line in lines:
@@ -633,7 +670,9 @@ def day_4_part1():
         pass
     my_schedule = Schedule(lines)
     my_schedule.pretty_print()
-    return "WIP"
+    answer = my_schedule.get_answer_part_1()
+    answer_string = "answer is {}".format(answer)
+    return answer_string
 
 def main():
 
