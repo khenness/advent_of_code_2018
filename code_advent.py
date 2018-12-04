@@ -537,24 +537,33 @@ class Schedule:
 
     def build_dict(self, lines):
         for line in lines:
-            print_debug("looking at line: '{}'".format(line))
 
 
 
 
-
+            current_guard = None
             #guard begin shift event
             if line.split('] ')[1].split(" ")[0] == "Guard":
+                print_debug("looking at line: '{}'".format(line))
+
                 guard_string = "Guard "+line.split('] ')[1].split(" ")[1]
                 print_debug("Adding {} to dictionary".format(guard_string))
+                current_guard = guard_string
+                print_debug("current_guard = {}".format(current_guard))
                 self.guard_dict[guard_string] = None
-
-            print_debug("")
+                print_debug("")
             #fall asleep event
+            elif line.split('] ')[1].split(" ")[0] == "falls":
+                print_debug("looking at line: '{}'".format(line))
+                print_debug("handling a fall asleep event")
+                print_debug("")
 
             #wake up event
+            else:
+                print_debug("looking at line: '{}'".format(line))
+                print_debug("handling a wake up event")
+                print_debug("")
 
-            pass
 
     def __init__(self, lines):
         self.guard_dict = {}
@@ -576,8 +585,8 @@ def day_4_part1():
 
         date_string = line.split(']')[0]
         #print(date_string)
-        print(line)
-
+        #print(line)
+        pass
     my_schedule = Schedule(lines)
     my_schedule.pretty_print()
     return "WIP"
