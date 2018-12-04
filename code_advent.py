@@ -557,7 +557,7 @@ class Schedule:
                 print_debug("date = {}".format(mydate))
 
 
-                minutes_alseep_list = []
+                minutes_alseep_list = ["." for _ in range(60)]
                 self.shift_list.append( {"guard": guard_string, "date": mydate, "minutes_asleep": minutes_alseep_list } )
                 print_debug("shift_list now equals {}".format(self.shift_list))
                 print_debug("")
@@ -567,11 +567,13 @@ class Schedule:
                 print_debug("looking at line: '{}'".format(line))
                 print_debug("handling a fall asleep event")
 
-                my_hour = line.split(" ")[1].replace("]", "").split(":")[0]
 
-                my_minute = line.split(" ")[1].replace("]", "").split(":")[1]
+                my_minute = int(line.split(" ")[1].replace("]", "").split(":")[1])
                 print_debug("my_minute = {}".format(my_minute))
-                print_debug("my_hour = {}".format(my_hour))
+
+
+                for x in range(my_minute,60):
+                    self.shift_list[-1]["minutes_asleep"][x] = "#"
 
                 print_debug("shift_list now equals {}".format(self.shift_list))
                 print_debug("")
@@ -580,6 +582,15 @@ class Schedule:
             else:
                 print_debug("looking at line: '{}'".format(line))
                 print_debug("handling a wake up event")
+                my_minute = int(line.split(" ")[1].replace("]", "").split(":")[1])
+                print_debug("my_minute = {}".format(my_minute))
+
+
+                for x in range(my_minute,60):
+                    self.shift_list[-1]["minutes_asleep"][x] = "."
+                print_debug("shift_list now equals {}".format(self.shift_list))
+
+
                 print_debug("")
 
 
@@ -599,10 +610,13 @@ class Schedule:
         print_debug("            012345678901234567890123456789012345678901234567890123456789")
 
 
-        print_string = "            "
-        for _ in range(60):
-            print_string+="."
-        print_debug(print_string)
+
+        for shift in self.shift_list:
+
+            print_string = shift["date"]+"  "+shift["guard"].replace("Guard ","")+"  "
+            for minute_char in shift["minutes_asleep"]:
+                print_string +=minute_char
+            print_debug(print_string)
 
         #given a day, a guard ID and a minute
 
