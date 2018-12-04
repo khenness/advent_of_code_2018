@@ -1,5 +1,6 @@
 import difflib
 from fuzzywuzzy import fuzz
+import datetime
 
 import sys
 DEBUG = 1
@@ -280,6 +281,7 @@ class Rectangle:
         self.y_length = y_length
 
         self.intersecting_rects = []
+        self.found_intersection = False
 
 
 
@@ -329,10 +331,13 @@ def how_many_rects_does_point_intersect(x, y, rectangle_list):
 class Grid:
 
     def __init__(self):
-        self.grid_x_max = 1000
-        self.grid_y_max = 1000
+        self.grid_x_max = 10
+        self.grid_y_max = 10
         self.grid = [['.' for i in range(self.grid_x_max)] for j in range(self.grid_y_max)]
+        self.rect_ids_candidates = []
+        self.intersecting_rect_ids = []
 
+        self.id_grid = [['.' for i in range(self.grid_x_max)] for j in range(self.grid_y_max)]
 
     def get_answer(self):
         count = 0
@@ -347,8 +352,13 @@ class Grid:
             x += 1
 
         return count
+
+
+    def get_answer_2(self):
+        return "WIP"
+
     def pretty_print(self):
-        print("\nPrinting grid:\n")
+        print("\nPrinting collision grid:\n")
 
         for list in self.grid:
 
@@ -357,8 +367,20 @@ class Grid:
                 mystring= mystring + elem+" "
             print(mystring)
 
+    def pretty_print_id_grid(self):
+        print("\nPrinting collision grid:\n")
+
+        for list in self.id_grid:
+
+            mystring = ""
+            for elem in list:
+                mystring= mystring + str(elem)+" "
+            print(mystring)
+
 
     def add_rectangle(self, rect):
+
+        rect_hit_another = False
 
         x = 0
         for list in self.grid:
@@ -367,14 +389,43 @@ class Grid:
                 # do something
 
                 if rect.does_point_intersect(x,y):
+
                     if self.grid[x][y] == ".":
                         self.grid[x][y] = str(1)
                     else:
+                        rect_hit_another = True
                         self.grid[x][y] = str(int(self.grid[x][y]) +1 )
 
 
                 y+=1
             x+=1
+
+
+    def add_rectangle_for_part2(self, rect):
+        rect_hit_another = False
+
+        x = 0
+        for list in self.grid:
+            y =0
+            for elem in list:
+                # do something
+
+                if rect.does_point_intersect(x,y):
+                    self.id_grid[x][y] = rect.id
+
+                    if self.grid[x][y] == ".":
+                        self.grid[x][y] = str(1)
+                    else:
+
+                        rect_hit_another = True
+                        self.grid[x][y] = str(int(self.grid[x][y]) +1 )
+
+                y+=1
+            x+=1
+
+        if rect_hit_another is False:
+            self.rect_ids_candidates.append(rect.id)
+
 
 def day_3_part_1():
     lines = read_file_into_list("problem_3_input.txt")
@@ -405,10 +456,42 @@ def day_3_part_1():
     answer_string = "number of inches = {}.".format(answer)
     return answer_string
 
+
+def day_3_part_2():
+    #lines = read_file_into_list("problem_3_input.txt")
+    lines = read_file_into_list("problem_3_dummy_input.txt")
+
+    rectangle_list = []
+    for line in lines:
+        # print_debug("Looking at line '"+line+"':")
+        myRectangle = Rectangle.make_from_input_line(line)
+        rectangle_list.append(myRectangle)
+
+    my_grid = Grid()
+
+    # my_grid.pretty_print()
+
+    for rect in rectangle_list:
+        my_grid.add_rectangle_for_part2(rect)
+
+    print_debug("rectangle_list = {}".format(rectangle_list))
+    print_debug("my_grid.rect_ids_candidates = {}".format(set(my_grid.rect_ids_candidates)))
+    my_grid.pretty_print()
+    my_grid.pretty_print_id_grid()
+
+    answer = my_grid.get_answer_2()
+
+
+
+
+
+    answer_string = "Answer = {}.".format(answer)
+    return answer_string
+
 def main():
 
     print("\nScript arguments are:\n------------------------\n{}".format(sys.argv))
-
+    print("Script start time is {}".format(str(datetime.datetime.now())))
     try:
         global DEBUG
         DEBUG = 0
@@ -416,6 +499,8 @@ def main():
             DEBUG = 1
     except:
         pass
+
+
 
 
     print("\n")
@@ -427,7 +512,10 @@ def main():
     print("\n")
     print("Answer for Day 2 - Part 2 - 'Inventory Management System':\n------------------------\n" + str(day_2_part_2()))
     print("\n")
-    print("Answer for Day 3 - Part 1 - 'No Matter How You Slice It':\n------------------------\n" + str(day_3_part_1()))
+    #print("Answer for Day 3 - Part 1 - 'No Matter How You Slice It':\n------------------------\n" + str(day_3_part_1()))
     print("\n")
+    print("Answer for Day 3 - Part 2 - 'No Matter How You Slice It':\n------------------------\n" + str(day_3_part_2()))
+    print("\n")
+    print("Script end time is {}".format(str(datetime.datetime.now())))
 
 main()
