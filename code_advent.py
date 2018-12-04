@@ -532,6 +532,8 @@ def day_3_part_2():
 
 
 
+
+
 class Schedule:
 
 
@@ -542,20 +544,36 @@ class Schedule:
 
 
             current_guard = None
+
+
             #guard begin shift event
             if line.split('] ')[1].split(" ")[0] == "Guard":
                 print_debug("looking at line: '{}'".format(line))
-
                 guard_string = "Guard "+line.split('] ')[1].split(" ")[1]
                 print_debug("Adding {} to dictionary".format(guard_string))
                 current_guard = guard_string
                 print_debug("current_guard = {}".format(current_guard))
-                self.guard_dict[guard_string] = None
+                mydate = line.split(']')[0].replace("[", "").split(" ")[0].replace("1518-","")
+                print_debug("date = {}".format(mydate))
+
+
+                minutes_alseep_list = []
+                self.shift_list.append( {"guard": guard_string, "date": mydate, "minutes_asleep": minutes_alseep_list } )
+                print_debug("shift_list now equals {}".format(self.shift_list))
                 print_debug("")
+
             #fall asleep event
             elif line.split('] ')[1].split(" ")[0] == "falls":
                 print_debug("looking at line: '{}'".format(line))
                 print_debug("handling a fall asleep event")
+
+                my_hour = line.split(" ")[1].replace("]", "").split(":")[0]
+
+                my_minute = line.split(" ")[1].replace("]", "").split(":")[1]
+                print_debug("my_minute = {}".format(my_minute))
+                print_debug("my_hour = {}".format(my_hour))
+
+                print_debug("shift_list now equals {}".format(self.shift_list))
                 print_debug("")
 
             #wake up event
@@ -566,7 +584,7 @@ class Schedule:
 
 
     def __init__(self, lines):
-        self.guard_dict = {}
+        self.shift_list = []
 
         self.build_dict(lines)
         current_guard = None
@@ -574,7 +592,19 @@ class Schedule:
 
 
     def pretty_print(self):
-        print("guard_dict = {}".format(self.guard_dict))
+        #print("\nshift_list = {}\n".format(self.shift_list))
+
+        print_debug("Date   ID   Minute")
+        print_debug("            000000000011111111112222222222333333333344444444445555555555")
+        print_debug("            012345678901234567890123456789012345678901234567890123456789")
+
+
+        print_string = "            "
+        for _ in range(60):
+            print_string+="."
+        print_debug(print_string)
+
+        #given a day, a guard ID and a minute
 
 def day_4_part1():
     #lines = read_file_into_list("problem_4_input.txt")
