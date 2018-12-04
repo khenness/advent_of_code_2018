@@ -404,17 +404,17 @@ class Grid:
             print(mystring)
 
     def pretty_print_id_grid(self):
-        print("\nPrinting ID grid:\n")
+        print_debug("\nPrinting ID grid:\n")
 
         for list in self.id_grid:
 
             mystring = ""
             for elem in list:
                 mystring= mystring + str(elem)+" "
-            print(mystring)
+            print_debug(mystring)
 
-        print()
-        print("id_set = {}".format(self.id_set))
+        print_debug("")
+        print_debug("id_set = {}".format(self.id_set))
 
     def add_rectangle(self, rect):
 
