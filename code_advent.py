@@ -368,7 +368,7 @@ class Grid:
             print(mystring)
 
     def pretty_print_id_grid(self):
-        print("\nPrinting collision grid:\n")
+        print("\nPrinting ID grid:\n")
 
         for list in self.id_grid:
 
