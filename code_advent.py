@@ -468,6 +468,7 @@ class Grid:
 
 
 def day_3_part_1():
+    return "DISABLED - TAKES TOO LONG"
     lines = read_file_into_list("problem_3_input.txt")
     #lines = read_file_into_list("problem_3_dummy_input.txt")
 
@@ -498,6 +499,7 @@ def day_3_part_1():
 
 
 def day_3_part_2():
+    return "DISABLED - TAKES TOO LONG"
     lines = read_file_into_list("problem_3_input.txt")
     #lines = read_file_into_list("problem_3_dummy_input.txt")
 
@@ -528,6 +530,14 @@ def day_3_part_2():
     answer_string = "Answer = {}.".format(answer)
     return answer_string
 
+
+def day_4_part1():
+    lines = read_file_into_list("problem_4_input.txt")
+    #lines = read_file_into_list("problem_4_dummy_input.txt")
+
+
+    return "WIP"
+
 def main():
 
     print("\nScript arguments are:\n------------------------\n{}".format(sys.argv))
@@ -552,9 +562,11 @@ def main():
     print("\n")
     print("Answer for Day 2 - Part 2 - 'Inventory Management System':\n------------------------\n" + str(day_2_part_2()))
     print("\n")
-    #print("Answer for Day 3 - Part 1 - 'No Matter How You Slice It':\n------------------------\n" + str(day_3_part_1()))
+    print("Answer for Day 3 - Part 1 - 'No Matter How You Slice It':\n------------------------\n" + str(day_3_part_1()))
     print("\n")
     print("Answer for Day 3 - Part 2 - 'No Matter How You Slice It':\n------------------------\n" + str(day_3_part_2()))
+    print("\n")
+    print("Answer for Day 4 - Part 1 - 'Repose Record':\n------------------------\n" + str(day_4_part1()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
