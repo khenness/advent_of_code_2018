@@ -752,7 +752,7 @@ def day_4_part1():
 
 def day_4_part2():
     lines = read_file_into_list("problem_4_dummy_input.txt")
-    #lines = read_file_into_list("problem_4_input.txt")
+    lines = read_file_into_list("problem_4_input.txt")
 
     lines.sort()
     for line in lines:
