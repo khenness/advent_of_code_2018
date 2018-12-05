@@ -558,7 +558,7 @@ class Schedule:
                 highest_minutes_asleep = self.guard_dict[guard]["minutes_asleep_total"]
                 laziest_guard = guard
 
-        print_debug("laziest_guard is {} with a total of {} minutes".format(laziest_guard, highest_minutes_asleep))
+        print_debug("\nlaziest_guard is {} with a total of {} minutes\n".format(laziest_guard, highest_minutes_asleep))
 
 
 
