@@ -698,6 +698,7 @@ class Schedule:
         for x in range(60):
             minute_freq_dict[x] = {}
 
+        #build dictionary
         for minute in range(60):
             for shift in self.shift_list:
                 if shift["minutes_asleep"][minute] == '#':
@@ -710,12 +711,26 @@ class Schedule:
                     #pass
 
            #minute_freq_dict[minute] = {"guard": None, "frequency": 0}
-        print_debug(\n"minute_freq_dict is {}\n".format(minute_freq_dict))
+        print_debug("\nminute_freq_dict is {}\n".format(minute_freq_dict))
 
+        highest_guard_id_found = None
 
-        for
+        highest_minute_found = 0
+        highest_frequency_found = 0
 
-        return "WIP"
+        for minute in range(60):
+            for guard_id in minute_freq_dict[minute]:
+                #print_debug("looking at {}".format(guard))
+                if minute_freq_dict[minute][guard_id] > highest_frequency_found:
+                    highest_frequency_found = minute_freq_dict[minute][guard_id]
+                    highest_guard_id_found = guard_id
+                    highest_minute_found = minute
+                pass
+
+        answer_string = "Guard '{}' slept the most on minute {}. He did this {} times.".format(highest_guard_id_found,
+                                                                                             highest_minute_found,
+                                                                                             highest_frequency_found)
+        return answer_string
 
 def day_4_part1():
     lines = read_file_into_list("problem_4_dummy_input.txt")
