@@ -702,7 +702,8 @@ class Schedule:
             for shift in self.shift_list:
                 #if shift["minutes_asleep"] == '#':
                 guard_string = shift['guard']
-                new_dict = {guard_string: 0}
+                count = minute_freq_dict[minute].get(guard_string, 0)
+                new_dict = {guard_string: count}
                 minute_freq_dict[minute].update(new_dict)
 
                     #minute_freq_dict[minute] = minute_freq_dict.get(minute, [{"guard": None, "frequency": 0}])
