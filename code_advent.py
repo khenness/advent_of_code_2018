@@ -752,7 +752,7 @@ def day_4_part1():
 
 def day_4_part2():
     lines = read_file_into_list("problem_4_dummy_input.txt")
-    lines = read_file_into_list("problem_4_input.txt")
+    #lines = read_file_into_list("problem_4_input.txt")
 
     lines.sort()
     for line in lines:
@@ -766,6 +766,64 @@ def day_4_part2():
     answer = my_schedule.get_answer_part_2()
     answer_string = "{}".format(answer)
     return answer_string
+
+class Polymer_chain:
+
+    def __init__(self, line):
+        self.polymer_chain = []
+        self.build_array(line)
+
+
+    def build_array(self, line):
+        for char in line:
+            self.polymer_chain.append({"char": char, "exists": True})
+
+
+    def get_answer_for_part_1(self):
+
+        final_polymer = ""
+
+
+        for mydict in self.polymer_chain:
+            if mydict['exists'] is True:
+                final_polymer += mydict["char"]
+
+
+
+        answer_string = "Final polymer string is '{}' and it has a length of {}".format(final_polymer,
+                                                                                           len(final_polymer))
+
+        return answer_string
+    def pretty_print(self):
+        print_debug("polymer_chain = {}".format(self.polymer_chain))
+
+        string_1 = ""
+        string_2 = ""
+        for mydict in self.polymer_chain:
+            string_1 += mydict['char']
+            if mydict['exists'] is True:
+                string_2 += "1"
+            else:
+                string_2 += "0"
+        print_debug("\nPrinting internal state:")
+        print_debug(string_1)
+        print_debug(string_2)
+        print_debug("\n")
+
+def day_5_part1():
+    lines = read_file_into_list("problem_5_dummy_input.txt")
+    #lines = read_file_into_list("problem_5_input.txt")
+
+    line = lines[0]
+
+    my_polymer_chain = Polymer_chain(line)
+    my_polymer_chain.pretty_print()
+
+    answer_string = my_polymer_chain.get_answer_for_part_1()
+    #print_debug("line is {}".format(line))
+
+    return answer_string
+
 
 def main():
 
@@ -798,6 +856,8 @@ def main():
     print("Answer for Day 4 - Part 1 - 'Repose Record':\n------------------------\n" + str(day_4_part1()))
     print("\n")
     print("Answer for Day 4 - Part 2 - 'Repose Record':\n------------------------\n" + str(day_4_part2()))
+    print("\n")
+    print("Answer for Day 5 - Part 1 - 'Alchemical Reduction':\n------------------------\n" + str(day_5_part1()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
