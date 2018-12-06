@@ -767,6 +767,10 @@ def day_4_part2():
     answer_string = "{}".format(answer)
     return answer_string
 
+
+def will_chars_annihilate(char1, char2):
+    return False
+
 class Polymer_chain:
 
     def __init__(self, line):
@@ -779,11 +783,29 @@ class Polymer_chain:
             self.polymer_chain.append({"char": char, "exists": True})
 
 
+    def compute_reactions(self):
+        index = 0
+        for mydict in self.polymer_chain:
+            #we're at the head of the list
+            if index == 0:
+                pass
+
+            #we're at the tail of the list
+            elif index == len(self.polymer_chain)-1:
+                pass
+
+            #we're doing the general case
+            else:
+                pass
+
+            index+=1
+
     def get_answer_for_part_1(self):
 
+        self.compute_reactions()
+
+
         final_polymer = ""
-
-
         for mydict in self.polymer_chain:
             if mydict['exists'] is True:
                 final_polymer += mydict["char"]
