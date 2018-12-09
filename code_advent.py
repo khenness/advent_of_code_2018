@@ -967,7 +967,7 @@ def day_5_part2():
 
 
 
-    min_length_found = 1000000000
+    min_length_found = 1000000000  # some big number
     char_found = None
     for mydict in length_dict_list:
         if mydict["final_length"] < min_length_found:
@@ -977,6 +977,53 @@ def day_5_part2():
     answer_string = "Remove the character '{}' to get the shortest polymer found, which is {}".format(char_found, min_length_found)
     return answer_string
 
+
+
+class Danger_Grid:
+
+    def __init__(self, lines):
+
+        self.grid =[]
+        self.X_MAX = 10
+        self.Y_MAX = 10
+
+        #initialize grid
+        for x in range(self.X_MAX):
+            self.grid.append([])
+            for y in range(self.Y_MAX):
+                self.grid[x].append(".")
+
+        letter_ascii_index = 65
+        for line in lines:
+
+
+            x_val = int(line.split(", ")[0])
+            #print_debug("x_val = {}".format(x_val))
+            y_val = int(line.split(", ")[1])
+
+            self.grid[x_val][y_val] = chr(letter_ascii_index)
+            letter_ascii_index+=1
+        self.print_grid()
+
+
+    def print_grid(self):
+        print_debug("Printing grid:")
+        for y in range(self.Y_MAX):
+            mystring = ""
+            for x in range(self.X_MAX):
+                mystring+=self.grid[x][y]
+            print_debug(mystring)
+        print_debug("")
+
+
+def day_6_part1():
+    lines = read_file_into_list("problem_6_dummy_input.txt")
+    #lines = read_file_into_list("problem_6_input.txt")
+
+    my_danger_grid = Danger_Grid(lines)
+
+    for line in lines:
+        pass
 
 def main():
 
@@ -1013,6 +1060,8 @@ def main():
     print("Answer for Day 5 - Part 1 - 'Alchemical Reduction':\n------------------------\n" + str(day_5_part1()))
     print("\n")
     print("Answer for Day 5 - Part 2 - 'Alchemical Reduction':\n------------------------\n" + str(day_5_part2()))
+    print("\n")
+    print("Answer for Day 6 - Part 1 - 'Chronal Coordinates':\n------------------------\n" + str(day_6_part1()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
