@@ -777,8 +777,8 @@ class Polymer_chain:
         self.polymer_chain = []
         self.build_array(line)
 
-        self.found_final_string = False
-
+        self.keep_going = True
+        self.first_run_done = False
 
     def build_array(self, line):
         for char in line:
@@ -825,8 +825,16 @@ class Polymer_chain:
 
     def apply_reactions(self):
         print_debug("\nApplying reactions from previous tick....")
-        self.polymer_chain[:] = [mydict for mydict in self.polymer_chain if  mydict['exists_next_tick'] is True]
+        old_length = len(self.polymer_chain)
 
+
+        self.polymer_chain[:] = [mydict for mydict in self.polymer_chain if  mydict['exists_next_tick'] is True]
+        new_length = len(self.polymer_chain)
+
+
+        if old_length == new_length and self.first_run_done is True:
+            self.keep_going = False
+        self.first_run_done = True
 
         #for mydict in self.polymer_chain:
         #    if mydict['exists_next_tick'] is False:
@@ -850,9 +858,9 @@ class Polymer_chain:
             # compute reactions for this tick (scan once and save results somewhere)
             # apply reactions to polymer string
             # (end tick)
-        #while self.found_final_string is False:
+        while self.keep_going is True:
 
-        for x in range(4):   # temporary
+        #for x in range(4):   # temporary
 
             print_debug("< Starting tick > \n")
             self.pretty_print()
