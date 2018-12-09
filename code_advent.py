@@ -981,12 +981,52 @@ def day_5_part2():
 
 class Danger_Grid:
 
+    def is_point_a_target(self,x,y):
+        for mypoint in self.points_list:
+            if x == mypoint[1] and y == mypoint[2]:
+                return True
+
+        return False
+
+    def get_closest_targets(self, x,y ):
+
+        print_debug("\nLooking at point ({}, {}):".format(x,y))
+
+        #get highest manhatten distance
+        min_manhatten_distance = 9999999999999999
+        return_value = []
+        for mypoint in self.points_list:
+            manhatten_distance = abs(x-mypoint[1]) + abs(y-mypoint[2])
+            if min_manhatten_distance > manhatten_distance:
+                min_manhatten_distance = manhatten_distance
+
+        # build return value
+        for mypoint in self.points_list:
+            manhatten_distance = abs(x - mypoint[1]) + abs(y - mypoint[2])
+            if manhatten_distance == min_manhatten_distance:
+                return_value.append({"target_char": mypoint[0].lower(), "manhatten_distance": manhatten_distance})
+
+        print_debug("return_value is {}".format(return_value))
+        self.print_grid()
+        return return_value
 
     def initialize_distances(self):
 
-        for x in range(self.X_MAX):
-            for y in range(self.Y_MAX):
-                pass
+        for y in range(self.Y_MAX):
+            for x in range(self.X_MAX):
+                closest_targets = self.get_closest_targets(x,y)
+                if not self.is_point_a_target(x,y):
+                    if len(closest_targets) > 1:
+                        self.grid[x][y] = "."
+                    else:
+                        self.grid[x][y] = closest_targets[0]["target_char"]
+
+
+
+                #if my_new_letter and not self.is_point_a_target(x,y):
+                #    self.grid[x][y] = my_new_letter
+        print_debug("\nAfter initializing distances this is what we get:")
+        self.print_grid()
 
     def __init__(self, lines):
         self.points_list = []
@@ -1007,7 +1047,7 @@ class Danger_Grid:
         for x in range(self.X_MAX):
             self.grid.append([])
             for y in range(self.Y_MAX):
-                self.grid[x].append(".")
+                self.grid[x].append("-")
 
         letter_ascii_index = 65
         for line in lines:
@@ -1045,7 +1085,7 @@ def day_6_part1():
     my_danger_grid = Danger_Grid(lines)
 
     my_danger_grid.initialize_distances()
-
+    #my_danger_grid.print_grid()
     for line in lines:
         pass
 
