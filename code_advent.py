@@ -981,6 +981,17 @@ def day_5_part2():
 
 class Danger_Grid:
 
+
+    def get_answer_part2(self):
+
+        area = 0
+
+        for y in range(self.Y_MAX):
+            for x in range(self.X_MAX):
+                if self.grid[x][y] == "##":
+                    area+=1
+        return area
+
     def get_answer_part1(self):
         answer_dict = {}
         for target in self.points_list:
@@ -1118,14 +1129,16 @@ class Danger_Grid:
 
 
 
+
+
     def initialize_safe_distances(self, limit):
         print_debug("initializing safe distances where limit is {}...".format(limit))
 
         for y in range(self.Y_MAX):
             for x in range(self.X_MAX):
-                if not self.is_point_a_target(x, y):
-                    if self.is_point_safe(x,y, limit):
-                        self.grid[x][y] = "##"
+                #if not self.is_point_a_target(x, y):
+                if self.is_point_safe(x,y, limit):
+                    self.grid[x][y] = "##"
         pass
 
 def day_6_part1():
@@ -1156,7 +1169,9 @@ def day_6_part2():
     my_danger_grid = Danger_Grid(lines)
     my_danger_grid.initialize_safe_distances(LIMIT)
     my_danger_grid.print_grid()
+    answer = my_danger_grid.get_answer_part2()
 
+    return "Answer is {}".format(answer)
 def main():
 
     print("\nScript arguments are:\n------------------------\n{}".format(sys.argv))
