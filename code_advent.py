@@ -982,7 +982,7 @@ def day_5_part2():
 class Danger_Grid:
 
     def get_answer_part1(self):
-
+        answer_dict = {}
         for target in self.points_list:
             print_debug("\nLooking at target {}:".format(target))
             bounded = True
@@ -1000,7 +1000,10 @@ class Danger_Grid:
 
             print_debug("bounded is {}".format(bounded))
             print_debug("area is {}".format(area))
+            answer_dict[target[0]] = {"bounded":bounded, "area": area}
 
+        print_debug("\n\nData structure computed for part 1: \n{}\n\n".format(answer_dict))
+        return answer_dict
 
     def is_point_a_target(self,x,y):
         for mypoint in self.points_list:
@@ -1107,10 +1110,17 @@ def day_6_part1():
 
     my_danger_grid.initialize_distances()
 
-    my_danger_grid.get_answer_part1()
-    #my_danger_grid.print_grid()
-    for line in lines:
-        pass
+    answer_dict = my_danger_grid.get_answer_part1()
+
+    max_area = 0
+    max_char = 0
+    for target in answer_dict:
+        if answer_dict[target]["bounded"] is True and answer_dict[target]["area"] > max_area:
+            max_char = target
+            max_area = answer_dict[target]["area"]
+
+    answer_string = "'{}' is the most dangerous target. It has a bounded area of {}".format(max_char,max_area)
+    return answer_string
 
 def main():
 
