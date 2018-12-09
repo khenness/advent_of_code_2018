@@ -1103,6 +1103,30 @@ class Danger_Grid:
             print_debug(mystring)
         print_debug("")
 
+    def is_point_safe(self, x, y, limit):
+
+
+        total_manhatten_distance = 0
+        for target in self.points_list:
+            manhatten_distance = abs(x-target[1]) + abs(y-target[2])
+            total_manhatten_distance+=manhatten_distance
+
+        if total_manhatten_distance < limit:
+            return True
+        else:
+            return False
+
+
+
+    def initialize_safe_distances(self, limit):
+        print_debug("initializing safe distances where limit is {}...".format(limit))
+
+        for y in range(self.Y_MAX):
+            for x in range(self.X_MAX):
+                if not self.is_point_a_target(x, y):
+                    if self.is_point_safe(x,y, limit):
+                        self.grid[x][y] = "##"
+        pass
 
 def day_6_part1():
     lines = read_file_into_list("problem_6_dummy_input.txt")
@@ -1123,6 +1147,15 @@ def day_6_part1():
 
     answer_string = "'{}' is the most dangerous target. It has a bounded area of {}.".format(max_char,max_area)
     return answer_string
+
+def day_6_part2():
+    lines = read_file_into_list("problem_6_dummy_input.txt") ; LIMIT = 32
+    #lines = read_file_into_list("problem_6_input.txt") ; LIMIT = 10000
+
+
+    my_danger_grid = Danger_Grid(lines)
+    my_danger_grid.initialize_safe_distances(LIMIT)
+    my_danger_grid.print_grid()
 
 def main():
 
@@ -1161,6 +1194,8 @@ def main():
     print("Answer for Day 5 - Part 2 - 'Alchemical Reduction':\n------------------------\n" + str(day_5_part2()))
     print("\n")
     print("Answer for Day 6 - Part 1 - 'Chronal Coordinates':\n------------------------\n" + str(day_6_part1()))
+    print("\n")
+    print("Answer for Day 6 - Part 2 - 'Chronal Coordinates':\n------------------------\n" + str(day_6_part2()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
