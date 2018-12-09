@@ -786,7 +786,7 @@ class Polymer_chain:
 
 
     def will_dict_exist_next_tick(self, dict1, dict2):
-        print_debug("Comparing {} and {}".format(dict1, dict2))
+       # print_debug("Comparing {} and {}".format(dict1, dict2))
         return_value = False
         if dict1['char'] == dict2["char"] :
             # equal chars do not annhilate eg 'aa'
@@ -797,7 +797,7 @@ class Polymer_chain:
         else:
             return_value = True
 
-        print_debug("return_value is {}".format(return_value))
+        #print_debug("return_value is {}".format(return_value))
 
         return return_value
 
@@ -805,7 +805,7 @@ class Polymer_chain:
 
     def compute_reactions(self):
 
-        print_debug("\npolymer chain is {}\n".format(self.polymer_chain))
+        #print_debug("\npolymer chain is {}\n".format(self.polymer_chain))
         index = 0
         for mydict in self.polymer_chain:
 
@@ -821,10 +821,10 @@ class Polymer_chain:
                     self.polymer_chain[index - 1]['exists_next_tick'] = False
             index+=1
 
-        print_debug("\npolymer chain is {}\n".format(self.polymer_chain))
+        #print_debug("\npolymer chain is {}\n".format(self.polymer_chain))
 
     def apply_reactions(self):
-        print_debug("\nApplying reactions from previous tick....")
+        #print_debug("\nApplying reactions from previous tick....")
         old_length = len(self.polymer_chain)
 
 
@@ -851,6 +851,17 @@ class Polymer_chain:
 
         return answer_string
 
+
+    def get_length_part_2(self):
+        final_polymer = ""
+        for mydict in self.polymer_chain:
+            final_polymer += mydict["char"]
+
+        answer = len(final_polymer)
+
+        return answer
+
+
     def compute_answer_for_part_1(self):
 
 
@@ -876,23 +887,33 @@ class Polymer_chain:
 
     def compute_answer_for_part_2(self):
 
+        while self.keep_going is True:
+
+        #for x in range(4):   # temporary
+
+            #print_debug("< Starting tick > \n")
+            self.pretty_print()
+            self.apply_reactions()
+            self.compute_reactions()
+            self.pretty_print()
+            #print_debug("\n<\ Ending tick > \n")
 
 
+        return self.get_length_part_2()
 
 
-        return "WIP"
 
 
     def pretty_print(self):
-        print_debug("polymer_chain = {}".format(self.polymer_chain))
+        #print_debug("polymer_chain = {}".format(self.polymer_chain))
 
         string_1 = ""
         string_2 = ""
         for mydict in self.polymer_chain:
             string_1 += mydict['char']
 
-        print_debug("\nPrinting internal state of Polymer string:")
-        print_debug(string_1)
+        #print_debug("\nPrinting internal state of Polymer string:")
+        #print_debug(string_1)
         #print_debug(string_2)
 
 def day_5_part1():
@@ -909,19 +930,50 @@ def day_5_part1():
     return answer_string
 
 
+def get_frequency_dict(line):
+    frequency_dict = {}
 
+    for mychar in line:
+        mychar_lowered = mychar.lower()
+        frequency_dict[mychar_lowered] = frequency_dict.get(mychar_lowered, 0) + 1
+
+    return frequency_dict
 
 def day_5_part2():
     lines = read_file_into_list("problem_5_dummy_input.txt")
+
     #lines = read_file_into_list("problem_5_input.txt")
 
     line = lines[0]
 
-    my_polymer_chain = Polymer_chain(line)
+    frequency_dict = get_frequency_dict(line)
+    print_debug("frequency_dict of line is {}".format(frequency_dict))
 
-    answer_string = my_polymer_chain.compute_answer_for_part_2()
+    length_dict_list = []
+
+    for lowered_char in frequency_dict:
+        print_debug("Looking at char {}:".format(lowered_char))
+        new_line = line.replace(lowered_char, "").replace(lowered_char.upper(), "")
+
+        print_debug("frequency_dict of new_line is {}".format(get_frequency_dict(new_line)))
+
+        my_polymer_chain = Polymer_chain(new_line)
+        answer = my_polymer_chain.compute_answer_for_part_2()
+        length_dict_list.append({"excluded_char": lowered_char, "final_length": answer})
     #print_debug("line is {}".format(line))
 
+    print_debug("\nlength_dict_list is {}\n".format(length_dict_list))
+
+
+
+    min_length_found = 1000000000
+    char_found = None
+    for mydict in length_dict_list:
+        if mydict["final_length"] < min_length_found:
+            min_length_found = mydict["final_length"]
+            char_found = mydict["excluded_char"]
+
+    answer_string = "Remove the character '{}' to get the shortest polymer found, which is {}".format(char_found, min_length_found)
     return answer_string
 
 
