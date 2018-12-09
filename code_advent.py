@@ -474,7 +474,7 @@ class Grid:
 def day_3_part_1():
     return "DISABLED - TAKES TOO LONG"
     lines = read_file_into_list("problem_3_input.txt")
-    #lines = read_file_into_list("problem_3_dummy_input.txt")
+    lines = read_file_into_list("problem_3_dummy_input.txt")
 
 
     rectangle_list = []
@@ -505,7 +505,7 @@ def day_3_part_1():
 def day_3_part_2():
     return "DISABLED - TAKES TOO LONG"
     lines = read_file_into_list("problem_3_input.txt")
-    #lines = read_file_into_list("problem_3_dummy_input.txt")
+    lines = read_file_into_list("problem_3_dummy_input.txt")
 
     rectangle_list = []
     for line in lines:
@@ -873,6 +873,16 @@ class Polymer_chain:
         return self.get_answer_string_part_1()
 
 
+
+    def compute_answer_for_part_2(self):
+
+
+
+
+
+        return "WIP"
+
+
     def pretty_print(self):
         print_debug("polymer_chain = {}".format(self.polymer_chain))
 
@@ -894,6 +904,22 @@ def day_5_part1():
     my_polymer_chain = Polymer_chain(line)
 
     answer_string = my_polymer_chain.compute_answer_for_part_1()
+    #print_debug("line is {}".format(line))
+
+    return answer_string
+
+
+
+
+def day_5_part2():
+    lines = read_file_into_list("problem_5_dummy_input.txt")
+    #lines = read_file_into_list("problem_5_input.txt")
+
+    line = lines[0]
+
+    my_polymer_chain = Polymer_chain(line)
+
+    answer_string = my_polymer_chain.compute_answer_for_part_2()
     #print_debug("line is {}".format(line))
 
     return answer_string
@@ -932,6 +958,8 @@ def main():
     print("Answer for Day 4 - Part 2 - 'Repose Record':\n------------------------\n" + str(day_4_part2()))
     print("\n")
     print("Answer for Day 5 - Part 1 - 'Alchemical Reduction':\n------------------------\n" + str(day_5_part1()))
+    print("\n")
+    print("Answer for Day 5 - Part 2 - 'Alchemical Reduction':\n------------------------\n" + str(day_5_part2()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
