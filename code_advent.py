@@ -987,6 +987,15 @@ class Danger_Grid:
         self.X_MAX = 10
         self.Y_MAX = 10
 
+        #get X_MAX and Y_MAX
+        for line in lines:
+            curr_x = int(line.split(", ")[0])
+            curr_y =int(line.split(", ")[1])
+            if curr_x > self.X_MAX:
+                self.X_MAX = curr_x+1
+            if curr_y > self.Y_MAX:
+                self.Y_MAX = curr_y+1
+
         #initialize grid
         for x in range(self.X_MAX):
             self.grid.append([])
