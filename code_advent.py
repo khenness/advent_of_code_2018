@@ -942,6 +942,7 @@ def get_frequency_dict(line):
 def day_5_part2():
     lines = read_file_into_list("problem_5_dummy_input.txt")
 
+
     #lines = read_file_into_list("problem_5_input.txt")
 
     line = lines[0]
