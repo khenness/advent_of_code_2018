@@ -981,6 +981,22 @@ def day_5_part2():
 
 class Danger_Grid:
 
+    def get_answer_part1(self):
+
+        for target in self.points_list:
+            print_debug("\nLooking at target {}:".format(target))
+            bounded = False
+            area = 0
+            for y in range(self.Y_MAX):
+                for x in range(self.X_MAX):
+                    pass
+                    if target[0].lower() == self.grid[x][y].lower():
+                        area+=1
+
+            print_debug("bounded is {}".format(bounded))
+            print_debug("area is {}".format(area))
+
+
     def is_point_a_target(self,x,y):
         for mypoint in self.points_list:
             if x == mypoint[1] and y == mypoint[2]:
@@ -990,7 +1006,7 @@ class Danger_Grid:
 
     def get_closest_targets(self, x,y ):
 
-        print_debug("\nLooking at point ({}, {}):".format(x,y))
+        #print_debug("\nLooking at point ({}, {}):".format(x,y))
 
         #get highest manhatten distance
         min_manhatten_distance = 9999999999999999
@@ -1006,8 +1022,8 @@ class Danger_Grid:
             if manhatten_distance == min_manhatten_distance:
                 return_value.append({"target_char": mypoint[0].lower(), "manhatten_distance": manhatten_distance})
 
-        print_debug("return_value is {}".format(return_value))
-        self.print_grid()
+        #print_debug("return_value is {}".format(return_value))
+        #self.print_grid()
         return return_value
 
     def initialize_distances(self):
@@ -1085,6 +1101,8 @@ def day_6_part1():
     my_danger_grid = Danger_Grid(lines)
 
     my_danger_grid.initialize_distances()
+
+    my_danger_grid.get_answer_part1()
     #my_danger_grid.print_grid()
     for line in lines:
         pass
