@@ -1041,7 +1041,7 @@ class Danger_Grid:
                 closest_targets = self.get_closest_targets(x,y)
                 if not self.is_point_a_target(x,y):
                     if len(closest_targets) > 1:
-                        self.grid[x][y] = "."
+                        self.grid[x][y] = ".."
                     else:
                         self.grid[x][y] = closest_targets[0]["target_char"]
 
@@ -1106,7 +1106,7 @@ class Danger_Grid:
 
 def day_6_part1():
     lines = read_file_into_list("problem_6_dummy_input.txt")
-    lines = read_file_into_list("problem_6_input.txt")
+    #lines = read_file_into_list("problem_6_input.txt")
 
     my_danger_grid = Danger_Grid(lines)
 
@@ -1121,7 +1121,7 @@ def day_6_part1():
             max_char = target
             max_area = answer_dict[target]["area"]
 
-    answer_string = "'{}' is the most dangerous target. It has a bounded area of {}.\n\nThe answer_dict was {}.".format(max_char,max_area,answer_dict)
+    answer_string = "'{}' is the most dangerous target. It has a bounded area of {}.".format(max_char,max_area)
     return answer_string
 
 def main():
