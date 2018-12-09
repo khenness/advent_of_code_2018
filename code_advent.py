@@ -981,8 +981,15 @@ def day_5_part2():
 
 class Danger_Grid:
 
-    def __init__(self, lines):
 
+    def initialize_distances(self):
+
+        for x in range(self.X_MAX):
+            for y in range(self.Y_MAX):
+                pass
+
+    def __init__(self, lines):
+        self.points_list = []
         self.grid =[]
         self.X_MAX = 10
         self.Y_MAX = 10
@@ -1009,9 +1016,15 @@ class Danger_Grid:
             x_val = int(line.split(", ")[0])
             #print_debug("x_val = {}".format(x_val))
             y_val = int(line.split(", ")[1])
-
+            self.points_list.append((chr(letter_ascii_index), x_val, y_val))
             self.grid[x_val][y_val] = chr(letter_ascii_index)
-            letter_ascii_index+=1
+            letter_ascii_index += 1
+
+        print_debug("Printing points:")
+        for mytuple in self.points_list:
+            print_debug(mytuple)
+
+        print_debug("")
         self.print_grid()
 
 
@@ -1030,6 +1043,8 @@ def day_6_part1():
     #lines = read_file_into_list("problem_6_input.txt")
 
     my_danger_grid = Danger_Grid(lines)
+
+    my_danger_grid.initialize_distances()
 
     for line in lines:
         pass
