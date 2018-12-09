@@ -985,13 +985,18 @@ class Danger_Grid:
 
         for target in self.points_list:
             print_debug("\nLooking at target {}:".format(target))
-            bounded = False
+            bounded = True
             area = 0
             for y in range(self.Y_MAX):
                 for x in range(self.X_MAX):
-                    pass
+
+                    #compute area
                     if target[0].lower() == self.grid[x][y].lower():
                         area+=1
+
+                        #compute bounded
+                        if x == 0 or y ==0 or x == self.X_MAX-1 or y == self.Y_MAX-1:
+                            bounded = False
 
             print_debug("bounded is {}".format(bounded))
             print_debug("area is {}".format(area))
