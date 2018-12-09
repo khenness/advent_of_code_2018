@@ -1071,18 +1071,20 @@ class Danger_Grid:
         for x in range(self.X_MAX):
             self.grid.append([])
             for y in range(self.Y_MAX):
-                self.grid[x].append("-")
+                self.grid[x].append("--")
 
-        letter_ascii_index = 65
+        target_name_index =0
+        target_name = "T"+str(target_name_index)
         for line in lines:
 
 
             x_val = int(line.split(", ")[0])
             #print_debug("x_val = {}".format(x_val))
             y_val = int(line.split(", ")[1])
-            self.points_list.append((chr(letter_ascii_index), x_val, y_val))
-            self.grid[x_val][y_val] = chr(letter_ascii_index)
-            letter_ascii_index += 1
+            target_name = "T" + str(target_name_index)
+            self.points_list.append((target_name, x_val, y_val))
+            self.grid[x_val][y_val] = target_name
+            target_name_index += 1
 
         print_debug("Printing points:")
         for mytuple in self.points_list:
@@ -1097,14 +1099,14 @@ class Danger_Grid:
         for y in range(self.Y_MAX):
             mystring = ""
             for x in range(self.X_MAX):
-                mystring+=self.grid[x][y]
+                mystring+=self.grid[x][y]+" "
             print_debug(mystring)
         print_debug("")
 
 
 def day_6_part1():
     lines = read_file_into_list("problem_6_dummy_input.txt")
-    #lines = read_file_into_list("problem_6_input.txt")
+    lines = read_file_into_list("problem_6_input.txt")
 
     my_danger_grid = Danger_Grid(lines)
 
@@ -1119,7 +1121,7 @@ def day_6_part1():
             max_char = target
             max_area = answer_dict[target]["area"]
 
-    answer_string = "'{}' is the most dangerous target. It has a bounded area of {}".format(max_char,max_area)
+    answer_string = "'{}' is the most dangerous target. It has a bounded area of {}.\n\nThe answer_dict was {}.".format(max_char,max_area,answer_dict)
     return answer_string
 
 def main():
