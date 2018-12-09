@@ -777,45 +777,94 @@ class Polymer_chain:
         self.polymer_chain = []
         self.build_array(line)
 
+        self.found_final_string = False
+
 
     def build_array(self, line):
         for char in line:
-            self.polymer_chain.append({"char": char, "exists": True})
+            self.polymer_chain.append({"char": char, "exists_next_tick": True})
+
+
+    def will_dict_exist_next_tick(self, dict1, dict2):
+        print_debug("Comparing {} and {}".format(dict1, dict2))
+        return_value = False
+        if dict1['char'] == dict2["char"] :
+            # equal chars do not annhilate eg 'aa'
+            return_value = True
+
+        elif dict1['char'].lower() == dict2['char'].lower() and dict1['exists_next_tick'] is True:
+            return_value = False
+        else:
+            return_value = True
+
+        print_debug("return_value is {}".format(return_value))
+
+        return return_value
+
 
 
     def compute_reactions(self):
+
+        print_debug("\npolymer chain is {}\n".format(self.polymer_chain))
         index = 0
         for mydict in self.polymer_chain:
+
             #we're at the head of the list
             if index == 0:
                 pass
 
-            #we're at the tail of the list
-            elif index == len(self.polymer_chain)-1:
-                pass
-
             #we're doing the general case
             else:
-                pass
-
+                if self.will_dict_exist_next_tick(self.polymer_chain[index-1], mydict) is False:
+                #mydict['exists_next_tick'] = self.will_char_exist_next_tick(mydict['char'], self.polymer_chain[index+1]['char'])
+                    mydict['exists_next_tick'] = False
+                    self.polymer_chain[index - 1]['exists_next_tick'] = False
             index+=1
 
-    def get_answer_for_part_1(self):
+        print_debug("\npolymer chain is {}\n".format(self.polymer_chain))
 
-        self.compute_reactions()
+    def apply_reactions(self):
+        print_debug("\nApplying reactions from previous tick....")
+        self.polymer_chain[:] = [mydict for mydict in self.polymer_chain if  mydict['exists_next_tick'] is True]
 
 
+        #for mydict in self.polymer_chain:
+        #    if mydict['exists_next_tick'] is False:
+        #        mydict['exists_this_tick'] = False
+
+
+    def get_answer_string_part_1(self):
         final_polymer = ""
         for mydict in self.polymer_chain:
-            if mydict['exists'] is True:
-                final_polymer += mydict["char"]
-
-
+            final_polymer += mydict["char"]
 
         answer_string = "Final polymer string is '{}' and it has a length of {}".format(final_polymer,
-                                                                                           len(final_polymer))
+                                                                                        len(final_polymer))
 
         return answer_string
+
+    def compute_answer_for_part_1(self):
+
+
+        #while we can keep going:  (start tick)
+            # compute reactions for this tick (scan once and save results somewhere)
+            # apply reactions to polymer string
+            # (end tick)
+        #while self.found_final_string is False:
+
+        for x in range(4):   # temporary
+
+            print_debug("< Starting tick > \n")
+            self.pretty_print()
+            self.apply_reactions()
+            self.compute_reactions()
+            self.pretty_print()
+            print_debug("\n<\ Ending tick > \n")
+
+
+        return self.get_answer_string_part_1()
+
+
     def pretty_print(self):
         print_debug("polymer_chain = {}".format(self.polymer_chain))
 
@@ -823,14 +872,10 @@ class Polymer_chain:
         string_2 = ""
         for mydict in self.polymer_chain:
             string_1 += mydict['char']
-            if mydict['exists'] is True:
-                string_2 += "1"
-            else:
-                string_2 += "0"
-        print_debug("\nPrinting internal state:")
+
+        print_debug("\nPrinting internal state of Polymer string:")
         print_debug(string_1)
-        print_debug(string_2)
-        print_debug("\n")
+        #print_debug(string_2)
 
 def day_5_part1():
     lines = read_file_into_list("problem_5_dummy_input.txt")
@@ -839,9 +884,8 @@ def day_5_part1():
     line = lines[0]
 
     my_polymer_chain = Polymer_chain(line)
-    my_polymer_chain.pretty_print()
 
-    answer_string = my_polymer_chain.get_answer_for_part_1()
+    answer_string = my_polymer_chain.compute_answer_for_part_1()
     #print_debug("line is {}".format(line))
 
     return answer_string
