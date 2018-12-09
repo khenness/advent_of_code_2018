@@ -1172,6 +1172,13 @@ def day_6_part2():
     answer = my_danger_grid.get_answer_part2()
 
     return "Answer is {}".format(answer)
+
+
+
+
+def day_7_part1():
+    pass
+
 def main():
 
     print("\nScript arguments are:\n------------------------\n{}".format(sys.argv))
@@ -1211,6 +1218,8 @@ def main():
     print("Answer for Day 6 - Part 1 - 'Chronal Coordinates':\n------------------------\n" + str(day_6_part1()))
     print("\n")
     print("Answer for Day 6 - Part 2 - 'Chronal Coordinates':\n------------------------\n" + str(day_6_part2()))
+    print("\n")
+    print("Answer for Day 7 - Part 1 - 'The Sum of Its Parts':\n------------------------\n" + str(day_7_part1()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
