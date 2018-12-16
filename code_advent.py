@@ -1268,6 +1268,7 @@ class Directed_Graph:
             try:
                 list2 = self.computed_dict[mychar1]
             except KeyError:
+                print_debug("couldn't find {}".format(mychar1))
                 return None
             for mychar2 in list2:
                 return_list.append(mychar2)
