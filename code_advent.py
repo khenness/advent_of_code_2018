@@ -1281,25 +1281,58 @@ class Directed_Graph:
         return return_list
         pass
 
+
+
+
     def get_answer_part_1(self):
 
-        print_debug("\n\n\n")
-        root_char = self.get_root_char()
-        answer_string = ""+root_char
+        set1 = set(self.computed_dict.keys())
+        set2 = set(self.value_insertion_sequence)
+        first_char = set2.difference(set1).pop()
+        answer = ""+first_char
+        print_debug("first_char is {}".format(first_char))
 
-        #print_debug("Root character is {}".format(self.get_root_char()))
-        #print_debug("answer_string so far is:\n'{}'".format(answer_string[::-1]))
-        #print_debug("\n\n\n")
+        queue = []
+        for elem in self.initial_dict[first_char]:
+            queue.append(elem)
+
+        queue.sort()
+        print_debug("answer so far is {}".format(answer))
+        print_debug("queue is {}".format(queue))
+        print_debug("")
+
+
+        prequisites_met = []
+        prequisites_met.append(first_char)
+
+        while queue != []:
+
+
+            head = queue[0]
+            queue = queue[1:]
+
+            #for elem in queue:
+            #    if
+
+
+            #prerequisites_met(head, queue)
+
+            try:
+                for elem in self.initial_dict[head]:
+                    queue.append(elem)
+            except KeyError:
+                pass
+            queue.sort()
+            print_debug("head is {}".format(head))
+            print_debug("queue is {}".format(queue))
+
+
+            print_debug("")
 
 
 
-        next_level = self.get_next_level([root_char])
-        while next_level is not None:
-            for mychar in next_level:
-                answer_string+=mychar
-            print_debug("answer_string so far is:\n'{}'".format(answer_string))
-            next_level = self.get_next_level(next_level)
 
+        answer_string = None
         answer_string_final = "answer is {}".format(answer_string)
         return answer_string_final
 
@@ -1318,8 +1351,32 @@ def day_7_part1():
     lines = read_file_into_list("problem_7_dummy_input.txt")
     #lines = read_file_into_list("problem_7_input.txt")
 
-    myTree = Directed_Graph(lines)
-    answer_string_final = myTree.get_answer_part_1()
+    #myTree = Directed_Graph(lines)
+    #answer_string_final = myTree.get_answer_part_1()
+
+    #state machine of [Completed, Available, NotReady] made of simple list, and it went smoothly.
+
+
+    state_dict = {}
+
+    first_char = "C"
+    for line in lines:
+        print_debug("\n\n\nLooking at line: \n{}".format(line))
+        node_value = line.split(" ")[1]
+        print_debug("node_value is {}".format(node_value))
+        node_child_value = line.split(" ")[7]
+        print_debug("node_child_value is {}".format(node_child_value))
+
+
+        state_dict[node_value] = "NotReady"
+
+        print_debug("state_dict is {}".format(state_dict))
+        print_debug("")
+
+    state_dict[first_char] = "Available"
+    print_debug("state_dict is {}".format(state_dict))
+
+    answer_string_final = None
     return answer_string_final
 
 
