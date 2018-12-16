@@ -1262,7 +1262,7 @@ class Directed_Graph:
 
     def get_next_level(self, input_list):
 
-        print_debug("given input {}".format(input_list))
+        print_debug("\ngiven input {}".format(input_list))
         return_list = []
         for mychar1 in input_list:
             try:
@@ -1272,9 +1272,11 @@ class Directed_Graph:
             for mychar2 in list2:
                 return_list.append(mychar2)
 
-        return_list = list(set(return_list)).sort(reverse=True)
+        return_list = list(set(return_list))
+        #.sort(reverse=True)
+        return_list.sort(reverse=True)
+        print_debug("the next level is {}\n".format(return_list))
 
-        print_debug("return_list is {}".format(return_list))
         return return_list
         pass
 
@@ -1285,8 +1287,8 @@ class Directed_Graph:
         answer_string = ""+root_char
 
         #print_debug("Root character is {}".format(self.get_root_char()))
-        print_debug("answer_string so far is:\n'{}'".format(answer_string[::-1]))
-        print_debug("\n\n\n")
+        #print_debug("answer_string so far is:\n'{}'".format(answer_string[::-1]))
+        #print_debug("\n\n\n")
 
 
 
@@ -1297,7 +1299,7 @@ class Directed_Graph:
             print_debug("answer_string so far is:\n'{}'".format(answer_string))
             next_level = self.get_next_level(next_level)
 
-        answer_string_final = "non reversed answer is {}".format(answer_string)
+        answer_string_final = "answer is {}".format(answer_string)
         return answer_string_final
 
     def __init__(self, lines):
