@@ -1173,11 +1173,64 @@ def day_6_part2():
 
     return "Answer is {}".format(answer)
 
+class Instruction_Node:
+    def __init__(self, value):
+        self.value = value
+        self.children = []
+
+    def add_child(self, childNode):
+
+        self.children.append(childNode)
+
+    def print_node(self):
+        print_debug(self.value)
+        for child in self.children:
+            print_debug("     {}".format(child.value))
 
 
+class Directed_Graph:
+
+    def insert_node(self, node_value, node_child_value):
+        if self.root is None:
+            print_debug("root node is None.")
+            new_node = Instruction_Node(node_value)
+            new_child_node = Instruction_Node(node_child_value)
+
+            new_node.add_child(new_child_node)
+
+            self.root = new_node
+
+        pass
+
+    def print_tree(self):
+        return self.root.print_node()
+
+
+    def build_directed_graph(self, lines):
+        for line in lines:
+            print_debug("Looking at line: \n{}".format(line))
+            node_value = line.split(" ")[1]
+            print_debug("node_value is {}".format(node_value))
+            node_child_value = line.split(" ")[7]
+            print_debug("node_child_value is {}".format(node_child_value))
+            self.insert_node(node_value, node_child_value)
+
+            print_debug("The state of the tree is:")
+            self.print_tree()
+            print_debug("")
+        pass
+
+    def __init__(self, lines):
+        self.root = None
+        self.build_directed_graph(lines)
 
 def day_7_part1():
-    pass
+    lines = read_file_into_list("problem_7_dummy_input.txt")
+
+    myTree = Directed_Graph(lines)
+
+
+
 
 def main():
 
