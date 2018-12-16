@@ -1173,25 +1173,75 @@ def day_6_part2():
 
     return "Answer is {}".format(answer)
 
+class Node:
+    def __init__(self, node_value):
+        self.value = node_value
+
+
+class Tree:
+    def __init__(self, root_val):
+        self.root = {root_val : None}
+        self.levels = 1
+
+    def insert(self, key, value, level):
+        #I know the key is in the tree somewhere
+        if self.levels == 1:
+            self.root[key] = value
+            self.levels+=1
+        else:
+            self.insert(key, value)
+
+    def print_tree(self):
+        print_debug("\n\nThe state of the tree is:")
+
+        print_debug("{}".format(self.root))
+        print_debug("levels is {}".format(self.levels))
+        print_debug("")
+        print_debug("")
+
 class Directed_Graph:
+
+
+    def get_root_char(self):
+        #last char
+        value_insertion_set = set(self.value_insertion_sequence)
+        child_insertion_set = set(self.child_insertion_sequence)
+        last_character = None
+        try:
+            last_character = child_insertion_set.difference(value_insertion_set).pop()
+        except KeyError:
+            pass
+        return last_character
 
     def insert_node(self, node_value, node_child_value):
         #internal_dict1
-        mylist = self.internal_dict_1.get(node_value, [])
+        mylist = self.initial_dict.get(node_value, [])
         mylist.append(node_child_value)
-        self.internal_dict_1[node_value] = mylist
+        self.initial_dict[node_value] = mylist
+
+        #internal_dict2
+        mylist = self.computed_dict.get(node_child_value, [])
+        mylist.append(node_value)
+        mylist.sort(reverse=True)
+
+        self.computed_dict[node_child_value] = mylist
 
 
-        pass
+
 
     def print_graph(self):
 
-        #print_debug("insertion_sequence is {}".format(self.insertion_sequence))
-        #print_debug("\ninternal_dict_1 is: ")
-        print_debug(self.internal_dict_1)
+        #print_debug("value_insertion_sequence is {}".format(self.value_insertion_sequence))
+        #print_debug("child_insertion_sequence is {}".format(self.child_insertion_sequence))
 
-        #for elem in self.internal_dict_1:
-        #    print_debug("'{}' goes to {}".format(elem, self.internal_dict_1[elem]))
+        print_debug("\ninitial_dict is: ")
+        print_debug(self.initial_dict)
+
+        print_debug("\ncomputed_dict is: ")
+        print_debug(self.computed_dict)
+
+        #for elem in self.initial_dict:
+        #    print_debug("'{}' goes to {}".format(elem, self.initial_dict[elem]))
 
 
     def build_directed_graph(self, lines):
@@ -1202,25 +1252,73 @@ class Directed_Graph:
             node_child_value = line.split(" ")[7]
             print_debug("node_child_value is {}".format(node_child_value))
             self.insert_node(node_value, node_child_value)
-            self.insertion_sequence.append(node_value)
+            self.value_insertion_sequence.append(node_value)
+            self.child_insertion_sequence.append(node_child_value)
+
             print_debug("The state of the graph is:")
             self.print_graph()
             print_debug("")
         pass
 
-    def __init__(self, lines):
-        self.internal_dict_1  = {}
-        self.internal_dict_2  = {}
+    def get_next_level(self, input_list):
 
-        self.insertion_sequence = []
+        print_debug("given input {}".format(input_list))
+        return_list = []
+        for mychar1 in input_list:
+            try:
+                list2 = self.computed_dict[mychar1]
+            except KeyError:
+                return None
+            for mychar2 in list2:
+                return_list.append(mychar2)
+
+        return_list.sort(reverse=True)
+        return_list = list(set(return_list))
+
+        print_debug("return_list is {}".format(return_list))
+        return return_list
+        pass
+
+    def get_answer_part_1(self):
+
+        print_debug("\n\n\n")
+        root_char = self.get_root_char()
+        answer_string = ""+root_char
+
+        #print_debug("Root character is {}".format(self.get_root_char()))
+        print_debug("answer_string so far is:\n'{}'".format(answer_string[::-1]))
+        print_debug("\n\n\n")
+
+
+
+        next_level = self.get_next_level([root_char])
+        while next_level is not None:
+            for mychar in next_level:
+                answer_string+=mychar
+            print_debug("answer_string so far is:\n'{}'".format(answer_string))
+            next_level = self.get_next_level(next_level)
+
+        answer_string_final = "non reversed answer is {}".format(answer_string)
+        return answer_string_final
+
+    def __init__(self, lines):
+        self.initial_dict  = {}
+        self.computed_dict  = {}
+
+
+        self.value_insertion_sequence = []
+        self.child_insertion_sequence = []
 
         self.build_directed_graph(lines)
+
+
 def day_7_part1():
     lines = read_file_into_list("problem_7_dummy_input.txt")
+    #lines = read_file_into_list("problem_7_input.txt")
 
     myTree = Directed_Graph(lines)
-
-
+    answer_string_final = myTree.get_answer_part_1()
+    return answer_string_final
 
 
 def main():
