@@ -1173,37 +1173,18 @@ def day_6_part2():
 
     return "Answer is {}".format(answer)
 
-class Instruction_Node:
-    def __init__(self, value):
-        self.value = value
-        self.children = []
-
-    def add_child(self, childNode):
-
-        self.children.append(childNode)
-
-    def print_node(self):
-        print_debug(self.value)
-        for child in self.children:
-            print_debug("     {}".format(child.value))
-
-
 class Directed_Graph:
 
     def insert_node(self, node_value, node_child_value):
-        if self.root is None:
-            print_debug("root node is None.")
-            new_node = Instruction_Node(node_value)
-            new_child_node = Instruction_Node(node_child_value)
-
-            new_node.add_child(new_child_node)
-
-            self.root = new_node
+        mylist = self.internal_dict.get(node_value, [])
+        mylist.append(node_child_value)
+        self.internal_dict[node_value] = mylist
 
         pass
 
-    def print_tree(self):
-        return self.root.print_node()
+    def print_graph(self):
+        for elem in self.internal_dict:
+            print_debug("'{}' goes to {}".format(elem, self.internal_dict[elem]))
 
 
     def build_directed_graph(self, lines):
@@ -1215,13 +1196,13 @@ class Directed_Graph:
             print_debug("node_child_value is {}".format(node_child_value))
             self.insert_node(node_value, node_child_value)
 
-            print_debug("The state of the tree is:")
-            self.print_tree()
+            print_debug("The state of the graph is:")
+            self.print_graph()
             print_debug("")
         pass
 
     def __init__(self, lines):
-        self.root = None
+        self.internal_dict  = {}
         self.build_directed_graph(lines)
 
 def day_7_part1():
