@@ -1176,35 +1176,45 @@ def day_6_part2():
 class Directed_Graph:
 
     def insert_node(self, node_value, node_child_value):
-        mylist = self.internal_dict.get(node_value, [])
+        #internal_dict1
+        mylist = self.internal_dict_1.get(node_value, [])
         mylist.append(node_child_value)
-        self.internal_dict[node_value] = mylist
+        self.internal_dict_1[node_value] = mylist
+
 
         pass
 
     def print_graph(self):
-        for elem in self.internal_dict:
-            print_debug("'{}' goes to {}".format(elem, self.internal_dict[elem]))
+
+        #print_debug("insertion_sequence is {}".format(self.insertion_sequence))
+        #print_debug("\ninternal_dict_1 is: ")
+        print_debug(self.internal_dict_1)
+
+        #for elem in self.internal_dict_1:
+        #    print_debug("'{}' goes to {}".format(elem, self.internal_dict_1[elem]))
 
 
     def build_directed_graph(self, lines):
         for line in lines:
-            print_debug("Looking at line: \n{}".format(line))
+            print_debug("\n\n\nLooking at line: \n{}".format(line))
             node_value = line.split(" ")[1]
             print_debug("node_value is {}".format(node_value))
             node_child_value = line.split(" ")[7]
             print_debug("node_child_value is {}".format(node_child_value))
             self.insert_node(node_value, node_child_value)
-
+            self.insertion_sequence.append(node_value)
             print_debug("The state of the graph is:")
             self.print_graph()
             print_debug("")
         pass
 
     def __init__(self, lines):
-        self.internal_dict  = {}
-        self.build_directed_graph(lines)
+        self.internal_dict_1  = {}
+        self.internal_dict_2  = {}
 
+        self.insertion_sequence = []
+
+        self.build_directed_graph(lines)
 def day_7_part1():
     lines = read_file_into_list("problem_7_dummy_input.txt")
 
