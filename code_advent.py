@@ -1272,8 +1272,7 @@ class Directed_Graph:
             for mychar2 in list2:
                 return_list.append(mychar2)
 
-        return_list.sort(reverse=True)
-        return_list = list(set(return_list))
+        return_list = list(set(return_list)).sort(reverse=True)
 
         print_debug("return_list is {}".format(return_list))
         return return_list
