@@ -1351,30 +1351,11 @@ def day_7_part1():
     lines = read_file_into_list("problem_7_dummy_input.txt")
     #lines = read_file_into_list("problem_7_input.txt")
 
-    #myTree = Directed_Graph(lines)
-    #answer_string_final = myTree.get_answer_part_1()
-
-    #state machine of [Completed, Available, NotReady] made of simple list, and it went smoothly.
+    myTree = Directed_Graph(lines)
+    answer_string_final = myTree.get_answer_part_1()
 
 
-    state_dict = {}
 
-    first_char = "C"
-    for line in lines:
-        print_debug("\n\n\nLooking at line: \n{}".format(line))
-        node_value = line.split(" ")[1]
-        print_debug("node_value is {}".format(node_value))
-        node_child_value = line.split(" ")[7]
-        print_debug("node_child_value is {}".format(node_child_value))
-
-
-        state_dict[node_value] = "NotReady"
-
-        print_debug("state_dict is {}".format(state_dict))
-        print_debug("")
-
-    state_dict[first_char] = "Available"
-    print_debug("state_dict is {}".format(state_dict))
 
     answer_string_final = None
     return answer_string_final
