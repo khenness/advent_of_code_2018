@@ -1230,6 +1230,10 @@ class Directed_Graph:
         self.edges.append((node_value, node_child_value))
 
 
+        #marked dict
+
+        self.marked_dict[node_value] = "unmarked"
+        self.marked_dict[node_child_value] = "unmarked"
 
 
     def print_graph(self):
@@ -1242,6 +1246,8 @@ class Directed_Graph:
 
         print_debug("computed_dict is: {}".format(self.computed_dict))
         print_debug("edges list is: {}".format(self.edges))
+        print_debug("\nmarked_dict is: {}".format(self.marked_dict))
+
 
         #for elem in self.initial_dict:
         #    print_debug("'{}' goes to {}".format(elem, self.initial_dict[elem]))
@@ -1307,54 +1313,69 @@ class Directed_Graph:
 
         pass
 
-    def get_edges(self, node_n, node_m):
+    def get_edges(self, node_n):
 
-        newlist = [mytuple for mytuple in self.edges if mytuple[0] == node_n and mytuple[1] == node_m]
-        return newlist
+        #newlist = [mytuple for mytuple in self.edges if mytuple[0] == node_n and mytuple[1] == node_m]
+        try:
+            returnval = self.initial_dict[node_n]
+        except KeyError:
+            returnval = []
+        return returnval
+
+    def do_unmarked_nodes_remain(self):
+
+        found = False
+        for node in self.marked_dict:
+            if self.marked_dict[node] == "unmarked":
+                found = True
+
+        return found
+
+    def get_next_unmarked_node(self):
+
+        for node in self.marked_dict:
+            if self.marked_dict[node] == "unmarked":
+                return node
+        return None
+
+    def visit(self, node_n):
+        self.print_graph()
+        if self.marked_dict[node_n] == "permanent_mark":
+            return
+        if self.marked_dict[node_n] == "temporary_mark":
+            return
+
+        self.marked_dict[node_n] = "temporary_mark"
+        for node_m in sorted(self.get_edges(node_n), reverse=True):
+            self.visit(node_m)
+        self.marked_dict[node_n] = "permanent_mark"
+        self.answer_list.insert(0,node_n)
 
 
     def get_answer_part_1(self):
 
-        mylist = []
+        #while self.do_unmarked_nodes_remain() is True:
 
-        myset = self.get_set_of_nodes_with_no_incoming_edge()
-        while len(myset) != 0:
-            print_debug("\n\n\n\n\n")
-            node_n = myset.pop()
-            print_debug("node_n is {}".format(node_n))
-            mylist.append(node_n)
+        next_node = self.get_next_unmarked_node()
 
-
-            #print_debug("edges is {}".format(edges))
-            print_debug("\n\n\n")
-            print_debug("myset is {}".format(myset))
-            print_debug("mylist is {}".format(mylist))
-            self.print_graph()
-            edges = self.get_edges(node_n)
-
-            for node_m in edges:
-                self.remove_edge_from_graph(node_n, node_m)
-                if self.get_edges(node_m) == []:
-                    myset.add(node_m)
-                self.print_graph()
-
-            pass
-
-
+        print_debug("next_node is {}".format(next_node))
+        self.visit(next_node)
         print_debug("\n\n\n\n\n")
-        print_debug("myset is {}".format(myset))
-        print_debug("mylist is {}".format(mylist))
 
         answer_string = None
-        answer_string_final = "answer is {}".format(answer_string)
+        self.print_graph()
+
+        answer_string_final = ""
+        for elem in self.answer_list:
+            answer_string_final += elem
         return answer_string_final
 
     def __init__(self, lines):
         self.initial_dict  = {}
         self.computed_dict  = {}
-
+        self.marked_dict = {}
         self.edges = []
-
+        self.answer_list = []
         self.value_insertion_sequence = []
         self.child_insertion_sequence = []
 
