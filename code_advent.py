@@ -1223,22 +1223,25 @@ class Directed_Graph:
         mylist = self.computed_dict.get(node_child_value, [])
         mylist.append(node_value)
         mylist.sort(reverse=True)
-
         self.computed_dict[node_child_value] = mylist
+
+
+        #edges
+        self.edges.append((node_value, node_child_value))
 
 
 
 
     def print_graph(self):
 
+        print_debug("printing state of graph:\n--------------")
         #print_debug("value_insertion_sequence is {}".format(self.value_insertion_sequence))
         #print_debug("child_insertion_sequence is {}".format(self.child_insertion_sequence))
 
-        print_debug("\ninitial_dict is: ")
-        print_debug(self.initial_dict)
+        print_debug("initial_dict is: {}".format(self.initial_dict))
 
-        print_debug("\ncomputed_dict is: ")
-        print_debug(self.computed_dict)
+        print_debug("computed_dict is: {}".format(self.computed_dict))
+        print_debug("edges list is: {}".format(self.edges))
 
         #for elem in self.initial_dict:
         #    print_debug("'{}' goes to {}".format(elem, self.initial_dict[elem]))
@@ -1283,54 +1286,64 @@ class Directed_Graph:
 
 
 
+    def get_set_of_nodes_with_no_incoming_edge(self):
+
+        set1 = set(self.value_insertion_sequence)
+        set2 = set(self.child_insertion_sequence)
+
+        myset = set(set1.difference(set2))
+
+
+
+        print_debug("Set of all nodes with no incoming edge is {}".format(myset))
+
+
+
+        return myset
+
+    def remove_edge_from_graph(self, node_n, node_m):
+
+        self.edges.remove((node_n, node_m))
+
+        pass
+
+    def get_edges(self, node_n, node_m):
+
+        newlist = [mytuple for mytuple in self.edges if mytuple[0] == node_n and mytuple[1] == node_m]
+        return newlist
+
 
     def get_answer_part_1(self):
 
-        set1 = set(self.computed_dict.keys())
-        set2 = set(self.value_insertion_sequence)
-        first_char = set2.difference(set1).pop()
-        answer = ""+first_char
-        print_debug("first_char is {}".format(first_char))
+        mylist = []
 
-        queue = []
-        for elem in self.initial_dict[first_char]:
-            queue.append(elem)
-
-        queue.sort()
-        print_debug("answer so far is {}".format(answer))
-        print_debug("queue is {}".format(queue))
-        print_debug("")
+        myset = self.get_set_of_nodes_with_no_incoming_edge()
+        while len(myset) != 0:
+            print_debug("\n\n\n\n\n")
+            node_n = myset.pop()
+            print_debug("node_n is {}".format(node_n))
+            mylist.append(node_n)
 
 
-        prequisites_met = []
-        prequisites_met.append(first_char)
+            #print_debug("edges is {}".format(edges))
+            print_debug("\n\n\n")
+            print_debug("myset is {}".format(myset))
+            print_debug("mylist is {}".format(mylist))
+            self.print_graph()
+            edges = self.get_edges(node_n)
 
-        while queue != []:
+            for node_m in edges:
+                self.remove_edge_from_graph(node_n, node_m)
+                if self.get_edges(node_m) == []:
+                    myset.add(node_m)
+                self.print_graph()
 
-
-            head = queue[0]
-            queue = queue[1:]
-
-            #for elem in queue:
-            #    if
-
-
-            #prerequisites_met(head, queue)
-
-            try:
-                for elem in self.initial_dict[head]:
-                    queue.append(elem)
-            except KeyError:
-                pass
-            queue.sort()
-            print_debug("head is {}".format(head))
-            print_debug("queue is {}".format(queue))
+            pass
 
 
-            print_debug("")
-
-
-
+        print_debug("\n\n\n\n\n")
+        print_debug("myset is {}".format(myset))
+        print_debug("mylist is {}".format(mylist))
 
         answer_string = None
         answer_string_final = "answer is {}".format(answer_string)
@@ -1340,6 +1353,7 @@ class Directed_Graph:
         self.initial_dict  = {}
         self.computed_dict  = {}
 
+        self.edges = []
 
         self.value_insertion_sequence = []
         self.child_insertion_sequence = []
@@ -1352,12 +1366,12 @@ def day_7_part1():
     #lines = read_file_into_list("problem_7_input.txt")
 
     myTree = Directed_Graph(lines)
+    answer_string_final = None
     answer_string_final = myTree.get_answer_part_1()
 
 
 
 
-    answer_string_final = None
     return answer_string_final
 
 
