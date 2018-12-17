@@ -1,6 +1,7 @@
 import difflib
 from fuzzywuzzy import fuzz
 import datetime
+import networkx as nx
 
 import sys
 DEBUG = 1
@@ -1237,7 +1238,7 @@ class Directed_Graph:
 
 
     def print_graph(self):
-
+        """
         print_debug("printing state of graph:\n--------------")
         #print_debug("value_insertion_sequence is {}".format(self.value_insertion_sequence))
         #print_debug("child_insertion_sequence is {}".format(self.child_insertion_sequence))
@@ -1251,7 +1252,8 @@ class Directed_Graph:
 
         #for elem in self.initial_dict:
         #    print_debug("'{}' goes to {}".format(elem, self.initial_dict[elem]))
-
+        """
+        pass
 
     def build_directed_graph(self, lines):
         for line in lines:
@@ -1333,8 +1335,8 @@ class Directed_Graph:
 
     def get_next_unmarked_node(self):
 
-        for node in self.marked_dict:
-            if self.marked_dict[node] == "unmarked":
+        for node in sorted(self.marked_dict.keys(), reverse=True):
+            if self.marked_dict[node] == "unmarked" or  self.marked_dict[node] == "temporary_mark":
                 return node
         return None
 
@@ -1344,23 +1346,28 @@ class Directed_Graph:
             return
         if self.marked_dict[node_n] == "temporary_mark":
             return
-
+        print_debug("Giving {} a temporary mark".format(node_n))
         self.marked_dict[node_n] = "temporary_mark"
-        for node_m in sorted(self.get_edges(node_n), reverse=True):
+        for node_m in sorted(self.get_edges(node_n), reverse=False):
             self.visit(node_m)
+        print_debug("Giving {} a permanant mark".format(node_n))
         self.marked_dict[node_n] = "permanent_mark"
         self.answer_list.insert(0,node_n)
 
 
     def get_answer_part_1(self):
 
-        #while self.do_unmarked_nodes_remain() is True:
 
-        next_node = self.get_next_unmarked_node()
 
-        print_debug("next_node is {}".format(next_node))
-        self.visit(next_node)
-        print_debug("\n\n\n\n\n")
+
+        """
+        while self.do_unmarked_nodes_remain() is True:
+
+            next_node = self.get_next_unmarked_node()
+
+            print_debug("next unmarked node is {}".format(next_node))
+            self.visit(next_node)
+            print_debug("\n")
 
         answer_string = None
         self.print_graph()
@@ -1369,7 +1376,7 @@ class Directed_Graph:
         for elem in self.answer_list:
             answer_string_final += elem
         return answer_string_final
-
+        """
     def __init__(self, lines):
         self.initial_dict  = {}
         self.computed_dict  = {}
@@ -1382,14 +1389,24 @@ class Directed_Graph:
         self.build_directed_graph(lines)
 
 
+def solve(lines):
+    G = nx.DiGraph()
+    for line in lines:
+        parts = line.split(" ")
+        G.add_edge(parts[1], parts[7])
+
+    print_debug(G.draw())
+    answer = ''.join(nx.lexicographical_topological_sort(G))
+    return answer
+
 def day_7_part1():
     lines = read_file_into_list("problem_7_dummy_input.txt")
-    #lines = read_file_into_list("problem_7_input.txt")
+    lines = read_file_into_list("problem_7_input.txt")
 
-    myTree = Directed_Graph(lines)
-    answer_string_final = None
-    answer_string_final = myTree.get_answer_part_1()
-
+    #myTree = Directed_Graph(lines)
+    answer = solve(lines)
+    answer_string_final = "answer is {}".format(answer)
+    #answer_string_final = myTree.get_answer_part_1()
 
 
 
