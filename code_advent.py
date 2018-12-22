@@ -1395,11 +1395,48 @@ def solve(lines):
         parts = line.split(" ")
         G.add_edge(parts[1], parts[7])
 
-    print_debug(G.draw())
+    #print_debug(G.draw())
     answer = ''.join(nx.lexicographical_topological_sort(G))
     return answer
 
 def day_7_part1():
+    lines = read_file_into_list("problem_7_dummy_input.txt")
+    lines = read_file_into_list("problem_7_input.txt")
+
+    #myTree = Directed_Graph(lines)
+    answer = solve(lines)
+    answer_string_final = "answer is {}".format(answer)
+    #answer_string_final = myTree.get_answer_part_1()
+
+
+
+    return answer_string_final
+
+
+
+
+
+
+def day_7_part2():
+
+    num_workers = 5
+    num_seconds = 60
+
+    heading = "Second   "
+    heading2 = "----------------"
+    for worker_num in range(num_workers):
+        heading+="Worker {}   ".format(worker_num)
+        heading2+="-----------"
+    heading+="Done"
+    print_debug(heading)
+    print_debug(heading2)
+
+
+
+
+    print_debug("\n\n\n")
+
+
     lines = read_file_into_list("problem_7_dummy_input.txt")
     lines = read_file_into_list("problem_7_input.txt")
 
@@ -1454,6 +1491,8 @@ def main():
     print("Answer for Day 6 - Part 2 - 'Chronal Coordinates':\n------------------------\n" + str(day_6_part2()))
     print("\n")
     print("Answer for Day 7 - Part 1 - 'The Sum of Its Parts':\n------------------------\n" + str(day_7_part1()))
+    print("\n")
+    print("Answer for Day 7 - Part 2 - 'The Sum of Its Parts':\n------------------------\n" + str(day_7_part2()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
