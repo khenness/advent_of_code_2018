@@ -1524,11 +1524,10 @@ class HeaderTree:
 
         while self.node_stack != []:
 
-            print_debug("got to here")
+            for _ in range(self.node_stack[0].num_child_nodes):
+                pass
+            
             self.pop_head_node()
-
-            #for _ in range(self.node_stack[0].num_child_nodes):
-            #    print_debug("hello")
 
                 #index += 2
                 #new_node = HeaderNode()
