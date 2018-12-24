@@ -1461,17 +1461,90 @@ class HeaderNode:
         self.index = None
         pass
 
+    def pretty_print(self):
 
+        print_debug("Looking at node {} at position {}:\n"
+                    "- num_child_nodes is {}\n"
+                    "- num_metadatas is {}\n"
+                    "- metadata_list is {}\n"
+                    "- child_node_list is {}\n"
+                    "- index is {}\n".format(self.id, self.index, self.num_child_nodes,
+                                           self.num_metadatas, self.metadata_list,
+                                           self.child_node_list, self.index))
 
 class HeaderTree:
 
-    def generate_tree(self, num_list):
 
 
-        header_1 = (self.num_list[0], self.num_list[1])
-        self.unprocessed_header_stack.append(header_1)
+    def pop_head_node(self):
+
+        #print_debug("self.node_list is {}".format(self.node_stack))
+        mynode = self.node_stack.pop()
+        self.processed_nodes.append(mynode)
+
+        print_debug("\nRemoved node {} from node_stack".format(mynode.id))
+        simplified_node_stack_to_print = [node.id for node in self.node_stack]
+        print_debug("node_stack now looks like this: {}".format(simplified_node_stack_to_print))
+        simplified_processed_nodes_to_print = [node.id for node in self.processed_nodes]
+
+        print_debug("processed_nodes now looks like this: {}".format(simplified_processed_nodes_to_print))
+        #print_debug("Removed node {} from stack. node_stack now looks like this: {}\n".format(node.id, simplified_node_stack_to_print))
+
+
+
+
+    def add_to_stack(self, node):
+        self.node_stack.append(node)
+        simplified_stack_to_print = [node.id for node in self.node_stack]
+        print_debug("\nAdding node {} to stack.".format(node.id))
+        print_debug("node_stack now looks like this: {}".format(simplified_stack_to_print))
+
+
+    def generate_tree(self):
+
+        #first node
+
+        new_node = HeaderNode()
+        new_node.id = self.get_new_node_id()
+        new_node.num_child_nodes = self.num_list[0]
+        num_metadatas = self.num_list[1]
+        new_node.num_metadatas = num_metadatas
+
+        new_node.metadata_list = self.num_list[-num_metadatas:]
         index = 0
+        new_node.index = index
 
+        new_node.pretty_print()
+
+        self.add_to_stack(new_node)
+        #self.node_stack.append(new_node)
+
+
+        # rest of the nodes
+
+        while self.node_stack != []:
+
+            print_debug("got to here")
+            self.pop_head_node()
+
+            #for _ in range(self.node_stack[0].num_child_nodes):
+            #    print_debug("hello")
+
+                #index += 2
+                #new_node = HeaderNode()
+                #new_node.id = self.get_new_node_id()
+                #new_node.num_child_nodes = 0
+                #new_node.num_metadatas = 0
+                #new_node.metadata_list = []
+                #new_node.index = index
+                #new_node.pretty_print()
+
+            #self.add_to_stack(new_node)
+
+
+
+        #the rest of the nodes
+        """
         while self.unprocessed_header_stack != []:
             print_debug("head of stack is {}".format(self.unprocessed_header_stack[0]))
             num_children = self.unprocessed_header_stack[0][0]
@@ -1491,7 +1564,7 @@ class HeaderTree:
             self.unprocessed_header_stack.pop()
 
             print_debug("\n")
-
+        """
 
 
 
@@ -1500,14 +1573,21 @@ class HeaderTree:
 
         pass
 
+
+
     def __init__(self, num_list):
-        self.num_list = num_list
+        self.num_list_original = num_list
+
+        self.num_list = self.num_list_original.copy()
         self.node_list = []
         self.last_node_id_generated = None
-        self.unprocessed_header_stack = []
+        self.node_stack = []
+        self.processed_nodes = []
 
-        self.generate_tree(num_list)
 
+
+
+        self.generate_tree()
         pass
 
     def get_new_node_id(self):
@@ -1566,7 +1646,9 @@ def day_8_part1():
     lines = read_file_into_list("problem_8_dummy_input.txt")
     #lines = read_file_into_list("problem_8_input.txt")
 
-    num_list = lines[0].split(" ")
+    num_list_initial = lines[0].split(" ")
+
+    num_list = [ int(x) for x in num_list_initial ]
 
 
     myTree = HeaderTree(num_list)
