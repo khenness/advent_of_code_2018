@@ -1463,12 +1463,12 @@ class HeaderNode:
 
     def pretty_print(self):
 
-        print_debug("Looking at node {} at position {}:\n"
+        print_debug("\nLooking at node {}:\n"
                     "- num_child_nodes is {}\n"
                     "- num_metadatas is {}\n"
                     "- metadata_list is {}\n"
                     "- child_node_list is {}\n"
-                    "- index is {}\n".format(self.id, self.index, self.num_child_nodes,
+                    "- index is {}\n".format(self.id, self.num_child_nodes,
                                            self.num_metadatas, self.metadata_list,
                                            self.child_node_list, self.index))
 
@@ -1489,6 +1489,7 @@ class HeaderTree:
 
         print_debug("processed_nodes now looks like this: {}".format(simplified_processed_nodes_to_print))
         #print_debug("Removed node {} from stack. node_stack now looks like this: {}\n".format(node.id, simplified_node_stack_to_print))
+        print_debug("num_list now looks likes this: {}".format(self.num_list))
 
 
 
@@ -1498,6 +1499,28 @@ class HeaderTree:
         simplified_stack_to_print = [node.id for node in self.node_stack]
         print_debug("\nAdding node {} to stack.".format(node.id))
         print_debug("node_stack now looks like this: {}".format(simplified_stack_to_print))
+        print_debug("num_list now looks likes this: {}".format(self.num_list))
+
+
+
+    def process_nodes(self):
+
+
+        if self.node_stack == []:
+            return
+        else:
+            head_node = self.node_stack[0]
+            head_node.pretty_print()
+
+            #new_node = HeaderNode()
+            #new_node.id = self.get_new_node_id()
+
+
+            #for _ in range(head_node.num_child_nodes):
+            #    self.process_nodes()
+
+
+            self.pop_head_node()
 
 
     def generate_tree(self):
@@ -1509,69 +1532,19 @@ class HeaderTree:
         new_node.num_child_nodes = self.num_list[0]
         num_metadatas = self.num_list[1]
         new_node.num_metadatas = num_metadatas
+        index = 0
 
         new_node.metadata_list = self.num_list[-num_metadatas:]
-        index = 0
+        self.num_list = self.num_list[index+2:-num_metadatas]
         new_node.index = index
 
-        new_node.pretty_print()
 
         self.add_to_stack(new_node)
         #self.node_stack.append(new_node)
 
 
         # rest of the nodes
-
-        while self.node_stack != []:
-
-            for _ in range(self.node_stack[0].num_child_nodes):
-                pass
-            
-            self.pop_head_node()
-
-                #index += 2
-                #new_node = HeaderNode()
-                #new_node.id = self.get_new_node_id()
-                #new_node.num_child_nodes = 0
-                #new_node.num_metadatas = 0
-                #new_node.metadata_list = []
-                #new_node.index = index
-                #new_node.pretty_print()
-
-            #self.add_to_stack(new_node)
-
-
-
-        #the rest of the nodes
-        """
-        while self.unprocessed_header_stack != []:
-            print_debug("head of stack is {}".format(self.unprocessed_header_stack[0]))
-            num_children = self.unprocessed_header_stack[0][0]
-            num_metadata = self.unprocessed_header_stack[0][1]
-            print_debug("num_children is {}".format(num_children))
-            print_debug("num_metadata is {}".format(num_metadata))
-            print_debug("index is {}".format(index))
-
-            new_node = HeaderNode()
-            new_node.id = self.get_new_node_id()
-            new_node.num_child_nodes = num_children
-            new_node.num_metadatas = num_metadata
-            new_node.index = index
-
-
-            self.node_list.append(new_node)
-            self.unprocessed_header_stack.pop()
-
-            print_debug("\n")
-        """
-
-
-
-
-        #for num in num_list:
-
-        pass
-
+        self.process_nodes()
 
 
     def __init__(self, num_list):
