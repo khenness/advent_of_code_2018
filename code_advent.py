@@ -1449,10 +1449,137 @@ def day_7_part2():
 
     return answer_string_final
 
+class HeaderNode:
+
+
+    def __init__(self):
+        self.id = None
+        self.num_child_nodes = 0
+        self.num_metadatas = 0
+        self.metadata_list = []
+        self.child_node_list = []
+        self.index = None
+        pass
+
+
+
+class HeaderTree:
+
+    def generate_tree(self, num_list):
+
+
+        header_1 = (self.num_list[0], self.num_list[1])
+        self.unprocessed_header_stack.append(header_1)
+        index = 0
+
+        while self.unprocessed_header_stack != []:
+            print_debug("head of stack is {}".format(self.unprocessed_header_stack[0]))
+            num_children = self.unprocessed_header_stack[0][0]
+            num_metadata = self.unprocessed_header_stack[0][1]
+            print_debug("num_children is {}".format(num_children))
+            print_debug("num_metadata is {}".format(num_metadata))
+            print_debug("index is {}".format(index))
+
+            new_node = HeaderNode()
+            new_node.id = self.get_new_node_id()
+            new_node.num_child_nodes = num_children
+            new_node.num_metadatas = num_metadata
+            new_node.index = index
+
+
+            self.node_list.append(new_node)
+            self.unprocessed_header_stack.pop()
+
+            print_debug("\n")
+
+
+
+
+
+        #for num in num_list:
+
+        pass
+
+    def __init__(self, num_list):
+        self.num_list = num_list
+        self.node_list = []
+        self.last_node_id_generated = None
+        self.unprocessed_header_stack = []
+
+        self.generate_tree(num_list)
+
+        pass
+
+    def get_new_node_id(self):
+        return_val = None
+
+        if self.last_node_id_generated is None:
+            return_val = "A1"
+        else:
+            last_num = int(self.last_node_id_generated[1:])
+            last_char = self.last_node_id_generated[:1]
+
+            if last_char == "Z":
+                return_val = "A" + str(last_num+1)
+            else:
+                return_val = chr(ord(last_char) + 1) + str(last_num)
+
+
+            #return_val = "B1"
+
+
+        #print_debug("get_new_node_id() has returned: {}".format(return_val))
+        self.last_node_id_generated = return_val
+        return return_val
+
+
+    def get_column(self):
+        mystring = ""
+        if self.last_node_id_generated is None:
+            return "  "
+
+        else:
+            for _ in self.last_node_id_generated:
+                mystring+=" "
+
+            return mystring
+
+
+
+    def pretty_print(self):
+        print_debug("\n")
+        mystring = ""
+        for num in self.num_list:
+            mystring += str(num) + self.get_column()
+        print_debug(mystring)
+
+        mystring2 = ""
+        for node in self.node_list:
+            mystring2+=node.id
+        print_debug(mystring2)
+
+        print_debug("\n")
 
 
 
 def day_8_part1():
+    lines = read_file_into_list("problem_8_dummy_input.txt")
+    #lines = read_file_into_list("problem_8_input.txt")
+
+    num_list = lines[0].split(" ")
+
+
+    myTree = HeaderTree(num_list)
+
+    myTree.pretty_print()
+    for _ in num_list:
+        myTree.get_new_node_id()
+
+    #myTree.pretty_print()
+
+    #print_debug(num_list)
+
+
     pass
 
 
