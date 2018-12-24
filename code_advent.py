@@ -1441,13 +1441,20 @@ def day_7_part2():
     lines = read_file_into_list("problem_7_input.txt")
 
     #myTree = Directed_Graph(lines)
-    answer = solve(lines)
+    answer = "WIP" #solve(lines)
     answer_string_final = "answer is {}".format(answer)
     #answer_string_final = myTree.get_answer_part_1()
 
 
 
     return answer_string_final
+
+
+
+
+def day_8_part1():
+    pass
+
 
 
 def main():
@@ -1493,6 +1500,8 @@ def main():
     print("Answer for Day 7 - Part 1 - 'The Sum of Its Parts':\n------------------------\n" + str(day_7_part1()))
     print("\n")
     print("Answer for Day 7 - Part 2 - 'The Sum of Its Parts':\n------------------------\n" + str(day_7_part2()))
+    print("\n")
+    print("Answer for Day 8 - Part 1 - 'Memory Maneuver':\n------------------------\n" + str(day_8_part1()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
