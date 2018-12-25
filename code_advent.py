@@ -1454,8 +1454,8 @@ class HeaderNode:
 
     def __init__(self):
         self.id = None
-        self.num_child_nodes = 0
-        self.num_metadatas = 0
+        self.num_child_nodes = None
+        self.num_metadatas = None
         self.metadata_list = []
         self.child_node_list = []
         self.index = None
@@ -1463,14 +1463,15 @@ class HeaderNode:
 
     def pretty_print(self):
 
-        print_debug("\nLooking at node {}:\n"
+        print_debug("Looking at node {}:\n"
                     "- num_child_nodes is {}\n"
                     "- num_metadatas is {}\n"
                     "- metadata_list is {}\n"
-                    "- child_node_list is {}\n"
-                    "- index is {}\n".format(self.id, self.num_child_nodes,
+                    "\n".format(self.id, self.num_child_nodes,
                                            self.num_metadatas, self.metadata_list,
-                                           self.child_node_list, self.index))
+                                           #[node.id for node in self.child_node_list],
+                                           #self.index
+                                ))
 
 class HeaderTree:
 
@@ -1483,13 +1484,13 @@ class HeaderTree:
         self.processed_nodes.append(mynode)
 
         print_debug("\nRemoved node {} from node_stack".format(mynode.id))
-        simplified_node_stack_to_print = [node.id for node in self.node_stack]
-        print_debug("node_stack now looks like this: {}".format(simplified_node_stack_to_print))
+        #simplified_node_stack_to_print = [node.id for node in self.node_stack]
+        #print_debug("node_stack now looks like this: {}".format(simplified_node_stack_to_print))
         simplified_processed_nodes_to_print = [node.id for node in self.processed_nodes]
 
-        print_debug("processed_nodes now looks like this: {}".format(simplified_processed_nodes_to_print))
+        #print_debug("processed_nodes now looks like this: {}".format(simplified_processed_nodes_to_print))
         #print_debug("Removed node {} from stack. node_stack now looks like this: {}\n".format(node.id, simplified_node_stack_to_print))
-        print_debug("num_list now looks likes this: {}".format(self.num_list))
+        #print_debug("num_list now looks likes this: {}".format(self.num_list))
 
 
 
@@ -1507,21 +1508,33 @@ class HeaderTree:
 
 
         if self.node_stack == []:
+            print_debug("\nStack is empty now.")
             return
         else:
-            head_node = self.node_stack[0]
-            head_node.pretty_print()
-
-            #new_node = HeaderNode()
-            #new_node.id = self.get_new_node_id()
-
-
-            #for _ in range(head_node.num_child_nodes):
-            #    self.process_nodes()
-
-
+            head_node = self.node_stack[-1]
             self.pop_head_node()
 
+            #print_debug("head_node is {}".format(head_node.id))
+            #head_node.pretty_print()
+
+            for _ in range(head_node.num_child_nodes):
+
+                #break the list into x number of uneven chunks
+
+                new_node = HeaderNode()
+                new_node.id = self.get_new_node_id()
+                num_child_nodes =  self.num_list[0]
+                new_node.num_child_nodes =num_child_nodes
+                new_node.num_metadatas = self.num_list[1]
+
+
+
+                self.add_to_stack(new_node)
+
+                new_node.pretty_print()
+
+
+            self.process_nodes()
 
     def generate_tree(self):
 
@@ -1601,7 +1614,7 @@ class HeaderTree:
     def pretty_print(self):
         print_debug("\n")
         mystring = ""
-        for num in self.num_list:
+        for num in self.num_list_original:
             mystring += str(num) + self.get_column()
         print_debug(mystring)
 
@@ -1628,6 +1641,12 @@ def day_8_part1():
     myTree.pretty_print()
     for _ in num_list:
         myTree.get_new_node_id()
+
+
+    #try 2
+
+
+
 
     #myTree.pretty_print()
 
