@@ -1626,6 +1626,26 @@ class HeaderTree:
         print_debug("\n")
 
 
+def get_day_8_answer(myList):
+
+    total = 0
+    dictstring = ""
+    for mydict in myList:
+        dictstring+="\n{}".format(mydict)
+        for metadata in mydict["metadatas"]:
+            total += metadata
+
+    print_debug("Given the input:\n[{}\n]\nWe get the following total: {}\n\n".format(dictstring,total))
+
+    return total
+
+def construct_dict(num_list):
+    answer = {}
+
+
+    print_debug("\n\nGiven the input:\n{}\nWe get the following output:\n{}\n\n".format(num_list,answer))
+
+
 
 def day_8_part1():
     lines = read_file_into_list("problem_8_dummy_input.txt")
@@ -1645,13 +1665,39 @@ def day_8_part1():
 
     #try 2
 
+    """
+    2 3 0 3 10 11 12 1 1 0 1 99 2 1 1 2
+    A----------------------------------
+        B----------- C-----------
+                         D-----
+    """
 
+    myList = [{"name": "A1",
+               "children": ["B1", "C1"],
+               "metadatas": [1, 1, 2]},
+              {"name": "B1",
+               "children": [],
+               "metadatas": [10, 11, 12]},
+              {"name": "C1",
+               "children": ["D1"],
+               "metadatas": [2]},
+              {"name": "D1",
+               "children": [],
+               "metadatas": [99]},
+              ]
+
+
+
+    answer = get_day_8_answer(myList)
+
+    myList2 = construct_dict(num_list)
 
 
     #myTree.pretty_print()
 
     #print_debug(num_list)
 
+    return answer
 
     pass
 
