@@ -1626,6 +1626,28 @@ class HeaderTree:
         print_debug("\n")
 
 
+class ID_generator:
+
+    def get_new_id(self):
+        return_val = None
+
+        if self.last_node_id_generated is None:
+            return_val = "A1"
+        else:
+            last_num = int(self.last_node_id_generated[1:])
+            last_char = self.last_node_id_generated[:1]
+
+            if last_char == "Z":
+                return_val = "A" + str(last_num+1)
+            else:
+                return_val = chr(ord(last_char) + 1) + str(last_num)
+
+        self.last_node_id_generated = return_val
+        return return_val
+
+    def __init__(self):
+        self.last_node_id_generated = None
+
 def get_day_8_answer(myList):
 
     total = 0
@@ -1640,10 +1662,39 @@ def get_day_8_answer(myList):
     return total
 
 def construct_dict(num_list):
-    answer = {}
+    id_generator = ID_generator()
+    index = 0
+    answer = []
+
+    num_list = [0,3,1,1,2]
 
 
-    print_debug("\n\nGiven the input:\n{}\nWe get the following output:\n{}\n\n".format(num_list,answer))
+    print_debug("Given the input:\n{}\n".format(num_list))
+    #while loop
+    for _ in range(1):
+        new_dict = {}
+        new_dict["name"] = id_generator.get_new_id()
+        num_children = num_list[index]
+        num_metadatas = num_list[index+1]
+
+
+
+        if num_children == 0:
+            new_dict["metadatas"] = num_list[-num_metadatas:]
+            num_list = num_list[:-num_metadatas]
+
+            pass
+        print_debug("num_list is now: {}".format(num_list))
+        answer.append(new_dict)
+        index +=2
+
+
+
+
+
+    print_debug("\nWe get the following output:".format(num_list))
+    for entry in answer:
+        print_debug("{}".format(entry))
 
 
 
