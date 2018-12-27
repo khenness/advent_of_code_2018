@@ -1881,6 +1881,8 @@ def day_8_part2():
 
     return root.get_answer_part_2()
 
+def day_9_part1():
+    pass
 
 def day_8_part1__():
     lines = read_file_into_list("problem_8_dummy_input.txt")
@@ -1987,6 +1989,8 @@ def main():
     print("Answer for Day 8 - Part 1 - 'Memory Maneuver':\n------------------------\n" + str(day_8_part1()))
     print("\n")
     print("Answer for Day 8 - Part 2 - 'Memory Maneuver':\n------------------------\n" + str(day_8_part2()))
+    print("\n")
+    print("Answer for Day 9 - Part 1 - 'Marble Mania':\n------------------------\n" + str(day_9_part1()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
