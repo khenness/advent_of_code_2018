@@ -1661,44 +1661,180 @@ def get_day_8_answer(myList):
 
     return total
 
-def construct_dict(num_list):
-    id_generator = ID_generator()
-    index = 0
-    answer = []
 
-    num_list = [0,3,1,1,2]
+#2  3  0  3  10  11  12  1  1  0  1  99  2  1  1  2
 
 
-    print_debug("Given the input:\n{}\n".format(num_list))
-    #while loop
-    for _ in range(1):
-        new_dict = {}
-        new_dict["name"] = id_generator.get_new_id()
-        num_children = num_list[index]
-        num_metadatas = num_list[index+1]
+def construct_dict(num_list, answer, id_generator, parent_stack):
+    num_children = num_list[0]
+    num_metadatas = num_list[1]
+
+    print_debug("\n")
+    print_debug("num_children is {}".format(num_children))
+    print_debug("num_metadatas is {}".format(num_metadatas))
+    print_debug("num_list is {}".format(num_list))
+    print_debug("parent_stack is {}".format(parent_stack))
+    print_debug("answer is {}".format(answer))
+
+    name = id_generator.get_new_id()
+    answer[name] = {}
+    parent_stack.append(name)
+
+    if num_children == 0:
+        answer[name] = {"metadata": num_list[-num_metadatas:]}
+
+
+        #answer[parent]["children"] = answer[parent].get("children", []).append(name)
+
+        return answer
+
+
+    for _ in range(num_children):
+        construct_dict(num_list[2:], answer, id_generator, parent_stack)
+    print_debug("\n")
+
+    return answer
+
+    """
+    
+            new_dict = {}
+        name = id_generator.get_new_id()
+
+        new_dict["name"] = name
+        new_dict["metadatas"] = num_list[-num_metadatas:]
+
+        num_list = num_list[:-num_metadatas]
+        answer.append(new_dict)
+
 
 
 
         if num_children == 0:
-            new_dict["metadatas"] = num_list[-num_metadatas:]
-            num_list = num_list[:-num_metadatas]
+            break
 
-            pass
-        print_debug("num_list is now: {}".format(num_list))
-        answer.append(new_dict)
-        index +=2
+        index+=2
+        break
 
+    print_debug("Given the input:\n{}\n".format(num_list))
 
 
 
 
-    print_debug("\nWe get the following output:".format(num_list))
+
+
+    print_debug("\nWe get the following output:\n[")
     for entry in answer:
         print_debug("{}".format(entry))
+    print_debug("]")
 
+    #while loop
+    for _ in range(1):
+
+
+
+
+        num_children = num_list[index]
+        name = id_generator.get_new_id()
+        num_metadatas = num_list[index+1]
+
+        #put it onto stack
+        stack.append((name, num_children))
+
+
+
+
+        #if head of stack has no children pop it
+        if stack[0][1] == 0:
+            stack.pop()
+
+
+
+
+
+        new_dict = {}
+        new_dict["name"] = name
+        new_dict["metadatas"] = num_list[-num_metadatas:]
+
+
+
+        num_list = num_list[:-num_metadatas]
+        num_list=num_list[2:]
+        answer.append(new_dict)
+
+
+
+        print_debug("num_list is now: {}".format(num_list))
+        index +=2
+    """
+
+
+class NodeForHeader:
+
+    # [2, 3, 0, 3, 10, 11, 12, 1, 1, 0, 1, 99, 2, 1, 1, 2]
+    def __init__(self, num_list):
+
+
+        self.num_children = num_list[0]
+        self.num_metadata = num_list[1]
+        new_num_list = num_list[2:]
+
+        self.children = []
+        self.metadata = []
+
+        #print_debug("num_children is {}".format(self.num_children))
+        #print_debug("num_metadata is {}".format(self.num_metadata))
+        #print_debug("num_list is {}".format(num_list))
+        print_debug("")
+        for _ in range(self.num_children):
+            new_node = NodeForHeader(new_num_list)
+            self.children.append(new_node)
+            new_num_list = new_num_list[new_node.get_size():]
+        self.metadata = new_num_list[:self.num_metadata]
+        #print_debug("children is {}".format(self.children))
+        #print_debug("metadata is {}".format(self.metadata))
+
+
+
+    def get_size(self):
+
+        total_child_size = 0
+
+        for child in self.children:
+            total_child_size+=child.get_size()
+
+        my_size = 2 + self.num_metadata
+
+        size = my_size + total_child_size
+
+        return size
+
+    def get_all_metadata(self):
+        all_metadata = self.metadata + [m for child in self.children for m in child.get_all_metadata()]
+        return all_metadata
+
+
+    def get_answer_part_1(self):
+
+        all_metadata = self.get_all_metadata()
+        #mystring = ""
+        print_debug("Final list of metadata was: {}".format(all_metadata))
+        mystring = "Sum is {}".format(sum(all_metadata))
+        return mystring
 
 
 def day_8_part1():
+    lines = read_file_into_list("problem_8_dummy_input.txt")
+    lines = read_file_into_list("problem_8_input.txt")
+
+    num_list_initial = lines[0].split(" ")
+    num_list = [ int(x) for x in num_list_initial ]
+
+    root = NodeForHeader(num_list)
+
+    return root.get_answer_part_1()
+
+
+def day_8_part1__():
     lines = read_file_into_list("problem_8_dummy_input.txt")
     #lines = read_file_into_list("problem_8_input.txt")
 
@@ -1739,16 +1875,18 @@ def day_8_part1():
 
 
 
-    answer = get_day_8_answer(myList)
+    #answer = get_day_8_answer(myList)
 
-    myList2 = construct_dict(num_list)
+    id_generator = ID_generator()
+    answer1 = construct_dict(num_list, {}, id_generator, [])
 
+    print_debug("answer1 is {}".format(answer1))
 
     #myTree.pretty_print()
 
     #print_debug(num_list)
 
-    return answer
+    return answer1
 
     pass
 
