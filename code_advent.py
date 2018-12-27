@@ -1882,7 +1882,8 @@ def day_8_part2():
     return root.get_answer_part_2()
 
 def day_9_part1():
-    pass
+    lines = read_file_into_list("problem_9_dummy_input.txt")
+
 
 def day_8_part1__():
     lines = read_file_into_list("problem_8_dummy_input.txt")
