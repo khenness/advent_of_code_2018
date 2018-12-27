@@ -2,6 +2,7 @@ import difflib
 from fuzzywuzzy import fuzz
 import datetime
 import networkx as nx
+import random
 
 import sys
 DEBUG = 1
@@ -1881,9 +1882,78 @@ def day_8_part2():
 
     return root.get_answer_part_2()
 
+
+class CircleGame:
+
+    def __init__(self):
+        self.current_marble_index = None
+        self.num_players = None
+        self.current_player = None
+
+        self.marbles = []
+
+        self.last_marble_value = None
+
+    def add_marble(self):
+        if self.last_marble_value == None:
+            self.last_marble_value = 0
+            self.marbles.append(0)
+        else:
+            new_marble_val = self.last_marble_value +1
+            self.marbles.append(new_marble_val)
+            self.last_marble_value = new_marble_val
+            
+        pass
+
+    def get_marbles_string(self):
+        mystring = ""
+        count = 0
+        for marble in self.marbles:
+            if count == self.current_marble_index:
+                mystring+="  ("+str(marble)+")"
+            else:
+                mystring+="   "+str(marble)
+            count+=1
+
+        return mystring
+
+    def step(self):
+        if self.marbles == []:
+            self.add_marble()
+            self.current_marble_index = 0
+            print_debug("[-]{}".format(self.get_marbles_string()))
+
+        else:
+
+            self.current_marble_index = random.randint(0, len(self.marbles))
+            if self.current_player == self.num_players:
+                self.current_player = 0
+            else:
+                self.current_player+=1
+            self.add_marble()
+            print_debug("[{}]{}".format(self.current_player, self.get_marbles_string()))
+
+        pass
+        print_debug("")
+
+
+
 def day_9_part1():
     lines = read_file_into_list("problem_9_dummy_input.txt")
+    #lines = read_file_into_list("problem_9_input.txt")
 
+    line = lines[0]
+
+    number_of_players = int(line.split(" ")[0])
+    last_marble_points = int(line.split(" ")[6])
+
+    print_debug("number_of_players is {}".format(number_of_players))
+    print_debug("last_marble_points is {}".format(last_marble_points))
+    print_debug("")
+
+    myGame = CircleGame()
+    for _ in range(10):
+        myGame.step()
 
 def day_8_part1__():
     lines = read_file_into_list("problem_8_dummy_input.txt")
