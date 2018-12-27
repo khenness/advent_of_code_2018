@@ -1793,7 +1793,42 @@ class NodeForHeader:
         #print_debug("children is {}".format(self.children))
         #print_debug("metadata is {}".format(self.metadata))
 
+    def is_valid_index(self, index):
+        try:
+            test = self.children[index]
+            return True
+        except IndexError:
+            return False
+    def get_value(self):
+        print_debug("")
 
+        value = None
+        if self.children == []:
+            value = sum(self.metadata)
+
+        else:
+            #value = sum ([ child.get_value() for child in self.children ])
+
+            value = sum ([self.children[metadata-1].get_value() for metadata in self.metadata if self.is_valid_index(metadata-1) is True])
+            """
+            val_total = 0
+            print_debug("all metadata is {}".format(self.metadata))
+            for metadata in self.metadata:
+                print_debug("looking at metadata {}".format(metadata))
+                val_to_add = 0
+                try:
+                    val_to_add = self.children[metadata].get_value()
+                except IndexError:
+                    val_to_add =0
+
+                val_total+=val_to_add
+
+            value = val_total
+        """
+
+        print_debug("Node value is {}".format(value))
+        print_debug("")
+        return value
 
     def get_size(self):
 
@@ -1821,8 +1856,21 @@ class NodeForHeader:
         mystring = "Sum is {}".format(sum(all_metadata))
         return mystring
 
+    def get_answer_part_2(self):
+        return "Value of root node is {}".format(self.get_value())
 
 def day_8_part1():
+    lines = read_file_into_list("problem_8_dummy_input.txt")
+    #lines = read_file_into_list("problem_8_input.txt")
+
+    num_list_initial = lines[0].split(" ")
+    num_list = [ int(x) for x in num_list_initial ]
+
+    root = NodeForHeader(num_list)
+
+    return root.get_answer_part_1()
+
+def day_8_part2():
     lines = read_file_into_list("problem_8_dummy_input.txt")
     lines = read_file_into_list("problem_8_input.txt")
 
@@ -1831,7 +1879,7 @@ def day_8_part1():
 
     root = NodeForHeader(num_list)
 
-    return root.get_answer_part_1()
+    return root.get_answer_part_2()
 
 
 def day_8_part1__():
@@ -1937,6 +1985,8 @@ def main():
     print("Answer for Day 7 - Part 2 - 'The Sum of Its Parts':\n------------------------\n" + str(day_7_part2()))
     print("\n")
     print("Answer for Day 8 - Part 1 - 'Memory Maneuver':\n------------------------\n" + str(day_8_part1()))
+    print("\n")
+    print("Answer for Day 8 - Part 2 - 'Memory Maneuver':\n------------------------\n" + str(day_8_part2()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
