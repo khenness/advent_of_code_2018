@@ -2082,6 +2082,190 @@ def day_9_part1():
     return myGame.print_scoreboard()
 
 
+
+
+class Marble:
+
+    def __init__(self, value, left_pointer, right_pointer):
+        self.value = value
+        self.left_pointer = left_pointer
+        self.right_pointer = right_pointer
+
+    def get_string(self, detailed = True):
+        if detailed == True:
+            return "<V={},L={},R={}>".format(self.value, self.left_pointer, self.right_pointer)
+        else:
+            return str(self.value)
+
+
+class CircleGame_Part2:
+
+    def __init__(self, number_of_players, last_marble_points):
+        self.current_marble_index = None
+        self.num_players = number_of_players
+        self.current_player = 0
+
+        self.marbles = []
+
+        self.last_marble_value = None
+
+        self.scoreboard = {}
+        self.init_scoreboard()
+
+
+    def init_scoreboard(self):
+        for playerID in range(1, self.num_players+1):
+            self.scoreboard[playerID] = {"score": 0, "marbles": []}
+
+    def print_scoreboard(self):
+
+        print_debug("\n\n\nScoreboard dictionary is:\n{}\n".format(self.scoreboard))
+
+
+        print_debug("\n\nThe scoreboard is:")
+        for playerID in self.scoreboard:
+            print_debug("Player {} has the score {}".format(playerID, self.scoreboard[playerID]["score"]))
+        print_debug("\n\n")
+
+
+        highest_scoring_player = 0
+        highest_scoring_player_score = 0
+        for playerID in self.scoreboard:
+            if self.scoreboard[playerID]["score"] > highest_scoring_player_score:
+                highest_scoring_player_score = self.scoreboard[playerID]["score"]
+                highest_scoring_player = playerID
+
+
+        #Part 2
+        #winning_marbles = self.scoreboard[highest_scoring_player]["marbles"]
+        #new_last_marble = winning_marbles.pop() * 100
+        #winning_marbles.append(new_last_marble)
+        #new_score = sum(winning_marbles)
+
+
+        return_string = "Highest scoring player was player {} with a score of {}".format(highest_scoring_player, highest_scoring_player_score)
+        print_debug(return_string)
+
+        return return_string
+    def get_clockwise_index_from_index(self, index):
+        num_steps = int((len(self.marbles) ))
+
+        num_steps = num_steps % (len(self.marbles))
+
+        index = self.current_marble_index + num_steps  # % len(self.marbles)
+
+        index = index
+
+        return index
+
+    def remove_marble_from_circle(self, left_index):
+        pass
+        print_debug("current_marble_index is {}".format(self.current_marble_index))
+        #print_debug("left_index is {}".format(left_index))
+        # print_debug("right_index is {}".format(right_index))
+
+        # print_debug("Therefore our new index is {}".format(None))
+
+        return_val = self.marbles.pop(left_index )
+        # self.marbles.append(marble)
+
+        self.current_marble_index = left_index
+        print_debug("removing the marble {} at index {}".format(return_val, left_index))
+        return return_val
+
+    def insert_marble_into_circle(self, marble_value, left_index):
+        pass
+        print_debug("current_marble_index is {}".format(self.current_marble_index))
+        print_debug("left_index is {}".format(left_index))
+        #print_debug("right_index is {}".format(right_index))
+
+        #print_debug("Therefore our new index is {}".format(None))
+
+        self.marbles.insert(left_index+1, marble_value)
+
+        new_marble = Marble(marble_value, None, None)
+        #self.marbles.append(marble)
+
+        self.current_marble_index = left_index+1
+
+            #self.current_marble_index =
+
+    def get_new_index(self, num_steps, go_clockwise=True):
+        index = None
+        if go_clockwise is True:
+            index = self.current_marble_index + num_steps #% len(self.marbles)
+
+            index = index % (len(self.marbles))
+
+        else:
+            index = self.current_marble_index - num_steps
+            index = index % (len(self.marbles))
+
+        return index
+
+    def add_marble(self, current_player):
+        if self.last_marble_value == None:
+            self.last_marble_value = 0
+            newMarble = Marble(0, None, None)
+            self.marbles.append(newMarble)
+            self.current_marble = newMarble
+        else:
+            new_marble_val = self.last_marble_value +1
+
+            if new_marble_val % 23 == 0:
+                print_debug("Special case - marble is a multiple of 23")
+
+
+
+            else:
+                pass
+                left_index = self.get_new_index(1)
+                right_index = self.get_new_index(2)
+
+                self.insert_marble_into_circle(new_marble_val, left_index)
+                self.last_marble_value = new_marble_val
+                print_debug("Inserting new marble ({})".format(new_marble_val))
+
+            #self.marbles.append(new_marble_val)
+
+        pass
+
+
+    def get_marbles_string(self):
+        mystring = ""
+        count = 0
+        for marble in self.marbles:
+            if count == self.current_marble_index:
+                mystring+="  ("+marble.get_string()+")"
+            else:
+                mystring+="   "+marble.get_string()
+            count+=1
+
+        return mystring
+
+    def step(self):
+        if self.marbles == []:
+            self.add_marble(self.current_player)
+            self.current_marble_index = 0
+            print_debug("[-]{}".format(self.get_marbles_string()))
+
+        else:
+
+            #self.current_marble_index = random.randint(0, len(self.marbles))
+            if self.current_player == self.num_players:
+                self.current_player = 1
+            else:
+                self.current_player+=1
+            self.add_marble(self.current_player)
+            print_debug("[{}]{}".format(self.current_player, self.get_marbles_string()))
+
+        pass
+        print_debug("")
+
+
+
+
+
 def day_9_part2():
     lines = read_file_into_list("problem_9_dummy_input.txt")
     #lines = read_file_into_list("problem_9_input.txt")
@@ -2089,14 +2273,14 @@ def day_9_part2():
     line = lines[0]
 
     number_of_players = int(line.split(" ")[0])
-    last_marble_points = int(line.split(" ")[6])
+    last_marble_points = int(line.split(" ")[6]) #*100
 
     print_debug("number_of_players is {}".format(number_of_players))
     print_debug("last_marble_points is {}".format(last_marble_points))
     print_debug("")
 
-    myGame = CircleGame(number_of_players, last_marble_points)
-    for _ in range((last_marble_points*100)+1):
+    myGame = CircleGame_Part2(number_of_players, last_marble_points)
+    for _ in range((last_marble_points)+1):
         myGame.step()
     return myGame.print_scoreboard()
 
