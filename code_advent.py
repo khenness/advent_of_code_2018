@@ -1888,7 +1888,7 @@ class CircleGame:
     def __init__(self, number_of_players, last_marble_points):
         self.current_marble_index = None
         self.num_players = number_of_players
-        self.current_player = 0
+        self.current_player = 1
 
         self.marbles = []
 
@@ -1913,15 +1913,39 @@ class CircleGame:
         print_debug("\n\n")
 
 
-    def add_marble(self):
+    def insert_marble_into_circle(self, marble, index):
+        pass
+
+    def get_new_index(self, num_steps, go_clockwise=True):
+
+        pass
+
+    def add_marble(self, current_player):
         if self.last_marble_value == None:
             self.last_marble_value = 0
             self.marbles.append(0)
         else:
             new_marble_val = self.last_marble_value +1
+
+            if new_marble_val % 2 == 0:
+                index = self.get_new_index(2)
+                self.insert_marble_into_circle(new_marble_val, index)
+                self.last_marble_value = new_marble_val
+                print_debug("Inserting new marble ({}) two spaces clockwise".format(new_marble_val))
+
+            elif new_marble_val % 23 == 0:
+                print_debug("Special case - marble is a multiple of 23")
+                pass
+
+
+            else:
+                index = self.get_new_index(1)
+                self.insert_marble_into_circle(new_marble_val, index)
+                self.last_marble_value = new_marble_val
+                print_debug("Inserting new marble ({}) one space clockwise".format(new_marble_val))
+
             self.marbles.append(new_marble_val)
-            self.last_marble_value = new_marble_val
-            
+
         pass
 
 
@@ -1939,18 +1963,18 @@ class CircleGame:
 
     def step(self):
         if self.marbles == []:
-            self.add_marble()
+            self.add_marble(self.current_player)
             self.current_marble_index = 0
             print_debug("[-]{}".format(self.get_marbles_string()))
 
         else:
 
-            self.current_marble_index = random.randint(0, len(self.marbles))
+            #self.current_marble_index = random.randint(0, len(self.marbles))
             if self.current_player == self.num_players:
                 self.current_player = 1
             else:
                 self.current_player+=1
-            self.add_marble()
+            self.add_marble(self.current_player)
             print_debug("[{}]{}".format(self.current_player, self.get_marbles_string()))
 
         pass
