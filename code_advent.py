@@ -1913,6 +1913,15 @@ class CircleGame:
         print_debug("\n\n")
 
 
+        highest_scoring_player = 0
+        highest_scoring_player_score = 0
+        for playerID in self.scoreboard:
+            if self.scoreboard[playerID]["score"] > highest_scoring_player_score:
+                highest_scoring_player_score = self.scoreboard[playerID]["score"]
+                highest_scoring_player = playerID
+
+
+        print_debug("Highest scoring player was player {} with a score of {}".format(highest_scoring_player, highest_scoring_player_score))
     def get_clockwise_index_from_index(self, index):
         num_steps = int((len(self.marbles) ))
 
@@ -2058,7 +2067,7 @@ def day_9_part1():
     print_debug("")
 
     myGame = CircleGame(number_of_players, last_marble_points)
-    for _ in range(26):
+    for _ in range(last_marble_points+1):
         myGame.step()
     myGame.print_scoreboard()
 
