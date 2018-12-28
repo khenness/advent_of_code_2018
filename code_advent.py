@@ -1921,7 +1921,18 @@ class CircleGame:
                 highest_scoring_player = playerID
 
 
-        print_debug("Highest scoring player was player {} with a score of {}".format(highest_scoring_player, highest_scoring_player_score))
+        #Part 2
+        winning_marbles = self.scoreboard[highest_scoring_player]["marbles"]
+        new_last_marble = winning_marbles.pop() * 100
+        winning_marbles.append(new_last_marble)
+        new_score = sum(winning_marbles)
+
+
+        return_string = "Highest scoring player was player {} with a score of {}.\n" \
+                        "If the last marble was multiplied by 100 his score is {}".format(highest_scoring_player, highest_scoring_player_score,new_score)
+        print_debug(return_string)
+
+        return return_string
     def get_clockwise_index_from_index(self, index):
         num_steps = int((len(self.marbles) ))
 
@@ -2069,7 +2080,26 @@ def day_9_part1():
     myGame = CircleGame(number_of_players, last_marble_points)
     for _ in range(last_marble_points+1):
         myGame.step()
-    myGame.print_scoreboard()
+    return myGame.print_scoreboard()
+
+
+def day_9_part2():
+    lines = read_file_into_list("problem_9_dummy_input.txt")
+    #lines = read_file_into_list("problem_9_input.txt")
+
+    line = lines[0]
+
+    number_of_players = int(line.split(" ")[0])
+    last_marble_points = int(line.split(" ")[6])
+
+    print_debug("number_of_players is {}".format(number_of_players))
+    print_debug("last_marble_points is {}".format(last_marble_points))
+    print_debug("")
+
+    myGame = CircleGame(number_of_players, last_marble_points)
+    for _ in range(last_marble_points+1):
+        myGame.step()
+    return myGame.print_scoreboard()
 
 
 def day_8_part1__():
@@ -2179,6 +2209,8 @@ def main():
     print("Answer for Day 8 - Part 2 - 'Memory Maneuver':\n------------------------\n" + str(day_8_part2()))
     print("\n")
     print("Answer for Day 9 - Part 1 - 'Marble Mania':\n------------------------\n" + str(day_9_part1()))
+    print("\n")
+    print("Answer for Day 9 - Part 2 - 'Marble Mania':\n------------------------\n" + str(day_9_part2()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
