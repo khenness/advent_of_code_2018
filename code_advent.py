@@ -2008,7 +2008,7 @@ def day_9_part1():
     print_debug("")
 
     myGame = CircleGame(number_of_players, last_marble_points)
-    for _ in range(10):
+    for _ in range(25):
         myGame.step()
     myGame.print_scoreboard()
 
