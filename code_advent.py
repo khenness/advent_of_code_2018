@@ -1888,7 +1888,7 @@ class CircleGame:
     def __init__(self, number_of_players, last_marble_points):
         self.current_marble_index = None
         self.num_players = number_of_players
-        self.current_player = 1
+        self.current_player = 0
 
         self.marbles = []
 
@@ -1916,9 +1916,18 @@ class CircleGame:
     def insert_marble_into_circle(self, marble, index):
         pass
 
-    def get_new_index(self, num_steps, go_clockwise=True):
+        self.marbles.insert(index, marble)
+        self.current_marble_index = index
 
-        pass
+    def get_new_index(self, num_steps, go_clockwise=True):
+        index = None
+        if go_clockwise is True:
+            index = self.current_marble_index + num_steps #% len(self.marbles)
+
+            index = index % (len(self.marbles)+1)
+            print_debug("When current_marble_index is {} and num_steps is {}"
+                        " then new index becomes {}".format(self.current_marble_index, num_steps, index))
+        return index
 
     def add_marble(self, current_player):
         if self.last_marble_value == None:
@@ -1931,7 +1940,7 @@ class CircleGame:
                 index = self.get_new_index(2)
                 self.insert_marble_into_circle(new_marble_val, index)
                 self.last_marble_value = new_marble_val
-                print_debug("Inserting new marble ({}) two spaces clockwise".format(new_marble_val))
+                print_debug("Inserting new marble ({}) two spaces clockwise from current".format(new_marble_val))
 
             elif new_marble_val % 23 == 0:
                 print_debug("Special case - marble is a multiple of 23")
@@ -1942,9 +1951,9 @@ class CircleGame:
                 index = self.get_new_index(1)
                 self.insert_marble_into_circle(new_marble_val, index)
                 self.last_marble_value = new_marble_val
-                print_debug("Inserting new marble ({}) one space clockwise".format(new_marble_val))
+                print_debug("Inserting new marble ({}) one space clockwise from current".format(new_marble_val))
 
-            self.marbles.append(new_marble_val)
+            #self.marbles.append(new_marble_val)
 
         pass
 
