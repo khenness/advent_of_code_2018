@@ -1931,11 +1931,11 @@ class CircleGame:
 
         # print_debug("Therefore our new index is {}".format(None))
 
-        return_val = self.marbles.pop(left_index + 1)
+        return_val = self.marbles.pop(left_index )
         # self.marbles.append(marble)
 
-        self.current_marble_index = left_index + 1
-        print_debug("removing the marble {} at index {}".format(return_val, left_index+1))
+        self.current_marble_index = left_index
+        print_debug("removing the marble {} at index {}".format(return_val, left_index))
         return return_val
 
     def insert_marble_into_circle(self, marble, left_index):
@@ -1990,7 +1990,7 @@ class CircleGame:
                 print_debug("Adding {} to the score of player {}".format(removed_marble_value, current_player))
 
                 clockwise_index = self.get_clockwise_index_from_index(left_index)
-                print_debug("clockwise_index is {}".format(clockwise_index))
+                print_debug("clockwise_index from {} is {}".format(left_index, clockwise_index))
                 self.current_marble_index = clockwise_index
                 self.last_marble_value = new_marble_val
                 pass
