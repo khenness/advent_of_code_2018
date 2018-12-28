@@ -1913,6 +1913,31 @@ class CircleGame:
         print_debug("\n\n")
 
 
+    def get_clockwise_index_from_index(self, index):
+        num_steps = int((len(self.marbles) /2))
+
+
+        index = self.current_marble_index + num_steps  # % len(self.marbles)
+
+        index = index % (len(self.marbles))
+
+        return index
+
+    def remove_marble_from_circle(self, left_index):
+        pass
+        print_debug("current_marble_index is {}".format(self.current_marble_index))
+        #print_debug("left_index is {}".format(left_index))
+        # print_debug("right_index is {}".format(right_index))
+
+        # print_debug("Therefore our new index is {}".format(None))
+
+        return_val = self.marbles.pop(left_index + 1)
+        # self.marbles.append(marble)
+
+        self.current_marble_index = left_index + 1
+        print_debug("removing the marble {} at index {}".format(return_val, left_index+1))
+        return return_val
+
     def insert_marble_into_circle(self, marble, left_index):
         pass
         print_debug("current_marble_index is {}".format(self.current_marble_index))
@@ -1934,6 +1959,11 @@ class CircleGame:
             index = self.current_marble_index + num_steps #% len(self.marbles)
 
             index = index % (len(self.marbles))
+
+        else:
+            index = self.current_marble_index - num_steps
+            index = index % (len(self.marbles))
+
         return index
 
     def add_marble(self, current_player):
@@ -1945,6 +1975,24 @@ class CircleGame:
 
             if new_marble_val % 23 == 0:
                 print_debug("Special case - marble is a multiple of 23")
+                self.scoreboard[current_player]["score"]+=new_marble_val
+                self.scoreboard[current_player]["marbles"].append(new_marble_val)
+                print_debug("Adding {} to the score of player {}".format(new_marble_val, current_player))
+
+
+                left_index = self.get_new_index(7, go_clockwise=False)
+                print_debug("left_index is {}".format(left_index))
+
+
+                removed_marble_value = self.remove_marble_from_circle(left_index)
+                self.scoreboard[current_player]["score"] += removed_marble_value
+                self.scoreboard[current_player]["marbles"].append(removed_marble_value)
+                print_debug("Adding {} to the score of player {}".format(removed_marble_value, current_player))
+
+                clockwise_index = self.get_clockwise_index_from_index(left_index)
+                print_debug("clockwise_index is {}".format(clockwise_index))
+                self.current_marble_index = clockwise_index
+                self.last_marble_value = new_marble_val
                 pass
 
 
