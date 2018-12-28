@@ -1913,11 +1913,11 @@ class CircleGame:
         print_debug("\n\n")
 
 
-    def insert_marble_into_circle(self, marble, left_index, right_index):
+    def insert_marble_into_circle(self, marble, left_index):
         pass
         print_debug("current_marble_index is {}".format(self.current_marble_index))
         print_debug("left_index is {}".format(left_index))
-        print_debug("right_index is {}".format(right_index))
+        #print_debug("right_index is {}".format(right_index))
 
         #print_debug("Therefore our new index is {}".format(None))
 
@@ -1950,9 +1950,9 @@ class CircleGame:
 
             else:
                 left_index = self.get_new_index(1)
-                right_index = self.get_new_index(2)
+                #right_index = self.get_new_index(2)
 
-                self.insert_marble_into_circle(new_marble_val, left_index, right_index)
+                self.insert_marble_into_circle(new_marble_val, left_index)
                 self.last_marble_value = new_marble_val
                 #print_debug("Inserting new marble ({})".format(new_marble_val))
 
@@ -2008,7 +2008,7 @@ def day_9_part1():
     print_debug("")
 
     myGame = CircleGame(number_of_players, last_marble_points)
-    for _ in range(25):
+    for _ in range(26):
         myGame.step()
     myGame.print_scoreboard()
 
