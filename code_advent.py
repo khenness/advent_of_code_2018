@@ -2084,6 +2084,38 @@ def day_9_part1():
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class Marble:
 
     def __init__(self, value, left_pointer, right_pointer):
@@ -2093,7 +2125,7 @@ class Marble:
 
     def get_string(self, detailed = True):
         if detailed == True:
-            return "<V={},L={},R={}>".format(self.value, self.left_pointer, self.right_pointer)
+            return "V={},L={},R={}".format(self.value, self.left_pointer, self.right_pointer)
         else:
             return str(self.value)
 
@@ -2111,7 +2143,7 @@ class CircleGame_Part2:
 
         self.scoreboard = {}
         self.init_scoreboard()
-
+        self.current_marble = None
 
     def init_scoreboard(self):
         for playerID in range(1, self.num_players+1):
@@ -2181,12 +2213,14 @@ class CircleGame_Part2:
 
         #print_debug("Therefore our new index is {}".format(None))
 
-        self.marbles.insert(left_index+1, marble_value)
+        #self.marbles.insert(left_index+1, marble_value)
 
         new_marble = Marble(marble_value, None, None)
-        #self.marbles.append(marble)
+        self.marbles.append(new_marble)
 
         self.current_marble_index = left_index+1
+        self.current_marble = new_marble
+        self.current_marble.right_pointer = left_index
 
             #self.current_marble_index =
 
@@ -2240,6 +2274,14 @@ class CircleGame_Part2:
             else:
                 mystring+="   "+marble.get_string()
             count+=1
+        count = 0
+        mystring+="\n[.]   "
+        for marble in self.marbles:
+            if count == self.current_marble_index:
+                mystring+="  ("+marble.get_string(detailed=False)+")"
+            else:
+                mystring+="   "+marble.get_string(detailed=False)
+            count += 1
 
         return mystring
 
@@ -2280,8 +2322,10 @@ def day_9_part2():
     print_debug("")
 
     myGame = CircleGame_Part2(number_of_players, last_marble_points)
-    for _ in range((last_marble_points)+1):
+    #for _ in range((last_marble_points)+1):
+    for _ in range(10):
         myGame.step()
+        pass
     return myGame.print_scoreboard()
 
 
