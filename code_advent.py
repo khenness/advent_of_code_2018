@@ -1894,6 +1894,25 @@ class CircleGame:
 
         self.last_marble_value = None
 
+        self.scoreboard = {}
+        self.init_scoreboard()
+
+
+    def init_scoreboard(self):
+        for playerID in range(1, self.num_players+1):
+            self.scoreboard[playerID] = {"score": 0, "marbles": []}
+
+    def print_scoreboard(self):
+
+        print_debug("\n\n\nScoreboard dictionary is:\n{}\n".format(self.scoreboard))
+
+
+        print_debug("\n\nThe scoreboard is:")
+        for playerID in self.scoreboard:
+            print_debug("Player {} has the score {}".format(playerID, self.scoreboard[playerID]["score"]))
+        print_debug("\n\n")
+
+
     def add_marble(self):
         if self.last_marble_value == None:
             self.last_marble_value = 0
@@ -1952,8 +1971,10 @@ def day_9_part1():
     print_debug("")
 
     myGame = CircleGame(number_of_players, last_marble_points)
-    for _ in range(20):
+    for _ in range(25):
         myGame.step()
+    myGame.print_scoreboard()
+
 
 def day_8_part1__():
     lines = read_file_into_list("problem_8_dummy_input.txt")
