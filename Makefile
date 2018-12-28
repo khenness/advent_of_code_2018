@@ -18,7 +18,7 @@ gitwip:
 	git commit -am "Work In Progress" ; git push origin master
 
 profile:
-	python -m cProfile code_advent.py
+	python -m cProfile -o out.cprof code_advent.py ; pyprof2calltree -k -i out.cprof
 
 
 pyshell:

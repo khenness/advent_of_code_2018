@@ -2096,7 +2096,7 @@ def day_9_part2():
     print_debug("")
 
     myGame = CircleGame(number_of_players, last_marble_points)
-    for _ in range(last_marble_points+1):
+    for _ in range((last_marble_points*100)+1):
         myGame.step()
     return myGame.print_scoreboard()
 
