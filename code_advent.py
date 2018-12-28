@@ -1914,12 +1914,13 @@ class CircleGame:
 
 
     def get_clockwise_index_from_index(self, index):
-        num_steps = int((len(self.marbles) /2))
+        num_steps = int((len(self.marbles) ))
 
+        num_steps = num_steps % (len(self.marbles))
 
         index = self.current_marble_index + num_steps  # % len(self.marbles)
 
-        index = index % (len(self.marbles))
+        index = index
 
         return index
 
@@ -1992,6 +1993,7 @@ class CircleGame:
                 clockwise_index = self.get_clockwise_index_from_index(left_index)
                 print_debug("clockwise_index from {} is {}".format(left_index, clockwise_index))
                 self.current_marble_index = clockwise_index
+                print_debug("current_marble_index now equals {}".format(self.current_marble_index))
                 self.last_marble_value = new_marble_val
                 pass
 
