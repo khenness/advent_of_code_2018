@@ -1922,14 +1922,13 @@ class CircleGame:
 
 
         #Part 2
-        winning_marbles = self.scoreboard[highest_scoring_player]["marbles"]
-        new_last_marble = winning_marbles.pop() * 100
-        winning_marbles.append(new_last_marble)
-        new_score = sum(winning_marbles)
+        #winning_marbles = self.scoreboard[highest_scoring_player]["marbles"]
+        #new_last_marble = winning_marbles.pop() * 100
+        #winning_marbles.append(new_last_marble)
+        #new_score = sum(winning_marbles)
 
 
-        return_string = "Highest scoring player was player {} with a score of {}.\n" \
-                        "If the last marble was multiplied by 100 his score is {}".format(highest_scoring_player, highest_scoring_player_score,new_score)
+        return_string = "Highest scoring player was player {} with a score of {}".format(highest_scoring_player, highest_scoring_player_score)
         print_debug(return_string)
 
         return return_string
@@ -2159,6 +2158,12 @@ def day_8_part1__():
     pass
 
 
+def day_10_part1():
+    lines = read_file_into_list("problem_10_dummy_input.txt")
+    #lines = read_file_into_list("problem_10_input.txt")
+
+    return "WIP"
+
 
 def main():
 
@@ -2211,6 +2216,8 @@ def main():
     print("Answer for Day 9 - Part 1 - 'Marble Mania':\n------------------------\n" + str(day_9_part1()))
     print("\n")
     print("Answer for Day 9 - Part 2 - 'Marble Mania':\n------------------------\n" + str(day_9_part2()))
+    print("\n")
+    print("Answer for Day 10 - Part 1 - 'The Stars Align':\n------------------------\n" + str(day_10_part1()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
