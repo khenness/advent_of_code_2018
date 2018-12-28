@@ -1885,10 +1885,10 @@ def day_8_part2():
 
 class CircleGame:
 
-    def __init__(self):
+    def __init__(self, number_of_players, last_marble_points):
         self.current_marble_index = None
-        self.num_players = None
-        self.current_player = None
+        self.num_players = number_of_players
+        self.current_player = 0
 
         self.marbles = []
 
@@ -1927,7 +1927,7 @@ class CircleGame:
 
             self.current_marble_index = random.randint(0, len(self.marbles))
             if self.current_player == self.num_players:
-                self.current_player = 0
+                self.current_player = 1
             else:
                 self.current_player+=1
             self.add_marble()
@@ -1951,8 +1951,8 @@ def day_9_part1():
     print_debug("last_marble_points is {}".format(last_marble_points))
     print_debug("")
 
-    myGame = CircleGame()
-    for _ in range(10):
+    myGame = CircleGame(number_of_players, last_marble_points)
+    for _ in range(20):
         myGame.step()
 
 def day_8_part1__():
