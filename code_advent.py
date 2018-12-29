@@ -2125,9 +2125,60 @@ def day_9_part1():
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 class CircleGame_Part2:
 
-    def __init__(self, number_of_players, last_marble_points):
+    def __init__(self, number_of_players, last_marble_points, myCircle):
+        self.circular_linked_list = myCircle
+
         self.current_marble_index = None
         self.num_players = number_of_players
         self.current_player = 0
@@ -2139,6 +2190,7 @@ class CircleGame_Part2:
         self.scoreboard = {}
         self.init_scoreboard()
 
+        self.currentMarble = None
 
     def init_scoreboard(self):
         for playerID in range(1, self.num_players+1):
@@ -2232,43 +2284,53 @@ class CircleGame_Part2:
         if self.last_marble_value == None:
             self.last_marble_value = 0
             self.marbles.append(0)
+
+            #part 2
+            new_node = DoubleLinkedNode(0)
+            self.circular_linked_list.insert_at_end(new_node)
         else:
             new_marble_val = self.last_marble_value +1
 
             if new_marble_val % 23 == 0:
                 print_debug("Special case - marble is a multiple of 23")
+
+                #part 1
+                """
                 self.scoreboard[current_player]["score"]+=new_marble_val
                 self.scoreboard[current_player]["marbles"].append(new_marble_val)
                 print_debug("Adding {} to the score of player {}".format(new_marble_val, current_player))
-
-
                 left_index = self.get_new_index(7, go_clockwise=False)
                 print_debug("left_index is {}".format(left_index))
-
-
                 removed_marble_value = self.remove_marble_from_circle(left_index)
                 self.scoreboard[current_player]["score"] += removed_marble_value
                 self.scoreboard[current_player]["marbles"].append(removed_marble_value)
                 print_debug("Adding {} to the score of player {}".format(removed_marble_value, current_player))
-
                 clockwise_index = self.get_clockwise_index_from_index(left_index)
                 print_debug("clockwise_index from {} is {}".format(left_index, clockwise_index))
                 self.current_marble_index = clockwise_index
                 print_debug("current_marble_index now equals {}".format(self.current_marble_index))
                 self.last_marble_value = new_marble_val
-                pass
+                """
+
+                #part 2
 
 
             else:
+                #part 1
                 left_index = self.get_new_index(1)
-                #right_index = self.get_new_index(2)
-
                 self.insert_marble_into_circle(new_marble_val, left_index)
                 self.last_marble_value = new_marble_val
-                #print_debug("Inserting new marble ({})".format(new_marble_val))
 
-            #self.marbles.append(new_marble_val)
 
+                #part 2
+
+                self.last_marble_value = new_marble_val
+                new_node = DoubleLinkedNode(new_marble_val)
+
+                neighbour = self.circular_linked_list.get_node(left_index)
+
+                self.circular_linked_list.insert_after(neighbour, new_node)
+                self.currentMarble = new_node
         pass
 
 
@@ -2284,13 +2346,24 @@ class CircleGame_Part2:
 
         return mystring
 
+
+    def p2_get_marbles_string(self):
+        mystring = self.circular_linked_list.get_string()
+
+        return mystring
+
     def step(self):
-        if self.marbles == []:
+
+        if self.circular_linked_list.get_node(0) is None:
+            print_debug("Got to here - get_node(0) returned None")
+
             self.add_marble(self.current_player)
             self.current_marble_index = 0
-            print_debug("[-]{}".format(self.get_marbles_string()))
-
+            print_debug("[pt1 - p-]{}".format(self.get_marbles_string()))
+            print_debug("[pt2 - p-]{}".format(self.p2_get_marbles_string()))
+            #print_debug("Current node for part 2 is {}".format(self.currentMarble.data))
         else:
+            pass
 
             #self.current_marble_index = random.randint(0, len(self.marbles))
             if self.current_player == self.num_players:
@@ -2298,7 +2371,9 @@ class CircleGame_Part2:
             else:
                 self.current_player+=1
             self.add_marble(self.current_player)
-            print_debug("[{}]{}".format(self.current_player, self.get_marbles_string()))
+            print_debug("[pt1 - p{}]{}".format(self.current_player, self.get_marbles_string()))
+            print_debug("[pt2 - p{}]{}".format(self.current_player, self.p2_get_marbles_string()))
+            print_debug("Current node for part 2 is {}".format(self.currentMarble.data))
 
         pass
         print_debug("")
@@ -2356,15 +2431,18 @@ class CircularDoublyLinkedList:
             if self.first == node:
                 self.first = node.next
 
-    def display(self):
+    def get_string(self):
+        myString = ""
         if self.first is None:
             return
         current = self.first
         while True:
-            print(current.data, end=' ')
+            #print(current.data, end=' ')
+            myString+="   "+str(current.data)
             current = current.next
             if current == self.first:
                 break
+        return myString
 
 
 
@@ -2373,9 +2451,32 @@ def day_9_part2():
 
 
 
-
-
     myCircle = CircularDoublyLinkedList()
+
+
+    lines = read_file_into_list("problem_9_dummy_input.txt")
+    #lines = read_file_into_list("problem_9_input.txt")
+
+    line = lines[0]
+
+    number_of_players = int(line.split(" ")[0])
+    last_marble_points = int(line.split(" ")[6]) #*100
+
+    print_debug("number_of_players is {}".format(number_of_players))
+    print_debug("last_marble_points is {}".format(last_marble_points))
+    print_debug("")
+
+    myGame = CircleGame_Part2(number_of_players, last_marble_points, myCircle)
+    for _ in range((last_marble_points)+1):
+    #for _ in range(10):
+        myGame.step()
+        pass
+    return myGame.print_scoreboard()
+
+
+
+
+    """
     for num in range(10):
         print_debug("Adding {} to list".format(num))
         new_node = DoubleLinkedNode(num)
@@ -2385,7 +2486,7 @@ def day_9_part2():
     myCircle.display()
 
     print_debug("\n\n")
-
+    """
 
     """
 
@@ -2410,24 +2511,7 @@ def day_9_part2():
 
     """
 
-    lines = read_file_into_list("problem_9_dummy_input.txt")
-    #lines = read_file_into_list("problem_9_input.txt")
 
-    line = lines[0]
-
-    number_of_players = int(line.split(" ")[0])
-    last_marble_points = int(line.split(" ")[6]) #*100
-
-    print_debug("number_of_players is {}".format(number_of_players))
-    print_debug("last_marble_points is {}".format(last_marble_points))
-    print_debug("")
-
-    myGame = CircleGame_Part2(number_of_players, last_marble_points)
-    #for _ in range((last_marble_points)+1):
-    for _ in range(3):
-        myGame.step()
-        pass
-    return myGame.print_scoreboard()
     """
 
 
