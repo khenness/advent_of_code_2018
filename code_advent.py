@@ -2331,8 +2331,25 @@ class MyLinkedList:
         print_debug("\n\n\n\n\n")
         print_debug("List internal stats is")
         print_debug("node_list is:\n")
+
+
+
         for elem in self.node_list:
-            print_debug("{} which has a value of {}".format(elem, elem.get_string()))
+
+            try:
+                left_pointer_val = elem.left_pointer.get_string()
+            except AttributeError:
+                left_pointer_val = None
+
+            print_debug("{} which has a value of {}. Its left pointer points to {} which has the value {}".format(elem, elem.get_string(), elem.left_pointer, left_pointer_val))
+        print_debug("\n\n\n\n\n")
+
+
+        for elem in [self.head_node]:
+            print_debug("HEAD NODE IS {} which has a value of {}. Its left pointer points to {} which has the value {}".format(elem, elem.get_string(), elem.left_pointer, left_pointer_val))
+
+        for elem in [self.tail_node]:
+            print_debug("TAIL NODE IS {} which has a value of {}. Its left pointer points to {} which has the value {}".format(elem, elem.get_string(), elem.left_pointer, left_pointer_val))
         print_debug("\n\n\n\n\n")
 
 
@@ -2370,13 +2387,18 @@ class MyLinkedList:
 
         else:
             current_node = self.head_node
+
+            previous_current = current_node.left_pointer
             while current_node.right_pointer is not None:
+                previous_current = current_node
                 current_node = current_node.right_pointer
 
             new_node = MarbleNode(value, None, None)
             current_node.right_pointer = new_node
+            current_node.left_pointer = previous_current
             self.number_of_nodes +=1
             self.node_list.append(new_node)
+            #self.tail_node.left_pointer = previous_current
             self.tail_node = new_node
 
 
@@ -2414,7 +2436,7 @@ def day_9_part2():
     print_debug("{}".format(myList.get_backwards_string()))
     print_debug("\n\n\n\n\n")
 
-    #myList.print_internal_state()
+    myList.print_internal_state()
     """
 
     lines = read_file_into_list("problem_9_dummy_input.txt")
