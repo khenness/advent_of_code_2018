@@ -2398,7 +2398,7 @@ class MyLinkedList:
             current_node.left_pointer = previous_current
             self.number_of_nodes +=1
             self.node_list.append(new_node)
-            #self.tail_node.left_pointer = previous_current
+            self.tail_node.left_pointer = None
             self.tail_node = new_node
 
 
