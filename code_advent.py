@@ -2128,6 +2128,7 @@ def day_9_part1():
 class CircleGame_Part2:
 
     def __init__(self, number_of_players, last_marble_points):
+        self.current_marble_index = None
         self.num_players = number_of_players
         self.current_player = 0
 
@@ -2137,9 +2138,6 @@ class CircleGame_Part2:
 
         self.scoreboard = {}
         self.init_scoreboard()
-        self.current_marble = None
-
-        self.number_of_marbles = 0
 
 
     def init_scoreboard(self):
@@ -2202,37 +2200,72 @@ class CircleGame_Part2:
         print_debug("removing the marble {} at index {}".format(return_val, left_index))
         return return_val
 
-    def insert_marble_into_circle(self, new_marble_value, num_hops, clockwise=True):
+    def insert_marble_into_circle(self, marble, left_index):
+        pass
+        print_debug("current_marble_index is {}".format(self.current_marble_index))
+        print_debug("left_index is {}".format(left_index))
+        #print_debug("right_index is {}".format(right_index))
 
+        #print_debug("Therefore our new index is {}".format(None))
 
+        self.marbles.insert(left_index+1, marble)
+        #self.marbles.append(marble)
 
-        newMarble = Marble(new_marble_value, self.current_marble, None)
-        self.marbles.append(newMarble)
-        self.current_marble = newMarble
+        self.current_marble_index = left_index+1
 
+            #self.current_marble_index =
+
+    def get_new_index(self, num_steps, go_clockwise=True):
+        index = None
+        if go_clockwise is True:
+            index = self.current_marble_index + num_steps #% len(self.marbles)
+
+            index = index % (len(self.marbles))
+
+        else:
+            index = self.current_marble_index - num_steps
+            index = index % (len(self.marbles))
+
+        return index
 
     def add_marble(self, current_player):
         if self.last_marble_value == None:
             self.last_marble_value = 0
-            newMarble = Marble(0, 0, 0)
-            self.marbles.append(newMarble)
-            self.current_marble = newMarble
-            self.number_of_marbles+=1
+            self.marbles.append(0)
         else:
             new_marble_val = self.last_marble_value +1
 
             if new_marble_val % 23 == 0:
                 print_debug("Special case - marble is a multiple of 23")
+                self.scoreboard[current_player]["score"]+=new_marble_val
+                self.scoreboard[current_player]["marbles"].append(new_marble_val)
+                print_debug("Adding {} to the score of player {}".format(new_marble_val, current_player))
 
+
+                left_index = self.get_new_index(7, go_clockwise=False)
+                print_debug("left_index is {}".format(left_index))
+
+
+                removed_marble_value = self.remove_marble_from_circle(left_index)
+                self.scoreboard[current_player]["score"] += removed_marble_value
+                self.scoreboard[current_player]["marbles"].append(removed_marble_value)
+                print_debug("Adding {} to the score of player {}".format(removed_marble_value, current_player))
+
+                clockwise_index = self.get_clockwise_index_from_index(left_index)
+                print_debug("clockwise_index from {} is {}".format(left_index, clockwise_index))
+                self.current_marble_index = clockwise_index
+                print_debug("current_marble_index now equals {}".format(self.current_marble_index))
+                self.last_marble_value = new_marble_val
+                pass
 
 
             else:
-                pass
-                self.number_of_marbles += 1
+                left_index = self.get_new_index(1)
+                #right_index = self.get_new_index(2)
 
-                self.insert_marble_into_circle(new_marble_val, 0)
+                self.insert_marble_into_circle(new_marble_val, left_index)
                 self.last_marble_value = new_marble_val
-                print_debug("Inserting new marble ({})".format(new_marble_val))
+                #print_debug("Inserting new marble ({})".format(new_marble_val))
 
             #self.marbles.append(new_marble_val)
 
@@ -2240,23 +2273,21 @@ class CircleGame_Part2:
 
 
     def get_marbles_string(self):
-        print_debug("Internal marble list looks like this:\n{}".format([marble.get_string() for marble in self.marbles]))
         mystring = ""
-
-        myMarble = self.current_marble
-        for _ in range(self.number_of_marbles):
-            if myMarble is not None:
-                if myMarble == self.current_marble:
-                    mystring += "  (" + myMarble.get_string(detailed=False)+")"
-                else:
-                    mystring+= "   "+myMarble.get_string(detailed=False)
-                myMarble = myMarble.right_pointer
+        count = 0
+        for marble in self.marbles:
+            if count == self.current_marble_index:
+                mystring+="  ("+str(marble)+")"
+            else:
+                mystring+="   "+str(marble)
+            count+=1
 
         return mystring
 
     def step(self):
         if self.marbles == []:
             self.add_marble(self.current_player)
+            self.current_marble_index = 0
             print_debug("[-]{}".format(self.get_marbles_string()))
 
         else:
@@ -2274,180 +2305,6 @@ class CircleGame_Part2:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class MarbleNode:
-
-    def __init__(self, value, left_pointer, right_pointer):
-        self.value = value
-        self.right_pointer = right_pointer
-        self.left_pointer = left_pointer
-
-    def get_string(self):
-
-            return "   "+str(self.value)
-
-
-class MyLinkedList:
-
-    def print_internal_state(self):
-        print_debug("\n\n\n\n\n")
-        print_debug("List internal stats is")
-        print_debug("node_list is:\n")
-
-
-
-        for elem in self.node_list:
-
-            try:
-                left_pointer_val = elem.left_pointer.get_string()
-            except AttributeError:
-                left_pointer_val = None
-
-            try:
-                right_pointer_val = elem.right_pointer.get_string()
-            except AttributeError:
-                right_pointer_val = None
-
-            #print_debug("{} which has a value of {}. Its left pointer points to {} which has the value {}".format(elem, elem.get_string(), elem.left_pointer, left_pointer_val))
-            print_debug("{} which has a value of {}.     Left value is    {}.     Right value is    {}".format(elem,
-                                                                                                 elem.get_string(),
-                                                                                                 left_pointer_val,
-                                                                                                 right_pointer_val
-                                                                                                 ))
-        print_debug("\n\n\n\n\n")
-
-
-        for elem in [self.head_node]:
-            print_debug("HEAD NODE IS {} which has a value of {}. Its left pointer points to {} which has the value {}".format(elem, elem.get_string(), elem.left_pointer, left_pointer_val))
-
-        for elem in [self.tail_node]:
-            print_debug("TAIL NODE IS {} which has a value of {}. Its left pointer points to {} which has the value {}".format(elem, elem.get_string(), elem.left_pointer, left_pointer_val))
-        print_debug("\n\n\n\n\n")
-
-
-    def get_string(self):
-        myString = "[-]"
-        current_node = self.head_node
-        myString += current_node.get_string()
-        count = 0
-
-        while count < self.number_of_nodes and current_node.right_pointer is not None:
-            current_node = current_node.right_pointer
-            myString+=current_node.get_string()
-            count += 1
-
-        return myString
-
-
-    def get_backwards_string(self):
-        myString = "[-]"
-        current_node = self.tail_node
-        myString += current_node.get_string()
-
-        count = 0
-        while count < self.number_of_nodes and current_node.left_pointer is not None:
-            current_node = current_node.left_pointer
-            myString+=current_node.get_string()
-            count+=1
-        return myString
-
-
-    def insert_to_end(self, value):
-        previous_current = None
-        current_node = self.head_node
-
-
-
-
-        if self.node_list == []:
-            new_node = MarbleNode(value, None, None)
-            self.number_of_nodes +=1
-            self.tail_node = new_node
-
-            self.node_list.append(new_node)
-            self.head_node = self.node_list[0]
-
-
-        else:
-            current_node = self.head_node
-            previous_current = None
-            while current_node.right_pointer is not None:
-                previous_current = current_node
-                current_node = current_node.right_pointer
-
-
-            new_node = MarbleNode(value, None, None)
-            current_node.right_pointer = new_node
-            #current_node.left_pointer = previous_current
-            self.number_of_nodes +=1
-            self.node_list.append(new_node)
-            #self.tail_node.left_pointer = None
-            self.tail_node = new_node
-
-
-        try:
-            self.tail_node.left_pointer = current_node
-        except AttributeError:
-            pass
-
-
-        try:
-            self.head_node.left_pointer = self.tail_node.right_pointer
-            #self.tail_node.right_pointer = self.head_node
-        except AttributeError:
-            pass
-
-
-
-
-
-    def __init__(self):
-        self.number_of_nodes = 0
-        self.node_list = []
-
-        self.head_node = None
-        self.tail_node = None
-
-
-        pass
 
 #https://www.sanfoundry.com/python-program-implement-circular-doubly-linked-list/
 class DoubleLinkedNode:
