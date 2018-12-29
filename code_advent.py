@@ -2449,9 +2449,65 @@ class MyLinkedList:
 
         pass
 
+#https://www.sanfoundry.com/python-program-implement-circular-doubly-linked-list/
+class DoubleLinkedNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        self.prev = None
 
 
+class CircularDoublyLinkedList:
+    def __init__(self):
+        self.first = None
 
+    def get_node(self, index):
+        current = self.first
+        for i in range(index):
+            current = current.next
+            if current == self.first:
+                return None
+        return current
+
+    def insert_after(self, ref_node, new_node):
+        new_node.prev = ref_node
+        new_node.next = ref_node.next
+        new_node.next.prev = new_node
+        ref_node.next = new_node
+
+    def insert_before(self, ref_node, new_node):
+        self.insert_after(ref_node.prev, new_node)
+
+    def insert_at_end(self, new_node):
+        if self.first is None:
+            self.first = new_node
+            new_node.next = new_node
+            new_node.prev = new_node
+        else:
+            self.insert_after(self.first.prev, new_node)
+
+    def insert_at_beg(self, new_node):
+        self.insert_at_end(new_node)
+        self.first = new_node
+
+    def remove(self, node):
+        if self.first.next == self.first:
+            self.first = None
+        else:
+            node.prev.next = node.next
+            node.next.prev = node.prev
+            if self.first == node:
+                self.first = node.next
+
+    def display(self):
+        if self.first is None:
+            return
+        current = self.first
+        while True:
+            print(current.data, end=' ')
+            current = current.next
+            if current == self.first:
+                break
 
 
 
@@ -2472,6 +2528,19 @@ def day_9_part2():
     print_debug("\n\n\n\n\n")
 
     myList.print_internal_state()
+
+
+
+    myCircle = CircularDoublyLinkedList()
+    for num in range(10):
+        print_debug("Adding {} to list".format(num))
+        new_node = DoubleLinkedNode(num)
+        myCircle.insert_at_end(new_node)
+
+    print_debug("\n\n\n\nPrinting circle:")
+    myCircle.display()
+
+    print_debug("\n\n")
     """
 
     lines = read_file_into_list("problem_9_dummy_input.txt")
