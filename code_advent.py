@@ -2285,6 +2285,7 @@ class CircleGame_Part2:
             self.last_marble_value = 0
             self.marbles.append(0)
 
+
             #part 2
             new_node = DoubleLinkedNode(0)
             self.circular_linked_list.insert_at_end(new_node)
