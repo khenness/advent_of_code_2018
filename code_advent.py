@@ -2312,9 +2312,8 @@ class CircleGame_Part2:
                 self.last_marble_value = new_marble_val
 
 
-
                 #part 2
-                
+
                 node_to_remove = self.circular_linked_list.get_node(left_index)
                 self.circular_linked_list.remove(node_to_remove)
                 self.currentMarble = self.circular_linked_list.get_node(clockwise_index)
