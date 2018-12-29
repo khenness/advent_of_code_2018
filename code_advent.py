@@ -2377,29 +2377,45 @@ class MyLinkedList:
         return myString
 
     def insert_to_end(self, value):
+        previous_current = None
+        current_node = None
         if self.node_list == []:
             new_node = MarbleNode(value, None, None)
             self.number_of_nodes +=1
-            self.head_node = new_node
             self.tail_node = new_node
 
             self.node_list.append(new_node)
+            self.head_node = self.node_list[0]
+
 
         else:
             current_node = self.head_node
-
-            previous_current = current_node.left_pointer
+            previous_current = None
             while current_node.right_pointer is not None:
                 previous_current = current_node
                 current_node = current_node.right_pointer
 
+
             new_node = MarbleNode(value, None, None)
             current_node.right_pointer = new_node
-            current_node.left_pointer = previous_current
+            #current_node.left_pointer = previous_current
             self.number_of_nodes +=1
             self.node_list.append(new_node)
             #self.tail_node.left_pointer = None
             self.tail_node = new_node
+
+        """
+        try:
+            current_node.left_pointer = previous_current
+            print_debug("Got to here")
+        except AttributeError:
+            pass
+        """
+        try:
+            self.tail_node.left_pointer = current_node
+        except AttributeError:
+            pass
+
 
 
         pass
