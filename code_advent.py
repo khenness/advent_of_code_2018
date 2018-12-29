@@ -2116,18 +2116,13 @@ def day_9_part1():
 
 
 
-class Marble:
 
-    def __init__(self, value, left_pointer, right_pointer):
-        self.value = value
-        self.left_pointer = left_pointer
-        self.right_pointer = right_pointer
 
-    def get_string(self, detailed = True):
-        if detailed == True:
-            return "V={},L={},R={}".format(self.value, self.left_pointer, self.right_pointer)
-        else:
-            return str(self.value)
+
+
+
+
+
 
 
 class CircleGame_Part2:
@@ -2211,7 +2206,7 @@ class CircleGame_Part2:
 
 
 
-        newMarble = Marble(new_marble_value, None, None)
+        newMarble = Marble(new_marble_value, self.current_marble, None)
         self.marbles.append(newMarble)
         self.current_marble = newMarble
 
@@ -2281,7 +2276,147 @@ class CircleGame_Part2:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class MarbleNode:
+
+    def __init__(self, value, left_pointer, right_pointer):
+        self.value = value
+        self.right_pointer = right_pointer
+        self.left_pointer = left_pointer
+
+    def get_string(self):
+
+            return "   "+str(self.value)
+
+
+class MyLinkedList:
+
+    def print_internal_state(self):
+        print_debug("\n\n\n\n\n")
+        print_debug("List internal stats is")
+        print_debug("node_list is:\n")
+        for elem in self.node_list:
+            print_debug("{} which has a value of {}".format(elem, elem.get_string()))
+        print_debug("\n\n\n\n\n")
+
+
+    def get_string(self):
+        myString = "[-]"
+        current_node = self.head_node
+        myString += current_node.get_string()
+
+        while current_node.right_pointer is not None:
+            current_node = current_node.right_pointer
+            myString+=current_node.get_string()
+
+        return myString
+
+
+    def get_backwards_string(self):
+        myString = "[-]"
+        current_node = self.tail_node
+        myString += current_node.get_string()
+
+        while current_node.left_pointer is not None:
+            current_node = current_node.left_pointer
+            myString+=current_node.get_string()
+
+        return myString
+
+    def insert_to_end(self, value):
+        if self.node_list == []:
+            new_node = MarbleNode(value, None, None)
+            self.number_of_nodes +=1
+            self.head_node = new_node
+            self.tail_node = new_node
+
+            self.node_list.append(new_node)
+
+        else:
+            current_node = self.head_node
+            while current_node.right_pointer is not None:
+                current_node = current_node.right_pointer
+
+            new_node = MarbleNode(value, None, None)
+            current_node.right_pointer = new_node
+            self.number_of_nodes +=1
+            self.node_list.append(new_node)
+            self.tail_node = new_node
+
+
+        pass
+
+    def __init__(self):
+        self.number_of_nodes = 0
+        self.node_list = []
+
+        self.head_node = None
+        self.tail_node = None
+
+
+        pass
+
+
+
+
+
+
+
+
 def day_9_part2():
+
+    myList = MyLinkedList()
+
+    for num in range(10):
+        print_debug("Adding {} to list".format(num))
+        myList.insert_to_end(num)
+
+    print_debug("\n\n\n\n\n")
+    print_debug("Forwards list for part 2 is:")
+    print_debug("{}".format(myList.get_string()))
+    print_debug("Backwards list for part 2 is:")
+    print_debug("{}".format(myList.get_backwards_string()))
+    print_debug("\n\n\n\n\n")
+
+    myList.print_internal_state()
+    """
+
     lines = read_file_into_list("problem_9_dummy_input.txt")
     #lines = read_file_into_list("problem_9_input.txt")
 
@@ -2300,6 +2435,26 @@ def day_9_part2():
         myGame.step()
         pass
     return myGame.print_scoreboard()
+    """
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def day_8_part1__():
