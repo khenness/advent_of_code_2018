@@ -2414,7 +2414,7 @@ def day_9_part2():
     print_debug("{}".format(myList.get_backwards_string()))
     print_debug("\n\n\n\n\n")
 
-    myList.print_internal_state()
+    #myList.print_internal_state()
     """
 
     lines = read_file_into_list("problem_9_dummy_input.txt")
