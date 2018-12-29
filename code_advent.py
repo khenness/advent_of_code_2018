@@ -2514,6 +2514,24 @@ class CircularDoublyLinkedList:
 
 def day_9_part2():
 
+
+
+
+
+    myCircle = CircularDoublyLinkedList()
+    for num in range(10):
+        print_debug("Adding {} to list".format(num))
+        new_node = DoubleLinkedNode(num)
+        myCircle.insert_at_end(new_node)
+
+    print_debug("\n\n\n\nPrinting circle:")
+    myCircle.display()
+
+    print_debug("\n\n")
+
+
+    """
+
     myList = MyLinkedList()
 
     for num in range(10):
@@ -2529,18 +2547,10 @@ def day_9_part2():
 
     myList.print_internal_state()
 
+    :return:
+    """
 
 
-    myCircle = CircularDoublyLinkedList()
-    for num in range(10):
-        print_debug("Adding {} to list".format(num))
-        new_node = DoubleLinkedNode(num)
-        myCircle.insert_at_end(new_node)
-
-    print_debug("\n\n\n\nPrinting circle:")
-    myCircle.display()
-
-    print_debug("\n\n")
     """
 
     lines = read_file_into_list("problem_9_dummy_input.txt")
