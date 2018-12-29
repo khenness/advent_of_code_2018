@@ -2329,12 +2329,14 @@ class CircleGame_Part2:
 
             else:
                 #part 1
+                """
                 left_index = self.get_new_index(1)
                 self.insert_marble_into_circle(new_marble_val, left_index)
                 self.last_marble_value = new_marble_val
-
+                """
 
                 #part 2
+                left_index = self.get_new_index(1)
 
                 self.last_marble_value = new_marble_val
                 new_node = DoubleLinkedNode(new_marble_val)
