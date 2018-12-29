@@ -2296,10 +2296,9 @@ class CircleGame_Part2:
                 print_debug("Special case - marble is a multiple of 23")
 
                 #part 1
-                """
+
                 self.scoreboard[current_player]["score"]+=new_marble_val
                 self.scoreboard[current_player]["marbles"].append(new_marble_val)
-                self.scoreboard[current_player]["score"]+=new_marble_val
                 print_debug("Adding {} to the score of player {}".format(new_marble_val, current_player))
                 left_index = self.get_new_index(7, go_clockwise=False)
                 print_debug("left_index is {}".format(left_index))
@@ -2312,47 +2311,31 @@ class CircleGame_Part2:
                 self.current_marble_index = clockwise_index
                 print_debug("current_marble_index now equals {}".format(self.current_marble_index))
                 self.last_marble_value = new_marble_val
-                """
+
 
                 #part 2
 
-                left_index = self.get_new_index(7, go_clockwise=False)
-                self.scoreboard[current_player]["marbles"].append(new_marble_val)
-
-                clockwise_index = self.get_clockwise_index_from_index(left_index)
-                self.scoreboard[current_player]["score"] += new_marble_val
-                print_debug("Adding {} to the score of player {}".format(new_marble_val, current_player))
                 node_to_remove = self.circular_linked_list.get_node(left_index)
-                print_debug("node_to_remove - value is {}. prev val is {}. next val is {}".format(
-                    node_to_remove.data, node_to_remove.prev.data, node_to_remove.next.data, ))
-                self.scoreboard[current_player]["score"] += node_to_remove.data
-                self.scoreboard[current_player]["marbles"].append(node_to_remove.data)
-
-                print_debug("Adding {} to the score of player {}".format(node_to_remove.data, current_player))
-
                 self.circular_linked_list.remove(node_to_remove)
                 self.currentMarble = self.circular_linked_list.get_node(clockwise_index)
                 self.last_marble_value = new_marble_val
 
             else:
                 #part 1
-                """
                 left_index = self.get_new_index(1)
                 self.insert_marble_into_circle(new_marble_val, left_index)
                 self.last_marble_value = new_marble_val
-                """
+
 
                 #part 2
-                left_index = self.get_new_index(1)
 
+                self.last_marble_value = new_marble_val
                 new_node = DoubleLinkedNode(new_marble_val)
 
                 neighbour = self.circular_linked_list.get_node(left_index)
 
                 self.circular_linked_list.insert_after(neighbour, new_node)
                 self.currentMarble = new_node
-                self.last_marble_value = new_marble_val
-
         pass
 
 
