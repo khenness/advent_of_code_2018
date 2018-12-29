@@ -2133,7 +2133,6 @@ class Marble:
 class CircleGame_Part2:
 
     def __init__(self, number_of_players, last_marble_points):
-        self.current_marble_index = None
         self.num_players = number_of_players
         self.current_player = 0
 
@@ -2144,6 +2143,9 @@ class CircleGame_Part2:
         self.scoreboard = {}
         self.init_scoreboard()
         self.current_marble = None
+
+        self.number_of_marbles = 0
+
 
     def init_scoreboard(self):
         for playerID in range(1, self.num_players+1):
@@ -2205,44 +2207,22 @@ class CircleGame_Part2:
         print_debug("removing the marble {} at index {}".format(return_val, left_index))
         return return_val
 
-    def insert_marble_into_circle(self, marble_value, left_index):
-        pass
-        print_debug("current_marble_index is {}".format(self.current_marble_index))
-        print_debug("left_index is {}".format(left_index))
-        #print_debug("right_index is {}".format(right_index))
+    def insert_marble_into_circle(self, new_marble_value, num_hops, clockwise=True):
 
-        #print_debug("Therefore our new index is {}".format(None))
 
-        #self.marbles.insert(left_index+1, marble_value)
 
-        new_marble = Marble(marble_value, None, None)
-        self.marbles.append(new_marble)
+        newMarble = Marble(new_marble_value, None, None)
+        self.marbles.append(newMarble)
+        self.current_marble = newMarble
 
-        self.current_marble_index = left_index+1
-        self.current_marble = new_marble
-        self.current_marble.right_pointer = left_index
-
-            #self.current_marble_index =
-
-    def get_new_index(self, num_steps, go_clockwise=True):
-        index = None
-        if go_clockwise is True:
-            index = self.current_marble_index + num_steps #% len(self.marbles)
-
-            index = index % (len(self.marbles))
-
-        else:
-            index = self.current_marble_index - num_steps
-            index = index % (len(self.marbles))
-
-        return index
 
     def add_marble(self, current_player):
         if self.last_marble_value == None:
             self.last_marble_value = 0
-            newMarble = Marble(0, None, None)
+            newMarble = Marble(0, 0, 0)
             self.marbles.append(newMarble)
             self.current_marble = newMarble
+            self.number_of_marbles+=1
         else:
             new_marble_val = self.last_marble_value +1
 
@@ -2253,10 +2233,9 @@ class CircleGame_Part2:
 
             else:
                 pass
-                left_index = self.get_new_index(1)
-                right_index = self.get_new_index(2)
+                self.number_of_marbles += 1
 
-                self.insert_marble_into_circle(new_marble_val, left_index)
+                self.insert_marble_into_circle(new_marble_val, 0)
                 self.last_marble_value = new_marble_val
                 print_debug("Inserting new marble ({})".format(new_marble_val))
 
@@ -2266,29 +2245,23 @@ class CircleGame_Part2:
 
 
     def get_marbles_string(self):
+        print_debug("Internal marble list looks like this:\n{}".format([marble.get_string() for marble in self.marbles]))
         mystring = ""
-        count = 0
-        for marble in self.marbles:
-            if count == self.current_marble_index:
-                mystring+="  ("+marble.get_string()+")"
-            else:
-                mystring+="   "+marble.get_string()
-            count+=1
-        count = 0
-        mystring+="\n[.]   "
-        for marble in self.marbles:
-            if count == self.current_marble_index:
-                mystring+="  ("+marble.get_string(detailed=False)+")"
-            else:
-                mystring+="   "+marble.get_string(detailed=False)
-            count += 1
+
+        myMarble = self.current_marble
+        for _ in range(self.number_of_marbles):
+            if myMarble is not None:
+                if myMarble == self.current_marble:
+                    mystring += "  (" + myMarble.get_string(detailed=False)+")"
+                else:
+                    mystring+= "   "+myMarble.get_string(detailed=False)
+                myMarble = myMarble.right_pointer
 
         return mystring
 
     def step(self):
         if self.marbles == []:
             self.add_marble(self.current_player)
-            self.current_marble_index = 0
             print_debug("[-]{}".format(self.get_marbles_string()))
 
         else:
@@ -2323,7 +2296,7 @@ def day_9_part2():
 
     myGame = CircleGame_Part2(number_of_players, last_marble_points)
     #for _ in range((last_marble_points)+1):
-    for _ in range(10):
+    for _ in range(3):
         myGame.step()
         pass
     return myGame.print_scoreboard()
