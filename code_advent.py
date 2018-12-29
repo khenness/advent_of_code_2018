@@ -2341,7 +2341,17 @@ class MyLinkedList:
             except AttributeError:
                 left_pointer_val = None
 
-            print_debug("{} which has a value of {}. Its left pointer points to {} which has the value {}".format(elem, elem.get_string(), elem.left_pointer, left_pointer_val))
+            try:
+                right_pointer_val = elem.right_pointer.get_string()
+            except AttributeError:
+                right_pointer_val = None
+
+            #print_debug("{} which has a value of {}. Its left pointer points to {} which has the value {}".format(elem, elem.get_string(), elem.left_pointer, left_pointer_val))
+            print_debug("{} which has a value of {}.     Left value is    {}.     Right value is    {}".format(elem,
+                                                                                                 elem.get_string(),
+                                                                                                 left_pointer_val,
+                                                                                                 right_pointer_val
+                                                                                                 ))
         print_debug("\n\n\n\n\n")
 
 
@@ -2357,10 +2367,12 @@ class MyLinkedList:
         myString = "[-]"
         current_node = self.head_node
         myString += current_node.get_string()
+        count = 0
 
-        while current_node.right_pointer is not None:
+        while count < self.number_of_nodes and current_node.right_pointer is not None:
             current_node = current_node.right_pointer
             myString+=current_node.get_string()
+            count += 1
 
         return myString
 
@@ -2370,16 +2382,21 @@ class MyLinkedList:
         current_node = self.tail_node
         myString += current_node.get_string()
 
-        while current_node.left_pointer is not None:
+        count = 0
+        while count < self.number_of_nodes and current_node.left_pointer is not None:
             current_node = current_node.left_pointer
             myString+=current_node.get_string()
-
+            count+=1
         return myString
 
 
     def insert_to_end(self, value):
         previous_current = None
-        current_node = None
+        current_node = self.head_node
+
+
+
+
         if self.node_list == []:
             new_node = MarbleNode(value, None, None)
             self.number_of_nodes +=1
@@ -2412,8 +2429,15 @@ class MyLinkedList:
             pass
 
 
+        try:
+            self.head_node.left_pointer = self.tail_node.right_pointer
+            #self.tail_node.right_pointer = self.head_node
+        except AttributeError:
+            pass
 
-        pass
+
+
+
 
     def __init__(self):
         self.number_of_nodes = 0
