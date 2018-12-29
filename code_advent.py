@@ -2376,6 +2376,7 @@ class MyLinkedList:
 
         return myString
 
+
     def insert_to_end(self, value):
         previous_current = None
         current_node = None
@@ -2404,13 +2405,7 @@ class MyLinkedList:
             #self.tail_node.left_pointer = None
             self.tail_node = new_node
 
-        """
-        try:
-            current_node.left_pointer = previous_current
-            print_debug("Got to here")
-        except AttributeError:
-            pass
-        """
+
         try:
             self.tail_node.left_pointer = current_node
         except AttributeError:
