@@ -2337,7 +2337,7 @@ class CircleGame_Part2:
                 print_debug("Special case - marble is a multiple of 23")
 
                 #part 1
-                
+                """
                 self.scoreboard[current_player]["score"]+=new_marble_val
                 self.scoreboard[current_player]["marbles"].append(new_marble_val)
                 print_debug("Adding {} to the score of player {}".format(new_marble_val, current_player))
@@ -2352,7 +2352,7 @@ class CircleGame_Part2:
                 self.current_marble_index = clockwise_index
                 print_debug("current_marble_index now equals {}".format(self.current_marble_index))
                 self.last_marble_value = new_marble_val
-
+                """
 
                 #part 2
                 self.scoreboard_p2[current_player]["score"]+=new_marble_val
@@ -2369,11 +2369,11 @@ class CircleGame_Part2:
 
             else:
                 #part 1
-
+                """
                 left_index = self.get_new_index(1)
                 self.insert_marble_into_circle(new_marble_val, left_index)
                 self.last_marble_value = new_marble_val
-
+                """
 
                 #part 2
                 #left_index = self.p2_get_new_index(1)
