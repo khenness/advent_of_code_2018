@@ -2232,6 +2232,18 @@ class CircleGame_Part2:
         num_steps = num_steps % (len(self.marbles))
 
         index = self.current_marble_index + num_steps  # % len(self.marbles)
+        print_debug("--->> num_steps is {}".format(num_steps))
+        index = index
+
+        return index
+
+
+    def p2_get_clockwise_node_from_node(self, index):
+        num_steps = int((len(self.marbles) ))
+
+        num_steps = num_steps % (len(self.marbles))
+
+        index = self.current_marble_index + num_steps  # % len(self.marbles)
 
         index = index
 
@@ -2338,7 +2350,7 @@ class CircleGame_Part2:
 
                 node_to_remove = self.p2_get_marble_N_steps(7, go_clockwise=False) #self.circular_linked_list.get_node(left_index)
                 self.circular_linked_list.remove(node_to_remove)
-                self.currentMarble = self.circular_linked_list.get_node(clockwise_index)
+                #self.currentMarble = self.circular_linked_list.get_node(clockwise_index)
                 self.last_marble_value = new_marble_val
 
             else:
@@ -2496,7 +2508,7 @@ def day_9_part2():
 
     myGame = CircleGame_Part2(number_of_players, last_marble_points, myCircle)
     for _ in range((last_marble_points)+1):
-    #for _ in range(10):
+    #for _ in range(150):
         myGame.step()
         pass
     return myGame.print_scoreboard()
