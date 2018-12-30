@@ -2403,7 +2403,7 @@ class CircleGame_Part2:
 
                 #part 2
                 #left_index = self.p2_get_new_index(1)
-
+                self.current_marble_index_pt2 = self.get_new_index_pt2(0)
                 self.last_marble_value = new_marble_val
                 new_node = DoubleLinkedNode(new_marble_val)
 
