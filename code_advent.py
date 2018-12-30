@@ -2191,9 +2191,10 @@ class CircleGame_Part2:
         self.scoreboard = {}
         self.scoreboard_p2 = {}
         self.init_scoreboard()
-
+        self.current_marble_index_pt2 = None
         self.currentMarble = None
 
+        self.num_marbles = 0
     def init_scoreboard(self):
         for playerID in range(1, self.num_players+1):
             self.scoreboard[playerID] = {"score": 0, "marbles": []}
@@ -2267,6 +2268,7 @@ class CircleGame_Part2:
         # self.marbles.append(marble)
 
         self.current_marble_index = left_index
+        self.current_marble_index_pt2 = left_index
         print_debug("removing the marble {} at index {}".format(return_val, left_index))
         return return_val
 
@@ -2282,6 +2284,7 @@ class CircleGame_Part2:
         #self.marbles.append(marble)
 
         self.current_marble_index = left_index+1
+        self.current_marble_index_pt2 = left_index+1
 
             #self.current_marble_index =
 
@@ -2298,6 +2301,18 @@ class CircleGame_Part2:
 
         return index
 
+    def get_new_index_pt2(self, num_steps, go_clockwise=True):
+        index = None
+        if go_clockwise is True:
+            index = self.current_marble_index_pt2 + num_steps  # % len(self.marbles)
+
+            index = index % self.num_marbles
+
+        else:
+            index = self.current_marble_index_pt2 - num_steps
+            index = index % self.num_marbles
+
+        return index
 
     def p2_get_marble_N_steps(self, num_steps, go_clockwise=True):
         returned_node = None
@@ -2328,6 +2343,7 @@ class CircleGame_Part2:
             #part 2
             new_node = DoubleLinkedNode(0)
             self.circular_linked_list.insert_at_end(new_node)
+            self.num_marbles+=1
         else:
             new_marble_val = self.last_marble_value +1
 
@@ -2357,18 +2373,26 @@ class CircleGame_Part2:
                 self.scoreboard_p2[current_player]["marbles"].append(new_marble_val)
 
                 node_to_remove = self.p2_get_marble_N_steps(7, go_clockwise=False) #self.circular_linked_list.get_node(left_index)
+                myindex = self.get_new_index_pt2(7, go_clockwise=False)
+                #print_debug("\n\n\n\node node_to_remove val is {}. next val is {}. prev val is {}".format(node_to_remove.data, node_to_remove.next.data, node_to_remove.prev.data))
+                #print_debug("removed_marble_value for pt1 is {}".format(removed_marble_value))
 
                 self.scoreboard_p2[current_player]["score"] += node_to_remove.data
                 self.scoreboard_p2[current_player]["marbles"].append(node_to_remove.data)
 
                 self.circular_linked_list.remove(node_to_remove)
 
-                self.currentMarble = self.circular_linked_list.get_node(self.current_marble_index)
+                self.currentMarble = self.circular_linked_list.get_node(self.current_marble_index_pt2)
+                #self.currentMarble = self.circular_linked_list.get_node(myindex)
                 self.last_marble_value = new_marble_val
                 #print_debug("")
 
+                self.num_marbles -= 1
 
             else:
+
+                self.num_marbles += 1
+
                 #part 1
 
                 left_index = self.get_new_index(1)
