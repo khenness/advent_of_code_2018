@@ -2268,7 +2268,7 @@ class CircleGame_Part2:
         # self.marbles.append(marble)
 
         self.current_marble_index = left_index
-        self.current_marble_index_pt2 = left_index
+
         print_debug("removing the marble {} at index {}".format(return_val, left_index))
         return return_val
 
@@ -2371,9 +2371,10 @@ class CircleGame_Part2:
                 #part 2
                 self.scoreboard_p2[current_player]["score"]+=new_marble_val
                 self.scoreboard_p2[current_player]["marbles"].append(new_marble_val)
-
-                node_to_remove = self.p2_get_marble_N_steps(7, go_clockwise=False) #self.circular_linked_list.get_node(left_index)
                 myindex = self.get_new_index_pt2(7, go_clockwise=False)
+                self.current_marble_index_pt2 = myindex
+                node_to_remove = self.p2_get_marble_N_steps(7, go_clockwise=False) #self.circular_linked_list.get_node(left_index)
+
                 #print_debug("\n\n\n\node node_to_remove val is {}. next val is {}. prev val is {}".format(node_to_remove.data, node_to_remove.next.data, node_to_remove.prev.data))
                 #print_debug("removed_marble_value for pt1 is {}".format(removed_marble_value))
 
