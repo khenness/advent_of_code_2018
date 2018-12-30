@@ -2245,15 +2245,9 @@ class CircleGame_Part2:
         return index
 
     def get_clockwise_index_from_index_pt2(self, index):
-        num_steps = int((len(self.marbles) ))
 
-        num_steps = num_steps % (len(self.marbles))
 
-        index = self.current_marble_index_pt2 + num_steps  # % len(self.marbles)
-        print_debug("--->> num_steps is {}".format(num_steps))
-        index = index
-
-        return index
+        return self.current_marble_index
 
 
     def p2_get_clockwise_node_from_node(self, index):
@@ -2367,23 +2361,31 @@ class CircleGame_Part2:
                 self.scoreboard[current_player]["score"]+=new_marble_val
                 self.scoreboard[current_player]["marbles"].append(new_marble_val)
                 print_debug("Adding {} to the score of player {}".format(new_marble_val, current_player))
-                left_index = self.get_new_index(7, go_clockwise=False)
+                left_index = self.get_new_index_pt2(7, go_clockwise=False)
                 print_debug("left_index is {}".format(left_index))
                 removed_marble_value = self.remove_marble_from_circle(left_index)
+                #self.current_marble_index = left_index
                 self.scoreboard[current_player]["score"] += removed_marble_value
                 self.scoreboard[current_player]["marbles"].append(removed_marble_value)
                 print_debug("Adding {} to the score of player {}".format(removed_marble_value, current_player))
-                clockwise_index = self.get_clockwise_index_from_index(left_index)
+                clockwise_index = self.get_clockwise_index_from_index_pt2(left_index)
                 print_debug("clockwise_index from {} is {}".format(left_index, clockwise_index))
                 self.current_marble_index = clockwise_index
                 print_debug("current_marble_index now equals {}".format(self.current_marble_index))
                 self.last_marble_value = new_marble_val
 
 
+
+
                 #part 2
                 self.scoreboard_p2[current_player]["score"]+=new_marble_val
                 self.scoreboard_p2[current_player]["marbles"].append(new_marble_val)
                 myindex = self.get_new_index_pt2(7, go_clockwise=False)
+
+
+                self.current_marble_index = myindex
+
+
                 self.current_marble_index_pt2 = myindex
                 clockwise_index = self.get_clockwise_index_from_index_pt2(myindex)
 
@@ -2419,8 +2421,11 @@ class CircleGame_Part2:
 
 
                 #part 2
-                #left_index = self.p2_get_new_index(1)
-                self.current_marble_index_pt2 = self.get_new_index_pt2(0)
+                #left_index = self.p2_get_new_index(1)]
+                myindex = self.get_new_index_pt2(0)
+                myindex = self.get_new_index_pt2(0)
+                self.current_marble_index_pt2 = myindex
+                #self.current_marble_index  = myindex
                 self.last_marble_value = new_marble_val
                 new_node = DoubleLinkedNode(new_marble_val)
 
