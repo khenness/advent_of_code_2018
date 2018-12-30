@@ -2180,7 +2180,7 @@ class CircleGame_Part2:
     def __init__(self, number_of_players, last_marble_points, myCircle):
         self.circular_linked_list = myCircle
 
-        self.current_marble_index = None
+        self.current_marble_index = 0 #None
         self.num_players = number_of_players
         self.current_player = 0
 
@@ -2191,7 +2191,7 @@ class CircleGame_Part2:
         self.scoreboard = {}
         self.scoreboard_p2 = {}
         self.init_scoreboard()
-        self.current_marble_index_pt2 = None
+        self.current_marble_index_pt2 = 0
         self.currentMarble = None
 
         self.num_marbles = 0
@@ -2351,7 +2351,7 @@ class CircleGame_Part2:
                 print_debug("Special case - marble is a multiple of 23")
 
                 #part 1
-
+                """
                 self.scoreboard[current_player]["score"]+=new_marble_val
                 self.scoreboard[current_player]["marbles"].append(new_marble_val)
                 print_debug("Adding {} to the score of player {}".format(new_marble_val, current_player))
@@ -2366,7 +2366,7 @@ class CircleGame_Part2:
                 self.current_marble_index = clockwise_index
                 print_debug("current_marble_index now equals {}".format(self.current_marble_index))
                 self.last_marble_value = new_marble_val
-
+                """
 
                 #part 2
                 self.scoreboard_p2[current_player]["score"]+=new_marble_val
@@ -2395,7 +2395,7 @@ class CircleGame_Part2:
                 self.num_marbles += 1
 
                 #part 1
-
+                
                 left_index = self.get_new_index(1)
                 self.insert_marble_into_circle(new_marble_val, left_index)
                 self.last_marble_value = new_marble_val
