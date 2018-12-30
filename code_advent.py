@@ -2188,6 +2188,7 @@ class CircleGame_Part2:
         self.last_marble_value = None
 
         self.scoreboard = {}
+        self.scoreboard_p2 = {}
         self.init_scoreboard()
 
         self.currentMarble = None
@@ -2195,17 +2196,16 @@ class CircleGame_Part2:
     def init_scoreboard(self):
         for playerID in range(1, self.num_players+1):
             self.scoreboard[playerID] = {"score": 0, "marbles": []}
-
+            self.scoreboard_p2[playerID] = {"score": 0, "marbles": []}
     def print_scoreboard(self):
 
-        print_debug("\n\n\nScoreboard dictionary is:\n{}\n".format(self.scoreboard))
+        print_debug("\n\n\nScoreboard dictionary for part 1 is:\n{}\n".format(self.scoreboard))
 
 
-        print_debug("\n\nThe scoreboard is:")
+        print_debug("\n\nThe scoreboard for part 1 is:")
         for playerID in self.scoreboard:
             print_debug("Player {} has the score {}".format(playerID, self.scoreboard[playerID]["score"]))
         print_debug("\n\n")
-
 
         highest_scoring_player = 0
         highest_scoring_player_score = 0
@@ -2215,14 +2215,22 @@ class CircleGame_Part2:
                 highest_scoring_player = playerID
 
 
-        #Part 2
-        #winning_marbles = self.scoreboard[highest_scoring_player]["marbles"]
-        #new_last_marble = winning_marbles.pop() * 100
-        #winning_marbles.append(new_last_marble)
-        #new_score = sum(winning_marbles)
+        print_debug("\n\n\nScoreboard dictionary for part 2 is:\n{}\n".format(self.scoreboard_p2))
 
 
-        return_string = "Highest scoring player was player {} with a score of {}".format(highest_scoring_player, highest_scoring_player_score)
+        print_debug("\n\nThe scoreboard for part 2 is:")
+        for playerID in self.scoreboard_p2:
+            print_debug("Player {} has the score {}".format(playerID, self.scoreboard_p2[playerID]["score"]))
+        print_debug("\n\n")
+
+        highest_scoring_player = 0
+        highest_scoring_player_score = 0
+        for playerID in self.scoreboard_p2:
+            if self.scoreboard_p2[playerID]["score"] > highest_scoring_player_score:
+                highest_scoring_player_score = self.scoreboard_p2[playerID]["score"]
+                highest_scoring_player = playerID
+
+        return_string = "Highest scoring player for part 2 was player {} with a score of {}".format(highest_scoring_player, highest_scoring_player_score)
         print_debug(return_string)
 
         return return_string
@@ -2329,7 +2337,7 @@ class CircleGame_Part2:
                 print_debug("Special case - marble is a multiple of 23")
 
                 #part 1
-
+                
                 self.scoreboard[current_player]["score"]+=new_marble_val
                 self.scoreboard[current_player]["marbles"].append(new_marble_val)
                 print_debug("Adding {} to the score of player {}".format(new_marble_val, current_player))
@@ -2347,8 +2355,14 @@ class CircleGame_Part2:
 
 
                 #part 2
+                self.scoreboard_p2[current_player]["score"]+=new_marble_val
+                self.scoreboard_p2[current_player]["marbles"].append(new_marble_val)
 
                 node_to_remove = self.p2_get_marble_N_steps(7, go_clockwise=False) #self.circular_linked_list.get_node(left_index)
+
+                self.scoreboard_p2[current_player]["score"] += node_to_remove.data
+                self.scoreboard_p2[current_player]["marbles"].append(node_to_remove.data)
+
                 self.circular_linked_list.remove(node_to_remove)
                 #self.currentMarble = self.circular_linked_list.get_node(clockwise_index)
                 self.last_marble_value = new_marble_val
