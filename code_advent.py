@@ -2280,6 +2280,27 @@ class CircleGame_Part2:
 
         return index
 
+
+    def p2_get_marble_N_steps(self, num_steps, go_clockwise=True):
+        returned_node = None
+        if go_clockwise is True:
+
+            count = 0
+            returned_node = self.currentMarble or self.circular_linked_list.first
+            while count < num_steps:
+                returned_node = returned_node.next
+                count+=1
+
+        else:
+            count = 0
+            returned_node = self.currentMarble or self.circular_linked_list.first
+            while count < num_steps:
+                returned_node = returned_node.prev
+                count+=1
+
+
+        return returned_node
+
     def add_marble(self, current_player):
         if self.last_marble_value == None:
             self.last_marble_value = 0
@@ -2322,17 +2343,19 @@ class CircleGame_Part2:
 
             else:
                 #part 1
+                
                 left_index = self.get_new_index(1)
                 self.insert_marble_into_circle(new_marble_val, left_index)
                 self.last_marble_value = new_marble_val
 
 
                 #part 2
+                #left_index = self.p2_get_new_index(1)
 
                 self.last_marble_value = new_marble_val
                 new_node = DoubleLinkedNode(new_marble_val)
 
-                neighbour = self.circular_linked_list.get_node(left_index)
+                neighbour = self.p2_get_marble_N_steps(1)
 
                 self.circular_linked_list.insert_after(neighbour, new_node)
                 self.currentMarble = new_node
