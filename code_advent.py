@@ -2064,6 +2064,7 @@ class CircleGame:
 
 
 def day_9_part1():
+    return  "DISABLED"
     lines = read_file_into_list("problem_9_dummy_input.txt")
     #lines = read_file_into_list("problem_9_input.txt")
 
@@ -2199,12 +2200,11 @@ class CircleGame_Part2:
             self.scoreboard_p2[playerID] = {"score": 0, "marbles": []}
     def print_scoreboard(self):
 
-        print_debug("\n\n\nScoreboard dictionary for part 1 is:\n{}\n".format(self.scoreboard))
+        print("\n\n\nScoreboard dictionary for part 1 is:\n{}\n".format(self.scoreboard))
 
-
-        print_debug("\n\nThe scoreboard for part 1 is:")
+        print("\n\nThe scoreboard for part 1 is:")
         for playerID in self.scoreboard:
-            print_debug("Player {} has the score {}".format(playerID, self.scoreboard[playerID]["score"]))
+            print("Player {} has the score {}".format(playerID, self.scoreboard[playerID]["score"]))
         print_debug("\n\n")
 
         highest_scoring_player = 0
@@ -2214,14 +2214,12 @@ class CircleGame_Part2:
                 highest_scoring_player_score = self.scoreboard[playerID]["score"]
                 highest_scoring_player = playerID
 
+        print("\n\n\nScoreboard dictionary for part 2 is:\n{}\n".format(self.scoreboard_p2))
 
-        print_debug("\n\n\nScoreboard dictionary for part 2 is:\n{}\n".format(self.scoreboard_p2))
-
-
-        print_debug("\n\nThe scoreboard for part 2 is:")
+        print("\n\nThe scoreboard for part 2 is:")
         for playerID in self.scoreboard_p2:
-            print_debug("Player {} has the score {}".format(playerID, self.scoreboard_p2[playerID]["score"]))
-        print_debug("\n\n")
+            print("Player {} has the score {}".format(playerID, self.scoreboard_p2[playerID]["score"]))
+        print("\n\n")
 
         highest_scoring_player = 0
         highest_scoring_player_score = 0
@@ -2337,7 +2335,7 @@ class CircleGame_Part2:
                 print_debug("Special case - marble is a multiple of 23")
 
                 #part 1
-                """
+
                 self.scoreboard[current_player]["score"]+=new_marble_val
                 self.scoreboard[current_player]["marbles"].append(new_marble_val)
                 print_debug("Adding {} to the score of player {}".format(new_marble_val, current_player))
@@ -2352,7 +2350,7 @@ class CircleGame_Part2:
                 self.current_marble_index = clockwise_index
                 print_debug("current_marble_index now equals {}".format(self.current_marble_index))
                 self.last_marble_value = new_marble_val
-                """
+
 
                 #part 2
                 self.scoreboard_p2[current_player]["score"]+=new_marble_val
@@ -2364,16 +2362,19 @@ class CircleGame_Part2:
                 self.scoreboard_p2[current_player]["marbles"].append(node_to_remove.data)
 
                 self.circular_linked_list.remove(node_to_remove)
-                #self.currentMarble = self.circular_linked_list.get_node(clockwise_index)
+
+                self.currentMarble = self.circular_linked_list.get_node(self.current_marble_index)
                 self.last_marble_value = new_marble_val
+                #print_debug("")
+
 
             else:
                 #part 1
-                """
+
                 left_index = self.get_new_index(1)
                 self.insert_marble_into_circle(new_marble_val, left_index)
                 self.last_marble_value = new_marble_val
-                """
+
 
                 #part 2
                 #left_index = self.p2_get_new_index(1)
@@ -2521,8 +2522,8 @@ def day_9_part2():
     print_debug("")
 
     myGame = CircleGame_Part2(number_of_players, last_marble_points, myCircle)
-    for _ in range((last_marble_points)+1):
-    #for _ in range(150):
+    #for _ in range((last_marble_points)+1):
+    for _ in range(60):
         myGame.step()
         pass
     return myGame.print_scoreboard()
