@@ -3,6 +3,7 @@ from fuzzywuzzy import fuzz
 import datetime
 import networkx as nx
 import random
+from collections import deque, defaultdict
 
 import sys
 DEBUG = 1
@@ -2250,16 +2251,7 @@ class CircleGame_Part2:
         return self.current_marble_index
 
 
-    def p2_get_clockwise_node_from_node(self, index):
-        num_steps = int((len(self.marbles) ))
 
-        num_steps = num_steps % (len(self.marbles))
-
-        index = self.current_marble_index + num_steps  # % len(self.marbles)
-
-        index = index
-
-        return index
 
     def remove_marble_from_circle(self, left_index):
         pass
@@ -2268,9 +2260,12 @@ class CircleGame_Part2:
         # print_debug("right_index is {}".format(right_index))
 
         # print_debug("Therefore our new index is {}".format(None))
-
-        return_val = self.marbles.pop(left_index )
-
+        try:
+            return_val = self.marbles.pop(left_index )
+            #self.num_marbles -=1
+            #return_val = self.marbles[-1]
+        except IndexError:
+            return_val = 0
         # self.marbles.append(marble)
         #self.current_marble_index_pt2 = left_index
         self.current_marble_index = left_index
@@ -2415,7 +2410,8 @@ class CircleGame_Part2:
 
                 #part 1
                 
-                left_index = self.get_new_index(1)
+                #left_index = self.get_new_index(1)
+                left_index = self.get_new_index_pt2(0)
                 self.insert_marble_into_circle(new_marble_val, left_index)
                 self.last_marble_value = new_marble_val
 
@@ -2423,7 +2419,7 @@ class CircleGame_Part2:
                 #part 2
                 #left_index = self.p2_get_new_index(1)]
                 myindex = self.get_new_index_pt2(0)
-                myindex = self.get_new_index_pt2(0)
+                #myindex = self.get_new_index_pt2(0)
                 self.current_marble_index_pt2 = myindex
                 #self.current_marble_index  = myindex
                 self.last_marble_value = new_marble_val
@@ -2461,6 +2457,7 @@ class CircleGame_Part2:
 
             self.add_marble(self.current_player)
             self.current_marble_index = 0
+            self.current_marble_index_pt2 = 0
             print_debug("[pt1 - p-]{}".format(self.get_marbles_string()))
             print_debug("[pt2 - p-]{}".format(self.p2_get_marbles_string()))
             #print_debug("Current node for part 2 is {}".format(self.currentMarble.data))
@@ -2549,7 +2546,34 @@ class CircularDoublyLinkedList:
 
 
 
+
+
+
+
+
+
+#https://www.reddit.com/r/adventofcode/comments/a4i97s/2018_day_9_solutions/
+def play_game(max_players, last_marble):
+    scores = defaultdict(int)
+    circle = deque([0])
+
+    for marble in range(1, last_marble + 1):
+        if marble % 23 == 0:
+            circle.rotate(7)
+            scores[marble % max_players] += marble + circle.pop()
+            circle.rotate(-1)
+        else:
+            circle.rotate(-1)
+            circle.append(marble)
+
+    return max(scores.values()) if scores else 0
+
+
+
+
+
 def day_9_part2():
+
 
 
 
@@ -2557,24 +2581,29 @@ def day_9_part2():
 
 
     lines = read_file_into_list("problem_9_dummy_input.txt")
-    #lines = read_file_into_list("problem_9_input.txt")
+    lines = read_file_into_list("problem_9_input.txt")
 
     line = lines[0]
 
     number_of_players = int(line.split(" ")[0])
-    last_marble_points = int(line.split(" ")[6]) #*100
+    last_marble_points = int(line.split(" ")[6]) *100
 
     print_debug("number_of_players is {}".format(number_of_players))
     print_debug("last_marble_points is {}".format(last_marble_points))
     print_debug("")
 
+
+    game_result = str(play_game(number_of_players, last_marble_points))
+    return "The answer when number_of_players is {} and last_marble_points is {} is:\n{}".format(number_of_players, last_marble_points, game_result)
+
+    """
     myGame = CircleGame_Part2(number_of_players, last_marble_points, myCircle)
     for _ in range((last_marble_points)+1):
     #for _ in range(60):
         myGame.step()
         pass
     return myGame.print_scoreboard()
-
+    """
 
 
 
@@ -2615,18 +2644,6 @@ def day_9_part2():
 
 
     """
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
