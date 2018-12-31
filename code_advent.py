@@ -2722,7 +2722,7 @@ class Sky:
         value_to_divide_by = 1000
         for star in self.star_list:
 
-            print_debug("Looking at point ({}, {}):".format(star.x_pos, star.y_pos))
+            #print_debug("Looking at point ({}, {}):".format(star.x_pos, star.y_pos))
             if abs(star.x_pos) > value_to_divide_by and abs(star.y_pos) > value_to_divide_by:
                 new_x = int(star.x_pos / value_to_divide_by)
                 new_y = int(star.y_pos / value_to_divide_by)
@@ -2730,11 +2730,23 @@ class Sky:
                 new_x = star.x_pos
                 new_y = star.y_pos
 
-            print_debug("I changed it to the point ({}, {})".format(new_x, new_y))
+            #print_debug("I changed it to the point ({}, {})".format(new_x, new_y))
             print_debug("")
             new_star_list.append((new_x, new_y))
 
         return new_star_list
+
+
+    def translate_from_first_star(self, star_list):
+        new_star_list = []
+        first_x = star_list[0][0]
+        first_y = star_list[0][1]
+
+        new_star_list = [(star_pos_tuple[0] - first_x, star_pos_tuple[1] - first_y) for star_pos_tuple in star_list]
+
+        return new_star_list
+
+
 
     def print_board(self):
         print_debug("\n\n\n\n\n\n\n\n")
@@ -2749,6 +2761,8 @@ class Sky:
         #disabled for now, unsure if this makes sense
         #star_points = self.get_approximate_points(star_points)
 
+
+        star_points = self.translate_from_first_star(star_points)
 
         for ypos in range(-int(self.BOARD_HEIGHT/2), int(self.BOARD_HEIGHT/2)):
             for xpos in range(-int(self.BOARD_WIDTH/2), int(self.BOARD_WIDTH/2)):
@@ -2785,7 +2799,7 @@ def day_10_part1():
     mySky.print_board()
 
 
-    for _ in range(3):
+    for _ in range(4):
         mySky.step()
         mySky.print_board()
 
