@@ -2843,6 +2843,8 @@ class Sky:
         for _ in range(N):
             self.step()
 
+
+
 def day_10_part1():
     #lines = read_file_into_list("problem_10_dummy_input.txt")
     lines = read_file_into_list("problem_10_input.txt")
@@ -2863,7 +2865,14 @@ def day_10_part1():
 
     #mySky.step_N(10000)
     #mySky.do_initial_translate_using_first_star()
+    mySky.do_initial_translate_using_first_star()
+
     mySky.print_board()
+
+    #for _ in range(50):
+    #    mySky.step()
+    #    mySky.print_board()
+
     #mySky.print_star_list()
 
     #print_debug("lines is {}".format(lines))
