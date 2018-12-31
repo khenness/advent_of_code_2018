@@ -2755,12 +2755,12 @@ class Sky:
 
 
     def print_board(self):
-        print_debug("\n\n\n\n\n\n\n\n")
-        print_debug("Printing board:")
-        print_debug("Dimensions are: (Height {} by Width {})".format(self.BOARD_HEIGHT, self.BOARD_WIDTH))
+        print("\n\n\n\n\n\n\n\n")
+        print("Printing board:")
+        print("Dimensions are: (Height {} by Width {})".format(self.BOARD_HEIGHT, self.BOARD_WIDTH))
 
         star_points = [(star.x_pos, star.y_pos) for star in self.star_list]
-        print_debug("star_points before doing any processing is {}".format(star_points))
+        print("star_points before doing any processing is {}".format(star_points))
 
 
         #do translation using first point
@@ -2770,8 +2770,8 @@ class Sky:
         #disabled for now, unsure if this makes sense
         #star_points = self.get_approximate_points(star_points)
 
-        print_debug("\n\n")
-        print_debug("star_points after doing processsing is {}".format(star_points))
+        print("\n\n")
+        print("star_points after doing processsing is {}".format(star_points))
         board_string = ""
 
         number_of_stars_on_board = 0
@@ -2791,9 +2791,9 @@ class Sky:
                 else:
                     board_string+="."
             board_string+="\n"
-        print_debug("\nNumber_of_stars_on_board is {}".format(number_of_stars_on_board))
-        print_debug(board_string)
-        print_debug("\n\n\n\n")
+        print("\nNumber_of_stars_on_board is {}".format(number_of_stars_on_board))
+        print(board_string)
+        print("\n\n\n\n")
 
 
     def count_points_on_screen(self):
@@ -2802,7 +2802,7 @@ class Sky:
 
 
         #do translation using first point
-        #star_points = self.translate_from_first_star(star_points)
+        star_points = self.translate_from_first_star(star_points)
 
 
 
@@ -2832,7 +2832,7 @@ class Sky:
     def step_until_exactly_N_points_on_screen(self, N):
         num_steps = 0
         while self.count_points_on_screen() != N:
-            print_debug("N is {} and self.count_points_on_screen() is {}".format(N, self.count_points_on_screen()))
+            #print_debug("N is {} and self.count_points_on_screen() is {}".format(N, self.count_points_on_screen()))
             self.step()
             num_steps+=1
         pass
@@ -2844,8 +2844,8 @@ class Sky:
             self.step()
 
 def day_10_part1():
-    lines = read_file_into_list("problem_10_dummy_input.txt")
-    #lines = read_file_into_list("problem_10_input.txt")
+    #lines = read_file_into_list("problem_10_dummy_input.txt")
+    lines = read_file_into_list("problem_10_input.txt")
 
 
     mySky = Sky(lines)
@@ -2856,15 +2856,15 @@ def day_10_part1():
     mySky.do_initial_translate_using_first_star()
     #mySky.print_board()
 
-    #mySky.step_until_at_least_N_points_on_screen(10)
-    mySky.step_until_exactly_N_points_on_screen(10)
-    #mySky.step_N(1000000)
+    mySky.step_until_at_least_N_points_on_screen(50)
+    #mySky.step_until_exactly_N_points_on_screen(10)
+    #mySky.step_N(3)
     #mySky.do_initial_translate_using_first_star()
 
     #mySky.step_N(10000)
     #mySky.do_initial_translate_using_first_star()
     mySky.print_board()
-    mySky.print_star_list()
+    #mySky.print_star_list()
 
     #print_debug("lines is {}".format(lines))
     return "WIP"
