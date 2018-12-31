@@ -1873,6 +1873,7 @@ def day_8_part1():
     return root.get_answer_part_1()
 
 def day_8_part2():
+    return "DISABLED"
     lines = read_file_into_list("problem_8_dummy_input.txt")
     lines = read_file_into_list("problem_8_input.txt")
 
@@ -2668,25 +2669,25 @@ class Sky:
     def init_board(self, lines):
 
         for line in lines:
-            print_debug("Looking at line: '{}'".format(line))
+            #print_debug("Looking at line: '{}'".format(line))
 
 
             num_list = line.split("position=<")[1].replace("> velocity=<", ",").replace(">", "").replace(" ", "").split(",")
-            print_debug("num_list is {}".format(num_list))
+            #print_debug("num_list is {}".format(num_list))
 
             x_pos = int(num_list[0])
-            print_debug("x_pos is {}".format(x_pos))
+            #print_debug("x_pos is {}".format(x_pos))
 
             y_pos = int(num_list[1])
-            print_debug("y_pos is {}".format(y_pos))
+            #print_debug("y_pos is {}".format(y_pos))
 
             x_vel = int(num_list[2])
-            print_debug("x_vel is {}".format(x_vel))
+            #print_debug("x_vel is {}".format(x_vel))
 
             y_vel = int(num_list[3])
-            print_debug("y_vel is {}".format(y_vel))
+            #print_debug("y_vel is {}".format(y_vel))
 
-            print_debug("")
+            #print_debug("")
 
 
 
@@ -2795,32 +2796,59 @@ class Sky:
         print_debug("\n\n\n\n")
 
 
+    def count_points_on_screen(self):
+
+        star_points = [(star.x_pos, star.y_pos) for star in self.star_list]
+
+
+        #do translation using first point
+        #star_points = self.translate_from_first_star(star_points)
+
+
+
+        number_of_stars_on_board = 0
+        for ypos in range(-int(self.BOARD_HEIGHT/2), int(self.BOARD_HEIGHT/2)):
+            for xpos in range(-int(self.BOARD_WIDTH/2), int(self.BOARD_WIDTH/2)):
+
+                current_pos = (xpos, ypos)
+                if current_pos in star_points:
+                    number_of_stars_on_board+=1
+
+        return number_of_stars_on_board
+
     def step(self):
-        print_debug("Starting step")
+        #print_debug("Starting step")
         for star in self.star_list:
             star.x_pos = star.x_pos + star.x_vel
             star.y_pos = star.y_pos + star.y_vel
 
+    def step_until_N_points_on_screen(self, N):
+        num_steps = 0
+        while self.count_points_on_screen() < N:
+            self.step()
+            num_steps+=1
+        pass
 
+    def step_N(self, N):
+        for _ in range(N):
+            self.step()
 
 def day_10_part1():
-    lines = read_file_into_list("problem_10_dummy_input.txt")
-    #lines = read_file_into_list("problem_10_input.txt")
+    #lines = read_file_into_list("problem_10_dummy_input.txt")
+    lines = read_file_into_list("problem_10_input.txt")
 
 
     mySky = Sky(lines)
-    mySky.print_star_list()
-    mySky.print_board()
+    #mySky.print_star_list()
+    #mySky.print_board()
 
-    print_debug("doing initial translate")
+    #print_debug("doing initial translate")
     mySky.do_initial_translate_using_first_star()
+    #mySky.print_board()
+
+    #mySky.step_until_N_points_on_screen(4)
+    mySky.step_N(1)
     mySky.print_board()
-
-
-    for _ in range(4):
-        mySky.step()
-        mySky.print_board()
-
 
     #print_debug("lines is {}".format(lines))
     return "WIP"
