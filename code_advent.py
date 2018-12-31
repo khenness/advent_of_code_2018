@@ -2819,23 +2819,33 @@ class Sky:
     def step(self):
         #print_debug("Starting step")
         for star in self.star_list:
-            star.x_pos = star.x_pos + star.x_vel
-            star.y_pos = star.y_pos + star.y_vel
+            star.x_pos = star.x_pos + (star.x_vel)
+            star.y_pos = star.y_pos + (star.y_vel)
 
-    def step_until_N_points_on_screen(self, N):
+    def step_until_at_least_N_points_on_screen(self, N):
         num_steps = 0
         while self.count_points_on_screen() < N:
             self.step()
             num_steps+=1
         pass
 
+    def step_until_exactly_N_points_on_screen(self, N):
+        num_steps = 0
+        while self.count_points_on_screen() != N:
+            print_debug("N is {} and self.count_points_on_screen() is {}".format(N, self.count_points_on_screen()))
+            self.step()
+            num_steps+=1
+        pass
+
+        return num_steps
+
     def step_N(self, N):
         for _ in range(N):
             self.step()
 
 def day_10_part1():
-    #lines = read_file_into_list("problem_10_dummy_input.txt")
-    lines = read_file_into_list("problem_10_input.txt")
+    lines = read_file_into_list("problem_10_dummy_input.txt")
+    #lines = read_file_into_list("problem_10_input.txt")
 
 
     mySky = Sky(lines)
@@ -2846,9 +2856,15 @@ def day_10_part1():
     mySky.do_initial_translate_using_first_star()
     #mySky.print_board()
 
-    #mySky.step_until_N_points_on_screen(4)
-    mySky.step_N(1)
+    #mySky.step_until_at_least_N_points_on_screen(10)
+    mySky.step_until_exactly_N_points_on_screen(10)
+    #mySky.step_N(1000000)
+    #mySky.do_initial_translate_using_first_star()
+
+    #mySky.step_N(10000)
+    #mySky.do_initial_translate_using_first_star()
     mySky.print_board()
+    mySky.print_star_list()
 
     #print_debug("lines is {}".format(lines))
     return "WIP"
