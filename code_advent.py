@@ -2869,9 +2869,9 @@ def day_10_part1():
 
     mySky.print_board()
 
-    #for _ in range(50):
-    #    mySky.step()
-    #    mySky.print_board()
+    for _ in range(100):
+        mySky.step()
+        mySky.print_board()
 
     #mySky.print_star_list()
 
