@@ -2858,7 +2858,7 @@ def day_10_part1():
     mySky.do_initial_translate_using_first_star()
     #mySky.print_board()
 
-    mySky.step_until_at_least_N_points_on_screen(50)
+    mySky.step_until_at_least_N_points_on_screen(300)
     #mySky.step_until_exactly_N_points_on_screen(10)
     #mySky.step_N(3)
     #mySky.do_initial_translate_using_first_star()
@@ -2870,6 +2870,8 @@ def day_10_part1():
     mySky.print_board()
 
     for _ in range(100):
+        #mySky.do_initial_translate_using_first_star()
+
         mySky.step()
         mySky.print_board()
 
