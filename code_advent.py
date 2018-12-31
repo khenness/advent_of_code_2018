@@ -2767,6 +2767,12 @@ class Sky:
         print_debug("\n\n\n\n")
 
 
+    def step(self):
+        print_debug("Starting step")
+        for star in self.star_list:
+            star.x_pos = star.x_pos + star.x_vel
+            star.y_pos = star.y_pos + star.y_vel
+
 
 
 def day_10_part1():
@@ -2776,10 +2782,12 @@ def day_10_part1():
 
     mySky = Sky(lines)
     mySky.print_star_list()
-
-
-
     mySky.print_board()
+
+
+    for _ in range(3):
+        mySky.step()
+        mySky.print_board()
 
 
     #print_debug("lines is {}".format(lines))
