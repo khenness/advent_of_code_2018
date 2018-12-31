@@ -1828,8 +1828,8 @@ class NodeForHeader:
             value = val_total
         """
 
-        print_debug("Node value is {}".format(value))
-        print_debug("")
+        #print_debug("Node value is {}".format(value))
+        #print_debug("")
         return value
 
     def get_size(self):
@@ -2082,98 +2082,6 @@ def day_9_part1():
     for _ in range(last_marble_points+1):
         myGame.step()
     return myGame.print_scoreboard()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class CircleGame_Part2:
@@ -2581,7 +2489,7 @@ def day_9_part2():
 
 
     lines = read_file_into_list("problem_9_dummy_input.txt")
-    lines = read_file_into_list("problem_9_input.txt")
+    #lines = read_file_into_list("problem_9_input.txt")
 
     line = lines[0]
 
@@ -2710,10 +2618,140 @@ def day_8_part1__():
     pass
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Star:
+
+    def __init__(self, x_pos, y_pos, x_vel, y_vel):
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.x_vel = x_vel
+        self.y_vel = y_vel
+
+    def pretty_print(self):
+        print_debug("I am a star at postion {},{}. My velocity is {},{}".format(self.x_pos,
+                                                                                self.y_pos,
+                                                                                self.x_vel,
+                                                                                self.y_vel))
+class Sky:
+
+
+    def init_board(self, lines):
+
+        for line in lines:
+            print_debug("Looking at line: '{}'".format(line))
+
+
+            num_list = line.split("position=<")[1].replace("> velocity=<", ",").replace(">", "").replace(" ", "").split(",")
+            print_debug("num_list is {}".format(num_list))
+
+            x_pos = int(num_list[0])
+            print_debug("x_pos is {}".format(x_pos))
+
+            y_pos = int(num_list[1])
+            print_debug("y_pos is {}".format(y_pos))
+
+            x_vel = int(num_list[2])
+            print_debug("x_vel is {}".format(x_vel))
+
+            y_vel = int(num_list[3])
+            print_debug("y_vel is {}".format(y_vel))
+
+            print_debug("")
+
+
+
+            new_star = Star(x_pos, y_pos, x_vel, y_vel)
+
+            self.star_list.append(new_star)
+
+
+
+    def print_star_list(self):
+        for star in self.star_list:
+            star.pretty_print()
+
+
+    def __init__(self, lines):
+
+        self.star_list = []
+
+        #keep these even as I divide by 2 when I print it
+        self.BOARD_HEIGHT = 40
+        self.BOARD_WIDTH = 128
+
+        self.init_board(lines)
+        pass
+
+
+    def print_board(self):
+        print_debug("\n\n\n\n\n\n\n\n")
+        print_debug("Printing board:")
+        print_debug("Dimensions are: (Height {} by Width {})".format(self.BOARD_HEIGHT, self.BOARD_WIDTH))
+
+        star_points = [(star.x_pos, star.y_pos) for star in self.star_list]
+        print_debug("star_points is {}".format(star_points))
+        board_string = ""
+
+
+        for ypos in range(-int(self.BOARD_HEIGHT/2), int(self.BOARD_HEIGHT/2)):
+            for xpos in range(-int(self.BOARD_WIDTH/2), int(self.BOARD_WIDTH/2)):
+
+                current_pos = (xpos, ypos)
+                #print_debug("")
+                if current_pos in star_points:
+                    board_string+="#"
+                else:
+                    board_string+="."
+            board_string+="\n"
+
+        print_debug(board_string)
+        print_debug("\n\n\n\n")
+
+
+
+
 def day_10_part1():
     lines = read_file_into_list("problem_10_dummy_input.txt")
     #lines = read_file_into_list("problem_10_input.txt")
 
+
+    mySky = Sky(lines)
+    mySky.print_star_list()
+
+
+
+    mySky.print_board()
+    #print_debug("lines is {}".format(lines))
     return "WIP"
 
 
