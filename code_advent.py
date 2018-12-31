@@ -2867,6 +2867,7 @@ def day_10_part1():
     #mySky.step_N(3)
     #mySky.do_initial_translate_using_first_star()
 
+
     #mySky.step_N(10000)
     #mySky.do_initial_translate_using_first_star()
     mySky.do_initial_translate_using_first_star()
