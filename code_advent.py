@@ -2706,12 +2706,35 @@ class Sky:
         self.star_list = []
 
         #keep these even as I divide by 2 when I print it
+        #self.BOARD_HEIGHT = 128
+        #self.BOARD_WIDTH = 256
+
         self.BOARD_HEIGHT = 40
         self.BOARD_WIDTH = 128
 
         self.init_board(lines)
         pass
 
+
+    def get_approximate_points(self, star_list):
+        new_star_list = []
+
+        value_to_divide_by = 1000
+        for star in self.star_list:
+
+            print_debug("Looking at point ({}, {}):".format(star.x_pos, star.y_pos))
+            if abs(star.x_pos) > value_to_divide_by and abs(star.y_pos) > value_to_divide_by:
+                new_x = int(star.x_pos / value_to_divide_by)
+                new_y = int(star.y_pos / value_to_divide_by)
+            else:
+                new_x = star.x_pos
+                new_y = star.y_pos
+
+            print_debug("I changed it to the point ({}, {})".format(new_x, new_y))
+            print_debug("")
+            new_star_list.append((new_x, new_y))
+
+        return new_star_list
 
     def print_board(self):
         print_debug("\n\n\n\n\n\n\n\n")
@@ -2723,6 +2746,10 @@ class Sky:
         board_string = ""
 
 
+        #disabled for now, unsure if this makes sense
+        #star_points = self.get_approximate_points(star_points)
+
+
         for ypos in range(-int(self.BOARD_HEIGHT/2), int(self.BOARD_HEIGHT/2)):
             for xpos in range(-int(self.BOARD_WIDTH/2), int(self.BOARD_WIDTH/2)):
 
@@ -2730,6 +2757,8 @@ class Sky:
                 #print_debug("")
                 if current_pos in star_points:
                     board_string+="#"
+                elif current_pos == (0, 0):
+                    board_string+="+"
                 else:
                     board_string+="."
             board_string+="\n"
@@ -2751,6 +2780,8 @@ def day_10_part1():
 
 
     mySky.print_board()
+
+
     #print_debug("lines is {}".format(lines))
     return "WIP"
 
