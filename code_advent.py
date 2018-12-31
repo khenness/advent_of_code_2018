@@ -2695,6 +2695,13 @@ class Sky:
             self.star_list.append(new_star)
 
 
+    def do_initial_translate_using_first_star(self):
+        first_x = self.star_list[0].x_pos
+        first_y = self.star_list[0].y_pos
+
+        for star in self.star_list:
+            star.x_pos = star.x_pos - first_x
+            star.y_pos = star.y_pos - first_y
 
     def print_star_list(self):
         for star in self.star_list:
@@ -2706,11 +2713,9 @@ class Sky:
         self.star_list = []
 
         #keep these even as I divide by 2 when I print it
-        #self.BOARD_HEIGHT = 128
-        #self.BOARD_WIDTH = 256
+        #self.BOARD_HEIGHT = 128 ; self.BOARD_WIDTH = 256
 
-        self.BOARD_HEIGHT = 40
-        self.BOARD_WIDTH = 128
+        self.BOARD_HEIGHT = 40 ; self.BOARD_WIDTH = 128
 
         self.init_board(lines)
         pass
@@ -2731,7 +2736,7 @@ class Sky:
                 new_y = star.y_pos
 
             #print_debug("I changed it to the point ({}, {})".format(new_x, new_y))
-            print_debug("")
+            #print_debug("")
             new_star_list.append((new_x, new_y))
 
         return new_star_list
@@ -2754,29 +2759,38 @@ class Sky:
         print_debug("Dimensions are: (Height {} by Width {})".format(self.BOARD_HEIGHT, self.BOARD_WIDTH))
 
         star_points = [(star.x_pos, star.y_pos) for star in self.star_list]
-        print_debug("star_points is {}".format(star_points))
-        board_string = ""
+        print_debug("star_points before doing any processing is {}".format(star_points))
+
+
+        #do translation using first point
+        #star_points = self.translate_from_first_star(star_points)
 
 
         #disabled for now, unsure if this makes sense
         #star_points = self.get_approximate_points(star_points)
 
+        print_debug("\n\n")
+        print_debug("star_points after doing processsing is {}".format(star_points))
+        board_string = ""
 
-        star_points = self.translate_from_first_star(star_points)
-
+        number_of_stars_on_board = 0
         for ypos in range(-int(self.BOARD_HEIGHT/2), int(self.BOARD_HEIGHT/2)):
             for xpos in range(-int(self.BOARD_WIDTH/2), int(self.BOARD_WIDTH/2)):
 
                 current_pos = (xpos, ypos)
                 #print_debug("")
                 if current_pos in star_points:
-                    board_string+="#"
+                    number_of_stars_on_board+=1
+                    if current_pos == (0, 0):
+                        board_string += "*"
+                    else:
+                        board_string += "#"
                 elif current_pos == (0, 0):
                     board_string+="+"
                 else:
                     board_string+="."
             board_string+="\n"
-
+        print_debug("\nNumber_of_stars_on_board is {}".format(number_of_stars_on_board))
         print_debug(board_string)
         print_debug("\n\n\n\n")
 
@@ -2796,6 +2810,10 @@ def day_10_part1():
 
     mySky = Sky(lines)
     mySky.print_star_list()
+    mySky.print_board()
+
+    print_debug("doing initial translate")
+    mySky.do_initial_translate_using_first_star()
     mySky.print_board()
 
 
