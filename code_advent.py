@@ -2719,6 +2719,7 @@ class Sky:
         self.BOARD_HEIGHT = 40 ; self.BOARD_WIDTH = 128
 
         self.init_board(lines)
+        self.num_steps_done = 0
         pass
 
 
@@ -2817,6 +2818,7 @@ class Sky:
         return number_of_stars_on_board
 
     def step(self):
+        self.num_steps_done+=1
         #print_debug("Starting step")
         for star in self.star_list:
             star.x_pos = star.x_pos + (star.x_vel)
@@ -2843,6 +2845,8 @@ class Sky:
         for _ in range(N):
             self.step()
 
+    def get_steps_done(self):
+        return self.num_steps_done
 
 
 def day_10_part1():
@@ -2867,9 +2871,9 @@ def day_10_part1():
     #mySky.do_initial_translate_using_first_star()
     mySky.do_initial_translate_using_first_star()
 
-    mySky.print_board()
+    #mySky.print_board()
 
-    for _ in range(100):
+    for _ in range(2):
         #mySky.do_initial_translate_using_first_star()
 
         mySky.step()
@@ -2878,7 +2882,7 @@ def day_10_part1():
     #mySky.print_star_list()
 
     #print_debug("lines is {}".format(lines))
-    return "WIP"
+    return "Number of steps done is {}".format(mySky.get_steps_done())
 
 
 def main():
