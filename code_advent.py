@@ -2886,6 +2886,12 @@ def day_10_part1():
     return "Number of steps done is {}".format(mySky.get_steps_done())
 
 
+
+
+def day_11_part1():
+    return "WIP"
+
+
 def main():
 
     print("\nScript arguments are:\n------------------------\n{}".format(sys.argv))
@@ -2941,6 +2947,8 @@ def main():
     print("Answer for Day 10 - Part 1 - 'The Stars Align':\n------------------------\n" + str(day_10_part1()))
     print("\n")
     print("Answer for Day 10 - Part 2 - 'The Stars Align':\n------------------------\n" + str(day_10_part1()))
+    print("\n")
+    print("Answer for Day 11 - Part 1 - 'Chronal Charge':\n------------------------\n" + str(day_11_part1()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
