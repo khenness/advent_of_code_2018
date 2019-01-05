@@ -2756,12 +2756,12 @@ class Sky:
 
 
     def print_board(self):
-        print("\n\n\n\n\n\n\n\n")
-        print("Printing board:")
-        print("Dimensions are: (Height {} by Width {})".format(self.BOARD_HEIGHT, self.BOARD_WIDTH))
+        print_debug("\n\n\n\n\n\n\n\n")
+        print_debug("Printing board:")
+        print_debug("Dimensions are: (Height {} by Width {})".format(self.BOARD_HEIGHT, self.BOARD_WIDTH))
 
         star_points = [(star.x_pos, star.y_pos) for star in self.star_list]
-        print("star_points before doing any processing is {}".format(star_points))
+        print_debug("star_points before doing any processing is {}".format(star_points))
 
 
         #do translation using first point
@@ -2771,8 +2771,8 @@ class Sky:
         #disabled for now, unsure if this makes sense
         #star_points = self.get_approximate_points(star_points)
 
-        print("\n\n")
-        print("star_points after doing processsing is {}".format(star_points))
+        print_debug("\n\n")
+        print_debug("star_points after doing processsing is {}".format(star_points))
         board_string = ""
 
         number_of_stars_on_board = 0
@@ -2792,9 +2792,9 @@ class Sky:
                 else:
                     board_string+="."
             board_string+="\n"
-        print("\nNumber_of_stars_on_board is {}".format(number_of_stars_on_board))
-        print(board_string)
-        print("\n\n\n\n")
+        print_debug("\nNumber_of_stars_on_board is {}".format(number_of_stars_on_board))
+        print_debug(board_string)
+        print_debug("\n\n\n\n")
 
 
     def count_points_on_screen(self):
@@ -2850,8 +2850,8 @@ class Sky:
 
 
 def day_10_part1():
-    #lines = read_file_into_list("problem_10_dummy_input.txt")
-    lines = read_file_into_list("problem_10_input.txt")
+    lines = read_file_into_list("problem_10_dummy_input.txt") ; num_stars = 10
+    #lines = read_file_into_list("problem_10_input.txt") ; num_stars = 300
 
 
     mySky = Sky(lines)
@@ -2862,7 +2862,7 @@ def day_10_part1():
     mySky.do_initial_translate_using_first_star()
     #mySky.print_board()
 
-    mySky.step_until_at_least_N_points_on_screen(300)
+    mySky.step_until_at_least_N_points_on_screen(num_stars)
     #mySky.step_until_exactly_N_points_on_screen(10)
     #mySky.step_N(3)
     #mySky.do_initial_translate_using_first_star()
@@ -2939,6 +2939,8 @@ def main():
     print("Answer for Day 9 - Part 2 - 'Marble Mania':\n------------------------\n" + str(day_9_part2()))
     print("\n")
     print("Answer for Day 10 - Part 1 - 'The Stars Align':\n------------------------\n" + str(day_10_part1()))
+    print("\n")
+    print("Answer for Day 10 - Part 2 - 'The Stars Align':\n------------------------\n" + str(day_10_part1()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
