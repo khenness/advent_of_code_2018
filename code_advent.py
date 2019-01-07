@@ -2899,19 +2899,19 @@ class PowerGrid:
 
 
         power_level_start = rack_id * y
-        print_debug("power_level_start is {}".format(power_level_start))
+        #print_debug("power_level_start is {}".format(power_level_start))
         power_level_with_serial_number = power_level_start + self.serial_number
-        print_debug("power_level_with_serial_number is {}".format(power_level_with_serial_number))
+        #print_debug("power_level_with_serial_number is {}".format(power_level_with_serial_number))
         power_level_times_rack = power_level_with_serial_number * rack_id
-        print_debug("power_level_times_rack is {}".format(power_level_times_rack))
+        #print_debug("power_level_times_rack is {}".format(power_level_times_rack))
 
         tens_digit = (power_level_times_rack // 100)%10
-        print_debug("tens_digit is {}".format(tens_digit))
+        #print_debug("tens_digit is {}".format(tens_digit))
 
         final_power = tens_digit - 5
-        print_debug("final_power is {}".format(final_power))
+        #print_debug("final_power is {}".format(final_power))
 
-        print_debug("")
+        #print_debug("")
         return final_power
 
     def init_board(self):
@@ -2924,10 +2924,10 @@ class PowerGrid:
             self.grid.append(mylist)
 
     def __init__(self):
-        self.x_max = 30
-        self.y_max = 30
+        self.x_max = 6
+        self.y_max = 6
         self.grid = []
-        self.serial_number =  57 #8772
+        self.serial_number =  8772
 
         self.init_board()
 
@@ -2943,9 +2943,36 @@ class PowerGrid:
             print_string+="\n"
         print_debug(print_string)
 
+    def search_grid(self):
+        y=0
+        for mylist in self.grid:
+            x =0
+            for elem in mylist:
+                #do something
+                print_debug("Looking at coordinate {}, {}:".format(x, y))
+
+
+                small_grid_string = ""
+                for i in range(3):
+                    row_string = ""
+                    for j in range(3):
+
+                        try:
+                            row_string += "  " + str(self.grid[x + i][y + j])
+                        except IndexError:
+                            row_string += "    "
+                            pass
+                    small_grid_string += row_string +"\n"
+
+                print_debug("small_grid_string is:\n{}".format(small_grid_string))
+
+                print_debug("")
+                x+=1
+            y+=1
 def day_11_part1():
 
     myPowerGrid = PowerGrid()
+    myPowerGrid.search_grid()
     myPowerGrid.pretty_print()
 
     return "WIP"
