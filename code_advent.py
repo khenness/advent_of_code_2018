@@ -2885,10 +2885,41 @@ def day_10_part1():
     #print_debug("lines is {}".format(lines))
     return "Number of steps done is {}".format(mySky.get_steps_done())
 
+def get_power_level():
+    return 0
 
+class PowerGrid:
 
+    def init_board(self):
+
+        for i in range(self.y_max):
+            mylist = []
+            for j in range(self.x_max):
+                mylist.append(0)
+
+            self.grid.append(mylist)
+
+    def __init__(self):
+        self.x_max = 30
+        self.y_max = 30
+        self.grid = []
+
+        self.init_board()
+
+    def pretty_print(self):
+        print_string = ""
+        for mylist in self.grid:
+            for x in mylist:
+                print_string+=str(x)+" "
+            print_string+="\n"
+        print_debug(print_string)
 
 def day_11_part1():
+
+    myPowerGrid = PowerGrid()
+    myPowerGrid.pretty_print()
+    day11_input = 8772
+
     return "WIP"
 
 
