@@ -2885,17 +2885,41 @@ def day_10_part1():
     #print_debug("lines is {}".format(lines))
     return "Number of steps done is {}".format(mySky.get_steps_done())
 
-def get_power_level(x, y):
-    return 0
+
 
 class PowerGrid:
+
+    def get_power_level(self, x, y):
+
+        print_debug("Looking at coordinate {}, {}:".format(x, y))
+
+        #Rack ID
+        rack_id = x+10
+        print_debug("rack_id is {}".format(rack_id))
+
+
+        power_level_start = rack_id * y
+        print_debug("power_level_start is {}".format(power_level_start))
+        power_level_with_serial_number = power_level_start + self.serial_number
+        print_debug("power_level_with_serial_number is {}".format(power_level_with_serial_number))
+        power_level_times_rack = power_level_with_serial_number * rack_id
+        print_debug("power_level_times_rack is {}".format(power_level_times_rack))
+
+        tens_digit = (power_level_times_rack // 100)%10
+        print_debug("tens_digit is {}".format(tens_digit))
+
+        final_power = tens_digit - 5
+        print_debug("final_power is {}".format(final_power))
+
+        print_debug("")
+        return final_power
 
     def init_board(self):
 
         for y in range(self.y_max):
             mylist = []
             for x in range(self.x_max):
-                mylist.append(get_power_level(x,y))
+                mylist.append(self.get_power_level(x,y))
 
             self.grid.append(mylist)
 
@@ -2911,7 +2935,11 @@ class PowerGrid:
         print_string = ""
         for mylist in self.grid:
             for x in mylist:
-                print_string+=str(x)+" "
+                if x >=0:
+                    print_string += "  "+str(x)
+                else:
+                    print_string += " "+str(x)
+
             print_string+="\n"
         print_debug(print_string)
 
