@@ -2924,8 +2924,9 @@ class PowerGrid:
             self.grid.append(mylist)
 
     def __init__(self):
-        self.x_max = 6
-        self.y_max = 6
+        self.x_max = 6; self.y_max = 6
+
+        #self.x_max = 300 ; self.y_max = 300
         self.grid = []
         self.serial_number =  8772
 
@@ -2944,6 +2945,12 @@ class PowerGrid:
         print_debug(print_string)
 
     def search_grid(self):
+
+        answer_power = 0
+        answer_x = 0
+        answer_y = 0
+
+
         y=0
         for mylist in self.grid:
             x =0
@@ -2951,31 +2958,44 @@ class PowerGrid:
                 #do something
                 print_debug("Looking at coordinate {}, {}:".format(x, y))
 
-
+                power_this_cell = 0
                 small_grid_string = ""
                 for i in range(3):
                     row_string = ""
                     for j in range(3):
 
                         try:
-                            row_string += "  " + str(self.grid[x + i][y + j])
+                            power = self.grid[x + i][y + j]
+                            row_string += "  " + str(power)
+                            power_this_cell += power
+
                         except IndexError:
-                            row_string += "    "
+                            #row_string += "    "
                             pass
                     small_grid_string += row_string +"\n"
-
+                print_debug("power_this_cell is {}".format(power_this_cell))
                 print_debug("small_grid_string is:\n{}".format(small_grid_string))
-
                 print_debug("")
+
+                if power_this_cell > answer_power:
+                    answer_power = power_this_cell
+                    answer_x = x
+                    answer_y = y
+
                 x+=1
             y+=1
+
+        answer_string = "answer_x is {}, answer_y is {}, answer_power is {}".format(answer_x, answer_y, answer_power)
+        return answer_string
+
+
 def day_11_part1():
 
     myPowerGrid = PowerGrid()
-    myPowerGrid.search_grid()
+    answer = myPowerGrid.search_grid()
     myPowerGrid.pretty_print()
 
-    return "WIP"
+    return answer
 
 
 def main():
