@@ -2927,7 +2927,7 @@ class PowerGrid:
         self.x_max = 30
         self.y_max = 30
         self.grid = []
-        self.serial_number = 8772
+        self.serial_number =  57 #8772
 
         self.init_board()
 
