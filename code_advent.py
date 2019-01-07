@@ -4,7 +4,8 @@ import datetime
 import networkx as nx
 import random
 from collections import deque, defaultdict
-
+import collections
+import re
 import sys
 DEBUG = 1
 
@@ -2889,6 +2890,33 @@ def day_10_part1():
 
 class PowerGrid:
 
+
+    def internet_answer(self):
+
+        serial = 8772
+        grid_sums, partial_sums = {}, defaultdict(int)
+
+        power_level = lambda x, y: ((((x + 10) * y + serial) * (x + 10)) // 10 ** 2 % 10) - 5
+        calculate_ps = lambda x, y: (power_level(x + 1, y + 1)
+                                     + partial_sums[x, y - 1] + partial_sums[x - 1, y] - partial_sums[x - 1, y - 1])
+
+        for j in range(300):
+            for i in range(300):
+                partial_sums[(i, j)] = calculate_ps(i, j)
+
+        for size in range(2, 300):
+            for j in range(size - 1, 300):
+                for i in range(size - 1, 300):
+                    gp = partial_sums[(i, j)] + partial_sums[(i - size, j - size)] \
+                         - partial_sums[(i - size, j)] - partial_sums[(i, j - size)]
+                    grid_sums[gp] = (i - size + 2, j - size + 2, size)
+            if size == 3:
+                x3, y3, s3 = map(str, grid_sums[max(grid_sums)])
+                print("Day 11 part 1: " + x3 + "," + y3)
+
+        #print("Day 11 part 2: %d,%d,%d" % grid_sums[max(grid_sums)])
+
+
     def get_power_level(self, x, y):
 
         print_debug("Looking at coordinate {}, {}:".format(x, y))
@@ -2924,11 +2952,11 @@ class PowerGrid:
             self.grid.append(mylist)
 
     def __init__(self):
-        self.x_max = 6; self.y_max = 6
+        #self.x_max = 6; self.y_max = 6
 
-        #self.x_max = 300 ; self.y_max = 300
+        self.x_max = 300 ; self.y_max = 300
         self.grid = []
-        self.serial_number =  8772
+        self.serial_number = 8772
 
         self.init_board()
 
@@ -2956,8 +2984,8 @@ class PowerGrid:
             x =0
             for elem in mylist:
                 #do something
-                print_debug("Looking at coordinate {}, {}:".format(x, y))
-
+                print_debug("Looking at coordinate {}, {}:".format(x+1, y+1))
+                found_square = True
                 power_this_cell = 0
                 small_grid_string = ""
                 for i in range(3):
@@ -2970,6 +2998,7 @@ class PowerGrid:
                             power_this_cell += power
 
                         except IndexError:
+                            found_square = False
                             #row_string += "    "
                             pass
                     small_grid_string += row_string +"\n"
@@ -2977,16 +3006,20 @@ class PowerGrid:
                 print_debug("small_grid_string is:\n{}".format(small_grid_string))
                 print_debug("")
 
-                if power_this_cell > answer_power:
+                if found_square is True and power_this_cell > answer_power:
                     answer_power = power_this_cell
-                    answer_x = x
-                    answer_y = y
+                    answer_x = y
+                    answer_y = x
+                    answer_grid = small_grid_string
 
                 x+=1
             y+=1
 
-        answer_string = "answer_x is {}, answer_y is {}, answer_power is {}".format(answer_x, answer_y, answer_power)
+        answer_string = "answer_x is {}, answer_y is {}, answer_power is {}, answer_grid is \n{}".format(answer_x, answer_y, answer_power, answer_grid)
         return answer_string
+
+
+
 
 
 def day_11_part1():
@@ -2995,6 +3028,8 @@ def day_11_part1():
     answer = myPowerGrid.search_grid()
     myPowerGrid.pretty_print()
 
+
+    myPowerGrid.internet_answer()
     return answer
 
 
