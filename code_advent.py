@@ -3091,6 +3091,13 @@ def day_11_part2():
     return answer
 
 
+
+
+def day_12_part1():
+    return "WIP"
+
+
+
 def main():
 
     print("\nScript arguments are:\n------------------------\n{}".format(sys.argv))
@@ -3150,6 +3157,8 @@ def main():
     print("Answer for Day 11 - Part 1 - 'Chronal Charge':\n------------------------\n" + str(day_11_part1()))
     print("\n")
     print("Answer for Day 11 - Part 2 - 'Chronal Charge':\n------------------------\n" + str(day_11_part2()))
+    print("\n")
+    print("Answer for Day 12 - Part 1 - 'Subterranean Sustainability':\n------------------------\n" + str(day_12_part1()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
