@@ -2890,7 +2890,7 @@ def day_10_part1():
 
 class PowerGrid:
 
-
+    #See this for explanation: https://computersciencesource.wordpress.com/2010/09/03/computer-vision-the-integral-image/
     def internet_answer(self):
 
         serial = 8772
@@ -2914,7 +2914,7 @@ class PowerGrid:
                 x3, y3, s3 = map(str, grid_sums[max(grid_sums)])
                 print("Day 11 part 1: " + x3 + "," + y3)
 
-        #print("Day 11 part 2: %d,%d,%d" % grid_sums[max(grid_sums)])
+        print("Day 11 part 2: %d,%d,%d" % grid_sums[max(grid_sums)])
 
 
     def get_power_level(self, x, y):
@@ -2952,9 +2952,9 @@ class PowerGrid:
             self.grid.append(mylist)
 
     def __init__(self):
-        #self.x_max = 6; self.y_max = 6
+        self.x_max = 10; self.y_max = 10
 
-        self.x_max = 300 ; self.y_max = 300
+        #self.x_max = 300 ; self.y_max = 300
         self.grid = []
         self.serial_number = 8772
 
@@ -3020,12 +3020,70 @@ class PowerGrid:
 
 
 
+    def search_grid_for_biggest(self):
+
+        answer_power = 0
+        answer_x = 0
+        answer_y = 0
+
+
+        y=0
+        for mylist in self.grid:
+            x =0
+            for elem in mylist:
+                #do something
+                print_debug("Looking at coordinate {}, {}:".format(x+1, y+1))
+                found_square = True
+                power_this_cell = 0
+                small_grid_string = ""
+                for i in range(3):
+                    row_string = ""
+                    for j in range(3):
+
+                        try:
+                            power = self.grid[x + i][y + j]
+                            row_string += "  " + str(power)
+                            power_this_cell += power
+
+                        except IndexError:
+                            found_square = False
+                            #row_string += "    "
+                            pass
+                    small_grid_string += row_string +"\n"
+                print_debug("power_this_cell is {}".format(power_this_cell))
+                print_debug("small_grid_string is:\n{}".format(small_grid_string))
+                print_debug("")
+
+                if found_square is True and power_this_cell > answer_power:
+                    answer_power = power_this_cell
+                    answer_x = y
+                    answer_y = x
+                    answer_grid = small_grid_string
+
+                x+=1
+            y+=1
+
+        answer_string = "answer_x is {}, answer_y is {}, answer_power is {}, answer_grid is \n{}".format(answer_x, answer_y, answer_power, answer_grid)
+        return answer_string
 
 
 def day_11_part1():
 
     myPowerGrid = PowerGrid()
     answer = myPowerGrid.search_grid()
+    myPowerGrid.pretty_print()
+
+
+    #myPowerGrid.internet_answer()
+    return answer
+
+
+
+
+def day_11_part2():
+
+    myPowerGrid = PowerGrid()
+    answer = myPowerGrid.search_grid_for_biggest()
     myPowerGrid.pretty_print()
 
 
@@ -3090,6 +3148,8 @@ def main():
     print("Answer for Day 10 - Part 2 - 'The Stars Align':\n------------------------\n" + str(day_10_part1()))
     print("\n")
     print("Answer for Day 11 - Part 1 - 'Chronal Charge':\n------------------------\n" + str(day_11_part1()))
+    print("\n")
+    print("Answer for Day 11 - Part 2 - 'Chronal Charge':\n------------------------\n" + str(day_11_part2()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
