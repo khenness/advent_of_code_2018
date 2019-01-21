@@ -3089,9 +3089,9 @@ def day_11_part2():
     return answer
 
 
-def get_next_generation(input_state):
-    print_debug("\n")
-    print_debug("Input state was: '{}'".format(input_state))
+def get_next_generation(input_state, rule_list):
+    #print_debug("\n")
+    #print_debug("\nInput state was: '{}'".format(input_state))
 
     next_state = ""
 
@@ -3120,17 +3120,25 @@ def get_next_generation(input_state):
 
 
         pattern = second_left + first_left + mychar + first_right + second_right
-        print_debug("For char {} at index {} the pattern is {}".format(mychar,i,pattern))
+
+        output_char = "."
+        for rule in rule_list:
+            if pattern == rule[0]:
+                output_char = rule[1]
+
+        #print_debug("For char {} at index {} the pattern is {}, therefore output is {}".format(mychar,i,pattern, output_char))
         i+=1
         pass
 
+        next_state+=output_char
 
-    print_debug("Next state is:   '{}'".format(next_state))
+
+    #print_debug("Next state is:   '{}'".format(next_state))
 
 
-    print_debug("\n")
+    #print_debug("\n")
 
-    return input_state
+    return next_state
 
 
 
@@ -3139,8 +3147,15 @@ def day_12_part1():
 
     initial_state = "..."+lines[0].replace("initial state: ", "") +"..........."
 
-    rule_list = lines[2:]
+    rule_list = []
 
+    for line in lines[2:]:
+        pattern = line.split(" => ")[0]
+        output =  line.split(" => ")[1]
+
+        rule_list.append((pattern, output))
+
+    #
     print_debug("initial_state is {}".format(initial_state))
     print_debug("rule_list is {}".format(rule_list))
     print_debug("\n\n\n\n")
@@ -3159,7 +3174,7 @@ def day_12_part1():
         if gen == 0:
             current_state = initial_state
         else:
-            current_state = get_next_generation(current_state)
+            current_state = get_next_generation(current_state, rule_list)
 
         for mychar in current_state:
             print_string+="{}".format(mychar)
