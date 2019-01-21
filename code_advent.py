@@ -3140,10 +3140,21 @@ def get_next_generation(input_state, rule_list):
 
     return next_state
 
+def get_sum_from_state(input_state):
 
+    index = -3
+
+    sum = 0
+    for mychar in input_state:
+        if mychar == "#":
+            sum+=index
+
+        index +=1
+    return sum
 
 def day_12_part1():
     lines = read_file_into_list("problem_12_dummy_input.txt")
+    #lines = read_file_into_list("problem_12_input.txt")
 
     initial_state = "..."+lines[0].replace("initial state: ", "") +"..........."
 
@@ -3178,7 +3189,8 @@ def day_12_part1():
 
         for mychar in current_state:
             print_string+="{}".format(mychar)
-        #print_string +="\n"
+
+        print_string +="     sum = {}".format(get_sum_from_state(current_state))
 
         print_debug(print_string)
 
