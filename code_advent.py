@@ -3126,7 +3126,7 @@ def get_next_generation(input_state, rule_list):
             if pattern == rule[0]:
                 output_char = rule[1]
 
-        #print_debug("For char {} at index {} the pattern is {}, therefore output is {}".format(mychar,i,pattern, output_char))
+        print_debug("For char {} at index {} the pattern is {}, therefore output is {}".format(mychar,i,pattern, output_char))
         i+=1
         pass
 
@@ -3152,9 +3152,60 @@ def get_sum_from_state(input_state):
         index +=1
     return sum
 
+def day12_internet_answer():
+    import collections
+    import re
+
+    def nextg(cur, recipe):
+        start = min(cur)
+        end = max(cur)
+        x = set()
+
+        for i in range(start - 3, end + 4):
+            pat = ''.join('#' if i + k in cur else '.' for k in [-2, -1, 0, 1, 2])
+            if pat in recipe:
+                x.add(i)
+
+        return x
+
+    def viz(cur):
+        print(''.join('#' if i in cur else '.' for i in xrange(-5, 120)))
+
+    # with open('day12test.txt') as f:
+    with open('problem_12_input.txt') as f:
+        lines = [l.rstrip('\n') for l in f]
+        print(lines)
+
+        init = lines[0][len('initial state: '):]
+        recipe = set()
+        for l in lines[2:]:
+            if l[-1] == '#':  # I forgot this line the first time around.
+                recipe.add(l[:5])
+
+        cur = set(i for i, c in enumerate(init) if c == '#')
+
+        # Part 1:
+        for i in range(20):
+            cur = nextg(cur, recipe)
+        print("Part 1 - {}".format(sum(cur)))
+
+        """
+        # Part 2:
+        ls = 0
+        # viz(cur)
+        for i in xrange(2000):
+            cur = nextg(cur, recipe)
+            # viz(cur)
+            s = sum(cur)
+            print
+            i, s, s - ls
+            ls = s
+        print sum(cur)
+        """
 def day_12_part1():
+
     lines = read_file_into_list("problem_12_dummy_input.txt")
-    #lines = read_file_into_list("problem_12_input.txt")
+    lines = read_file_into_list("problem_12_input.txt")
 
     initial_state = "..."+lines[0].replace("initial state: ", "") +"..........."
 
@@ -3163,8 +3214,8 @@ def day_12_part1():
     for line in lines[2:]:
         pattern = line.split(" => ")[0]
         output =  line.split(" => ")[1]
-
-        rule_list.append((pattern, output))
+        if output == "#":
+            rule_list.append((pattern, output))
 
     #
     print_debug("initial_state is {}".format(initial_state))
@@ -3195,6 +3246,8 @@ def day_12_part1():
         print_debug(print_string)
 
     print_debug("\n\n\n\n")
+    day12_internet_answer()
+
     return "WIP"
 
 
