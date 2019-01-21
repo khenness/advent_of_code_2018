@@ -3068,7 +3068,7 @@ class PowerGrid:
 
 
 def day_11_part1():
-
+    return "DISABLED"
     myPowerGrid = PowerGrid()
     answer = myPowerGrid.search_grid()
     myPowerGrid.pretty_print()
@@ -3081,6 +3081,7 @@ def day_11_part1():
 
 
 def day_11_part2():
+    return "DISABLED"
 
     myPowerGrid = PowerGrid()
     answer = myPowerGrid.search_grid_for_biggest()
@@ -3091,9 +3092,45 @@ def day_11_part2():
     return answer
 
 
+def get_next_generation(state_string):
+    return state_string
+
 
 
 def day_12_part1():
+    lines = read_file_into_list("problem_12_dummy_input.txt")
+
+    initial_state = "..."+lines[0].replace("initial state: ", "") +"..........."
+
+    rule_list = lines[2:]
+
+    print_debug("initial_state is {}".format(initial_state))
+    print_debug("rule_list is {}".format(rule_list))
+    print_debug("\n\n\n\n")
+    #print_debug("                 1         2         3")
+    print_debug("        0         0         0         0")
+
+
+    for gen in range(21):
+        print_string = ""
+
+        if gen < 10:
+            print_string +="{}:   ".format(gen)
+        else:
+            print_string += "{}:  ".format(gen)
+
+        if gen == 0:
+            current_state = initial_state
+        else:
+            current_state = get_next_generation(current_state)
+
+        for mychar in current_state:
+            print_string+="{}".format(mychar)
+        #print_string +="\n"
+
+        print_debug(print_string)
+
+    print_debug("\n\n\n\n")
     return "WIP"
 
 
