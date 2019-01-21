@@ -3097,6 +3097,31 @@ def get_next_generation(input_state):
 
     i = 0
     for mychar in input_state:
+
+        try:
+            first_left = input_state[i-1]
+        except IndexError:
+            first_left = "."
+
+        try:
+            second_left = input_state[i-2]
+        except IndexError:
+            second_left = "."
+
+        try:
+            first_right = input_state[i+1]
+        except IndexError:
+            first_right = "."
+
+        try:
+            second_right = input_state[i+2]
+        except IndexError:
+            second_right = "."
+
+
+        pattern = second_left + first_left + mychar + first_right + second_right
+        print_debug("For char {} at index {} the pattern is {}".format(mychar,i,pattern))
+        i+=1
         pass
 
 
