@@ -9,7 +9,10 @@ run:
 	python code_advent.py
 
 run_debug:
-	python code_advent.py "debug"
+	python code_advent.py "debug2"
+
+run_debug_focused:
+	python code_advent.py "debug1"
 
 gitpass:
 	git commit -am "WIP - tests pass" ; git push origin master

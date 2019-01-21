@@ -10,12 +10,9 @@ import sys
 DEBUG = 1
 
 def print_debug(msg):
-    if DEBUG == 1:
+    if DEBUG == 2 or DEBUG == 1:
         print(msg)
 
-def print_good_debug(msg):
-    if DEBUG == 1:
-        print(msg)
 
 def read_file_into_list(filepath):
     # Read file into list of lines
@@ -3092,8 +3089,23 @@ def day_11_part2():
     return answer
 
 
-def get_next_generation(state_string):
-    return state_string
+def get_next_generation(input_state):
+    print_debug("\n")
+    print_debug("Input state was: '{}'".format(input_state))
+
+    next_state = ""
+
+    i = 0
+    for mychar in input_state:
+        pass
+
+
+    print_debug("Next state is:   '{}'".format(next_state))
+
+
+    print_debug("\n")
+
+    return input_state
 
 
 
@@ -3142,8 +3154,10 @@ def main():
     try:
         global DEBUG
         DEBUG = 0
-        if sys.argv[1] == "debug":
+        if sys.argv[1] == "debug1":
             DEBUG = 1
+        if sys.argv[1] == "debug2":
+            DEBUG = 2
     except:
         pass
 
