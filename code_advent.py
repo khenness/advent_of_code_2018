@@ -3304,22 +3304,27 @@ def day_12_part2():
 
         # Part 2:
         cur = set(i for i, c in enumerate(init) if c == '#')
-        print_debug("\n\ntest is {}\n\n".format([ counter for counter, value in enumerate(init) if value == '#' ]))
+        #print_debug("\n\ntest is {}\n\n".format([ counter for counter, value in enumerate(init) if value == '#' ]))
 
+        """
 
         found = False
         first_repeat = None
         first_repeat_index = None
-        num_gens = 10000
+        num_gens = 5000
         seen = []
         for i in range(num_gens):
-            print_debug("Looking at generation {}:".format(i))
+            #print_debug("Looking at generation {}:".format(i))
             cur = nextg(cur, recipe)
-            if cur in seen and found is False:
+            #print_debug("cur is {}".format(cur))
+            if cur in seen:
                 found = True
+                first_repeat_index = cur
                 first_repeat_index = i
-
+            print_debug("\n")
             seen.append(cur)
+
+
         print_debug("\n\n\n\n\n")
         print_debug("first_repeat is {}".format(first_repeat))
         print_debug("first_repeat_index is {}".format(first_repeat_index))
@@ -3328,10 +3333,39 @@ def day_12_part2():
 
 
 
-        #print_debug("seen_size is {}".format(len(seen)))
-        #print_debug("seen is {}".format(seen))
+        print_debug("seen_size is {}".format(len(seen)))
+        print_debug("seen is {}".format(seen))
+        
 
         part_2_answer = "Part 2 answer - After {} generations, the answer is {}".format(num_gens, sum(cur))
+        """
+
+
+
+
+        ls = 0
+        # viz(cur)
+        for i in range(2000):
+            cur = nextg(cur, recipe)
+            # viz(cur)
+            s = sum(cur)
+            print( i, s, s - ls)
+            ls = s
+        ans = sum(cur)
+        print_debug("ans is {}".format(ans))
+
+        # By inspection we can see that every generation after 167 adds 75
+        first_part_answer = 0
+
+        for i in range(2000):
+            cur = nextg(cur, recipe)
+        first_part_answer = sum(cur)
+
+        remaining = (50000000000 - 2000) * 75
+        print_debug("\nfirst_part_answer is {}".format(first_part_answer))
+        print_debug("remaining is {}\n".format(remaining))
+        part_2_answer = "Part 2 answer is {}".format(ans + remaining)
+
 
 
 
