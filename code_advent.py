@@ -3297,9 +3297,42 @@ def day_12_part2():
 
         # Part 1:
         for i in range(number_of_generations):
-            print_debug("cur is {}".format(cur))
+            #print_debug("cur is {}".format(cur))
             cur = nextg(cur, recipe)
         part_1_answer =  "Part 1 answer - After {} generations, the answer is {}".format(number_of_generations ,sum(cur))
+
+
+        # Part 2:
+        cur = set(i for i, c in enumerate(init) if c == '#')
+        print_debug("\n\ntest is {}\n\n".format([ counter for counter, value in enumerate(init) if value == '#' ]))
+
+
+        found = False
+        first_repeat = None
+        first_repeat_index = None
+        num_gens = 100
+        seen = []
+        for i in range(num_gens):
+            print_debug("Looking at generation {}:".format(i))
+            cur = nextg(cur, recipe)
+            if cur in seen and found is False:
+                found = True
+                first_repeat_index = i
+
+            seen.append(cur)
+        print_debug("\n\n\n\n\n")
+        print_debug("first_repeat is {}".format(first_repeat))
+        print_debug("first_repeat_index is {}".format(first_repeat_index))
+
+        print_debug("\n\n\n\n\n")
+
+
+
+        #print_debug("seen_size is {}".format(len(seen)))
+        #print_debug("seen is {}".format(seen))
+
+        part_2_answer = "Part 2 answer - After {} generations, the answer is {}".format(num_gens, sum(cur))
+
 
 
         return part_1_answer + "\n"+ part_2_answer
