@@ -3310,7 +3310,7 @@ def day_12_part2():
         found = False
         first_repeat = None
         first_repeat_index = None
-        num_gens = 100
+        num_gens = 10000
         seen = []
         for i in range(num_gens):
             print_debug("Looking at generation {}:".format(i))
