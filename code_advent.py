@@ -3203,6 +3203,7 @@ def day12_internet_answer():
         print sum(cur)
         """
 def day_12_part1():
+    return "DISABLED"
 
     lines = read_file_into_list("problem_12_dummy_input.txt")
     lines = read_file_into_list("problem_12_input.txt")
@@ -3252,6 +3253,56 @@ def day_12_part1():
 
 
 
+
+
+
+
+
+
+def day_12_part2():
+    import collections
+    import re
+
+    number_of_generations = 20
+    part_1_answer = "Part 1 answer - Part 1 answer is WIP"
+    part_2_answer = "Part 2 answer - Part 2 answer is WIP"
+    #number_of_generations = 50000000000
+    def nextg(cur, recipe):
+        start = min(cur)
+        end = max(cur)
+        x = set()
+
+        for i in range(start - 3, end + 4):
+            pat = ''.join('#' if i + k in cur else '.' for k in [-2, -1, 0, 1, 2])
+            if pat in recipe:
+                x.add(i)
+
+        return x
+
+    def viz(cur):
+        print_debug(''.join('#' if i in cur else '.' for i in xrange(-5, 120)))
+
+    # with open('day12test.txt') as f:
+    with open('problem_12_input.txt') as f:
+        lines = [l.rstrip('\n') for l in f]
+        print_debug(lines)
+
+        init = lines[0][len('initial state: '):]
+        recipe = set()
+        for l in lines[2:]:
+            if l[-1] == '#':  # I forgot this line the first time around.
+                recipe.add(l[:5])
+
+        cur = set(i for i, c in enumerate(init) if c == '#')
+
+        # Part 1:
+        for i in range(number_of_generations):
+            print_debug("cur is {}".format(cur))
+            cur = nextg(cur, recipe)
+        part_1_answer =  "Part 1 answer - After {} generations, the answer is {}".format(number_of_generations ,sum(cur))
+
+
+        return part_1_answer + "\n"+ part_2_answer
 def main():
 
     print("\nScript arguments are:\n------------------------\n{}".format(sys.argv))
@@ -3315,6 +3366,8 @@ def main():
     print("Answer for Day 11 - Part 2 - 'Chronal Charge':\n------------------------\n" + str(day_11_part2()))
     print("\n")
     print("Answer for Day 12 - Part 1 - 'Subterranean Sustainability':\n------------------------\n" + str(day_12_part1()))
+    print("\n")
+    print("Answer for Day 12 - Part 2 - 'Subterranean Sustainability':\n------------------------\n" + str(day_12_part2()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
