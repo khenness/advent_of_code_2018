@@ -3502,7 +3502,7 @@ class Track:
                                 neigbour_char = lines[new_y][new_x]
                                 if neigbour_char != " ":
 
-                                    left_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
+                                    left_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, new_segment, None, None)
                                     self.coord_to_track_dict[(new_x, new_y)] = left_neigbour
                         except IndexError:
                             left_neigbour = None
@@ -3515,7 +3515,7 @@ class Track:
 
                                 neigbour_char = lines[new_y][new_x]
                                 if neigbour_char != " ":
-                                    right_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
+                                    right_neigbour = TrackSegment(new_x, new_y, neigbour_char, new_segment, None, None, None)
                                     self.coord_to_track_dict[(new_x, new_y)] = right_neigbour
                         except IndexError:
                             right_neigbour = None
@@ -3529,7 +3529,7 @@ class Track:
                                 neigbour_char = lines[new_y][new_x]
                                 if neigbour_char != " ":
 
-                                    up_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
+                                    up_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, new_segment)
                                     self.coord_to_track_dict[(new_x, new_y)] = up_neigbour
                         except IndexError:
                             up_neigbour = None
@@ -3543,7 +3543,7 @@ class Track:
                                 neigbour_char = lines[new_y][new_x]
                                 if neigbour_char != " ":
 
-                                    down_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
+                                    down_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, new_segment, None)
                                     self.coord_to_track_dict[(new_x, new_y)] = down_neigbour
                         except IndexError:
                             down_neigbour = None
