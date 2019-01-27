@@ -3456,6 +3456,7 @@ class Track:
 
                 existing_track = self.coord_to_track_dict.get((x, y))
 
+
                 if existing_track:
 
                     pass
