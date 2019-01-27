@@ -3448,6 +3448,9 @@ class Track:
         print_debug("\n\n\n\n")
         y = 0
         for line in lines:
+
+
+
             x =0
             for mychar in line:
 
@@ -3469,11 +3472,12 @@ class Track:
                         try:
                             new_x = x-1
                             new_y = y
-                            neigbour_char = lines[new_y][new_x]
-                            if neigbour_char != " ":
+                            if new_x >=0 and new_y >=0:
+                                neigbour_char = lines[new_y][new_x]
+                                if neigbour_char != " ":
 
-                                left_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
-                                self.coord_to_track_dict[(new_x, new_y)] = left_neigbour
+                                    left_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
+                                    self.coord_to_track_dict[(new_x, new_y)] = left_neigbour
                         except IndexError:
                             left_neigbour = None
                             pass
@@ -3481,10 +3485,12 @@ class Track:
                         try:
                             new_x = x+1
                             new_y = y
-                            neigbour_char = lines[new_y][new_x]
-                            if neigbour_char != " ":
-                                right_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
-                                self.coord_to_track_dict[(new_x, new_y)] = right_neigbour
+                            if new_x >=0 and new_y >=0:
+
+                                neigbour_char = lines[new_y][new_x]
+                                if neigbour_char != " ":
+                                    right_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
+                                    self.coord_to_track_dict[(new_x, new_y)] = right_neigbour
                         except IndexError:
                             right_neigbour = None
                             pass
@@ -3492,11 +3498,13 @@ class Track:
                         try:
                             new_x = x
                             new_y = y-1
-                            neigbour_char = lines[new_y][new_x]
-                            if neigbour_char != " ":
+                            if new_x >=0 and new_y >=0:
 
-                                up_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
-                                self.coord_to_track_dict[(new_x, new_y)] = up_neigbour
+                                neigbour_char = lines[new_y][new_x]
+                                if neigbour_char != " ":
+
+                                    up_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
+                                    self.coord_to_track_dict[(new_x, new_y)] = up_neigbour
                         except IndexError:
                             up_neigbour = None
                             pass
@@ -3504,11 +3512,13 @@ class Track:
                         try:
                             new_x = x
                             new_y = y+1
-                            neigbour_char = lines[new_y][new_x]
-                            if neigbour_char != " ":
+                            if new_x >=0 and new_y >=0:
 
-                                down_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
-                                self.coord_to_track_dict[(new_x, new_y)] = down_neigbour
+                                neigbour_char = lines[new_y][new_x]
+                                if neigbour_char != " ":
+
+                                    down_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
+                                    self.coord_to_track_dict[(new_x, new_y)] = down_neigbour
                         except IndexError:
                             down_neigbour = None
                             pass
@@ -3552,6 +3562,10 @@ def day_13_part1():
 
     myTrack = Track(lines)
 
+    for line in lines:
+
+        line2 = [1,2,3]
+        return "line2 is {}\ntest is {}".format(line2,line2[0])
 
 
 
