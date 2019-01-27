@@ -3387,15 +3387,35 @@ class MineCar:
 
 class TrackSegment:
 
-    def __init__(self):
-        self.x_pos = None
-        self.y_pos = None
-        self.track_shape = None   #EG '\', '+', '-' etc
+    def __init__(self, x_pos, y_pos, track_shape, left_neigbour, right_neigbour, up_neigbour, down_neigbour):
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+        self.track_shape = track_shape   #EG '\', '+', '-' etc
 
-        self.left_connection = None
-        self.right_connection = None
-        self.up_connection = None
-        self.down_connection = None
+        self.left_neigbour = left_neigbour
+        self.right_neigbour = right_neigbour
+        self.up_neigbour = up_neigbour
+        self.down_neigbour = down_neigbour
+
+
+    def get_string(self):
+
+        mystring = ""
+        mystring += "TrackSegment:\n"
+        mystring += "self.x_pos is {}\n".format(self.x_pos)
+        mystring += "self.y_pos is {}\n".format(self.y_pos)
+        mystring += "self.track_shape is {}\n".format(self.track_shape)
+
+        mystring += "self.left_neigbour is {}\n".format(self.left_neigbour)
+        mystring += "self.right_neigbour is {}\n".format(self.right_neigbour)
+        mystring += "self.up_neigbour is {}\n".format(self.up_neigbour)
+        mystring += "self.down_neigbour is {}\n".format(self.down_neigbour)
+
+
+        mystring += "\n"
+
+        return mystring
+
 
 class Track:
 
@@ -3406,27 +3426,52 @@ class Track:
 
         self.init_track(lines)
 
+
     def init_track(self, lines):
+
+        print_debug("\n\nlooking at file:")
+
+        for line in lines:
+            print_debug(line)
+        print_debug("\n\n")
         print_debug("\n\n\n\n")
         y = 0
         for line in lines:
             x =0
             for mychar in line:
 
-                existing_track = self.coord_to_track_dict.get((x,y))
+                existing_track = self.coord_to_track_dict.get((x, y))
 
                 if existing_track:
 
                     pass
                 else:
-                    print_debug("got to here")
+
+                    if mychar != " ":
+
+                        left_neigbour = None
+                        right_neigbour = None
+                        up_neigbour = None
+                        down_neigbour = None
+
+
+
+                        new_segment = TrackSegment(x,y, mychar, left_neigbour,
+                                                   right_neigbour, up_neigbour, down_neigbour)
+
+                        self.coord_to_track_dict[(x,y)] = new_segment
+
                     pass
 
                 x+=1
             y+=1
 
 
-            #print_debug(line)
+        print_debug("self.coord_to_track_dict is:")
+
+        for key in self.coord_to_track_dict:
+            #print_debug("k is {}".format(k))
+            print_debug("For coord {}, the value is:\n{}".format(key, self.coord_to_track_dict[key].get_string()))
 
 
 
