@@ -3460,6 +3460,21 @@ class Track:
         self.init_track(lines)
 
 
+    def pretty_print_track_dict(self):
+
+        # real input is 150 x 150
+        mystring = ""
+        for y in range (160):
+            for x in range(160):
+                found_segment = self.track_dict.get((x,y))
+                if found_segment:
+                    mystring += found_segment.track_shape
+                else:
+                    mystring += " "
+            mystring +="\n"
+
+        return mystring
+
     def init_track(self, lines):
 
 
@@ -3531,10 +3546,7 @@ def day_13_part1():
 
     myTrack = Track(lines)
 
-    for line in lines:
-
-        line2 = [1,2,3]
-        return "line2 is {}\ntest is {}".format(line2,line2[0])
+    return myTrack.pretty_print_track_dict()
 
 
 
