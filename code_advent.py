@@ -3393,11 +3393,21 @@ def day_12_part2():
 
 
 
-class MineCar:
+class MineCart:
 
-    def __init__(self):
-        self.x_pos = None
-        self.y_pos = None
+    def __init__(self, x_pos, y_pos):
+        self.x_pos = x_pos
+        self.y_pos = y_pos
+
+    def get_string(self):
+
+        mystring = ""
+        mystring += "MineCart:\n".format()
+        mystring += "self.x_pos is {}\n".format(self.x_pos)
+        mystring += "self.y_pos is {}\n".format(self.y_pos)
+        mystring += "\n"
+
+        return mystring
 
 
 class TrackSegment:
@@ -3412,6 +3422,10 @@ class TrackSegment:
         self.up_neigbour = up_neigbour
         self.down_neigbour = down_neigbour
 
+
+        self.minecart = None
+
+
     def get_small_string(self):
 
         mystring = "Tracksegment: "
@@ -3419,6 +3433,21 @@ class TrackSegment:
         mystring += "self.y_pos is {}, ".format(self.y_pos)
         mystring += "self.track_shape is {}. ".format(self.track_shape)
         return mystring
+
+    def get_num_neighbours(self):
+        num_neighbours = 0
+        if self.left_neigbour:
+            num_neighbours+=1
+        if self.right_neigbour:
+            num_neighbours+=1
+
+        if self.up_neigbour:
+            num_neighbours+=1
+
+        if self.down_neigbour:
+            num_neighbours+=1
+
+        return num_neighbours
 
     def get_string(self):
 
@@ -3449,15 +3478,83 @@ class TrackSegment:
 
 class Track:
 
+
+
+
+    def internet_answer(self):
+        from itertools import product
+        with open('problem_13_input.txt', 'r') as ifile:
+            rlmap = [list(line.strip('\n')) for line in ifile]
+        carts = []
+        for y, x in product(range(len(rlmap)), range(len(rlmap[0]))):
+            if rlmap[y][x] in '>v<^':
+                crdir = '>v<^'.index(rlmap[y][x])
+                rlmap[y][x] = '-|'[crdir & 1]
+                carts.append([y, x, crdir, 0, True])
+        crash = False
+        while len(carts) > 1:
+            carts.sort(key=lambda i: tuple(i[:2]))
+            for cart1 in carts:
+                if not cart1[-1]:
+                    continue
+                if rlmap[cart1[0]][cart1[1]] == '/':
+                    cart1[2] = (3, 2, 1, 0)[cart1[2]]
+                elif rlmap[cart1[0]][cart1[1]] == '\\':
+                    cart1[2] = (1, 0, 3, 2)[cart1[2]]
+                elif rlmap[cart1[0]][cart1[1]] == '+':
+                    cart1[2] = (cart1[2] + (-1, 0, 1)[cart1[3]]) & 3
+                    cart1[3] = (cart1[3] + 1) % 3
+                cart1[0] += (0, 1, 0, -1)[cart1[2]]
+                cart1[1] += (1, 0, -1, 0)[cart1[2]]
+                for cart2 in carts:
+                    if cart2[-1] and cart1 is not cart2 and cart1[:2] == cart2[:2]:
+                        cart1[-1] = cart2[-1] = False
+                        if not crash:
+                            crash = True
+                            print(cart1[:2][::-1])  # 1
+                        break
+            carts = list(filter(lambda i: i[-1], carts))
+        print(carts[0][:2][::-1])  # 2
+
+
+
     def __init__(self, lines):
         self.coord_to_track_dict = {}
 
 
         self.track_dict = {}
 
-        self.mine_cars = []
+        self.minecarts = []
 
         self.init_track(lines)
+
+        self.collisions = []
+
+
+    def move_minecart(self):
+        pass
+
+    def step(self):
+        mystring = ""
+        for y in range(160):
+            for x in range(160):
+                found_segment = self.track_dict.get((x, y))
+                if found_segment:
+
+                    if found_segment.minecart:
+                        self.move_minecart(found_segment.minecart)
+
+
+
+        return mystring
+
+
+    def run_simulation(self):
+        #while True:
+
+        #print_debug(self.pretty_print_track_dict())
+
+        pass
 
 
     def pretty_print_track_dict(self):
@@ -3496,6 +3593,12 @@ class Track:
             my_x = key[0]
             my_y = key[1]
             my_char =  self.coord_to_track_dict[key].track_shape
+
+            if my_char == ">" or my_char == "<" or my_char == "^" or my_char == "v":
+                newMineCart = MineCart(my_x, my_y)
+                self.minecarts.append(newMineCart)
+                print_debug("Made new minecart {}".format(newMineCart.get_string()))
+
             #print_debug("my_x is {}, my_y is {}".format(my_x, my_y))
 
             left_neighbour = self.coord_to_track_dict.get((my_x-1, my_y))
@@ -3507,6 +3610,9 @@ class Track:
 
             print_debug("Made new track {}".format(newTrack.get_string()))
             self.track_dict[(my_x, my_y)] = newTrack
+
+
+
 
         print_debug("self.coord_to_track_dict is:")
 
@@ -3521,6 +3627,14 @@ class Track:
             #print_debug("k is {}".format(k))
             print_debug("For coord {}, the value is:\n{}".format(key, self.track_dict[key].get_string()))
 
+        print_debug("\n\n\n\n\n\n\n\n\n")
+        print_debug("self.minecarts is:")
+
+        count = 0
+        for minecart in self.minecarts:
+            # print_debug("k is {}".format(k))
+            print_debug("Minecart {} in minecarts is :\n{}".format(count, minecart.get_string()))
+            count +=1
 
 
         print_debug("\n\n\n\n")
@@ -3545,8 +3659,10 @@ def day_13_part1():
 
 
     myTrack = Track(lines)
-
-    return myTrack.pretty_print_track_dict()
+    myTrack.pretty_print_track_dict()
+    myTrack.run_simulation()
+    myTrack.internet_answer()
+    return
 
 
 
