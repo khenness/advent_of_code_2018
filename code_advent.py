@@ -3260,6 +3260,8 @@ def day_12_part1():
 
 
 def day_12_part2():
+
+    return "DISABLED"
     import collections
     import re
 
@@ -3370,6 +3372,81 @@ def day_12_part2():
 
 
         return part_1_answer + "\n"+ part_2_answer
+
+
+
+
+
+
+class MineCar:
+
+    def __init__(self):
+        self.x_pos = None
+        self.y_pos = None
+
+
+class TrackSegment:
+
+    def __init__(self):
+        self.x_pos = None
+        self.y_pos = None
+        self.track_shape = None   #EG '\', '+', '-' etc
+
+        self.left_connection = None
+        self.right_connection = None
+        self.up_connection = None
+        self.down_connection = None
+
+class Track:
+
+    def __init__(self, lines):
+        self.coord_to_track_dict = {}
+
+        self.mine_cars = []
+
+        self.init_track(lines)
+
+    def init_track(self, lines):
+        print_debug("\n\n\n\n")
+        y = 0
+        for line in lines:
+            x =0
+            for mychar in line:
+
+                existing_track = self.coord_to_track_dict.get((x,y))
+
+                if existing_track:
+
+                    pass
+                else:
+                    print_debug("got to here")
+                    pass
+
+                x+=1
+            y+=1
+
+
+            #print_debug(line)
+
+
+
+        print_debug("\n\n\n\n")
+
+def day_13_part1():
+    lines = read_file_into_list("problem_13_dummy_input.txt")
+    #lines = read_file_into_list("problem_12_input.txt")
+
+
+    myTrack = Track(lines)
+
+
+
+
+
+
+
+
+
 def main():
 
     print("\nScript arguments are:\n------------------------\n{}".format(sys.argv))
@@ -3435,6 +3512,8 @@ def main():
     print("Answer for Day 12 - Part 1 - 'Subterranean Sustainability':\n------------------------\n" + str(day_12_part1()))
     print("\n")
     print("Answer for Day 12 - Part 2 - 'Subterranean Sustainability':\n------------------------\n" + str(day_12_part2()))
+    print("\n")
+    print("Answer for Day 13 - Part 1 - 'Mine Cart Madness':\n------------------------\n" + str(day_13_part1()))
     print("\n")
     print("Script end time is {}".format(str(datetime.datetime.now())))
 
