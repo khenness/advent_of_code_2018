@@ -3470,13 +3470,14 @@ class Track:
             for mychar in line:
 
                 existing_track = self.coord_to_track_dict.get((x, y))
+                new_segment = TrackSegment(x, y, mychar, None, None, None, None)
 
                 #DEBUGGING - Delete me later
-                print_debug("\n\n\n\n\n\n\n\n\n\n\n\n\n\nGot to here")
-                for key in self.coord_to_track_dict:
-                    # print_debug("k is {}".format(k))
-                    print_debug(
-                        "For coord {}, the value is:\n{}".format(key, self.coord_to_track_dict[key].get_string()))
+                #print_debug("\n\n\n\n\n\n\n\n\n\n\n\n\n\nGot to here")
+                #for key in self.coord_to_track_dict:
+                #    # print_debug("k is {}".format(k))
+                #    print_debug(
+                #        "For coord {}, the value is:\n{}".format(key, self.coord_to_track_dict[key].get_string()))
                 #import pdb; pdb.set_trace()
 
 
@@ -3550,7 +3551,13 @@ class Track:
 
 
 
-                        new_segment = TrackSegment(x,y, mychar, left_neigbour, right_neigbour, up_neigbour, down_neigbour)
+                        #new_segment = TrackSegment(x,y, mychar, left_neigbour, right_neigbour, up_neigbour, down_neigbour)
+
+                        new_segment.left_neigbour = left_neigbour
+                        new_segment.right_neigbour = right_neigbour
+                        new_segment.down_neigbour = down_neigbour
+                        new_segment.up_neigbour = up_neigbour
+
                         """
                         if new_segment.left_neigbour:
                             new_segment.left_neigbour.right_neighbour = new_segment
