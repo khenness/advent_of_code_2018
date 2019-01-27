@@ -3403,7 +3403,7 @@ class TrackSegment:
         mystring += "self.x_pos is {}, ".format(self.x_pos)
         mystring += "self.y_pos is {}, ".format(self.y_pos)
         mystring += "self.track_shape is {}. ".format(self.track_shape)
-
+        return mystring
 
     def get_string(self):
 
@@ -3415,16 +3415,16 @@ class TrackSegment:
 
 
         if self.left_neigbour:
-            mystring += "self.left_neigbour is:\n    {}".format(self.left_neigbour.get_small_string())
+            mystring += "self.left_neigbour is:\n    {}\n".format(self.left_neigbour.get_small_string())
 
         if self.right_neigbour:
-            mystring += "self.right_neigbour is:\n    {}".format(self.right_neigbour.get_small_string())
+            mystring += "self.right_neigbour is:\n    {}\n".format(self.right_neigbour.get_small_string())
 
         if self.up_neigbour:
-            mystring += "self.up_neigbour is:\n    {}".format(self.up_neigbour.get_small_string())
+            mystring += "self.up_neigbour is:\n    {}\n".format(self.up_neigbour.get_small_string())
 
         if self.down_neigbour:
-            mystring += "self.down_neigbour is:\n    {}".format(self.down_neigbour.get_small_string())
+            mystring += "self.down_neigbour is:\n    {}\n".format(self.down_neigbour.get_small_string())
 
 
         mystring += "\n"
@@ -3444,11 +3444,7 @@ class Track:
 
     def init_track(self, lines):
 
-        print_debug("\n\nlooking at file:")
 
-        for line in lines:
-            print_debug(line)
-        print_debug("\n\n")
         print_debug("\n\n\n\n")
         y = 0
         for line in lines:
@@ -3470,12 +3466,30 @@ class Track:
                         down_neigbour = None
 
 
-                        
+                        try:
+                            new_x = x-1
+                            new_y = y
+                            neigbour_char = lines[new_y][new_x]
+                            left_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
+                            self.coord_to_track_dict[(new_x, new_y)] = left_neigbour
+                        except IndexError:
+                            left_neigbour = None
+                            pass
+
+                        try:
+                            new_x = x+1
+                            new_y = y
+                            neigbour_char = lines[new_y][new_x]
+                            right_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, None)
+                            self.coord_to_track_dict[(new_x, new_y)] = right_neigbour
+                        except IndexError:
+                            right_neigbour = None
+                            pass
 
 
 
-                        new_segment = TrackSegment(x,y, mychar, left_neigbour,
-                                                   right_neigbour, up_neigbour, down_neigbour)
+
+                        new_segment = TrackSegment(x,y, mychar, left_neigbour, right_neigbour, up_neigbour, down_neigbour)
 
                         self.coord_to_track_dict[(x,y)] = new_segment
 
@@ -3494,6 +3508,16 @@ class Track:
 
 
         print_debug("\n\n\n\n")
+        print_debug("\n\nlooking at file:")
+        print_debug("           01234567890")
+        print_debug(" 012345678911111111112")
+
+        count = 0
+        for line in lines:
+            print_debug("{}{}".format(count,line))
+            count+=1
+        print_debug("\n\n")
+
 
 def day_13_part1():
     lines = read_file_into_list("problem_13_dummy_input.txt")
