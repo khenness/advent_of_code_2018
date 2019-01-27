@@ -3452,6 +3452,9 @@ class Track:
     def __init__(self, lines):
         self.coord_to_track_dict = {}
 
+
+        self.track_dict = {}
+
         self.mine_cars = []
 
         self.init_track(lines)
@@ -3463,142 +3466,32 @@ class Track:
         print_debug("\n\n\n\n")
         y = 0
         for line in lines:
-
-
-
             x =0
             for mychar in line:
 
-                existing_track = self.coord_to_track_dict.get((x, y))
-                new_segment = TrackSegment(x, y, mychar, None, None, None, None)
-
-                #DEBUGGING - Delete me later
-                print_debug("\n\n\n\n\n\n\n\n\n\n\n\n\n\nGot to here")
-                for key in self.coord_to_track_dict:
-                    # print_debug("k is {}".format(k))
-                    print_debug(
-
-                        "For coord {}, the value is:\n{}".format(key, self.coord_to_track_dict[key].get_string()))
-                #import pdb; pdb.set_trace()
-
-
-                if existing_track:
-                    """
-                    if mychar != " ":
-
-                        left_neigbour = None
-                        right_neigbour = None
-                        up_neigbour = None
-                        down_neigbour = None
-
-
-                        try:
-                            new_x = x-1
-                            new_y = y
-                            if new_x >=0 and new_y >=0:
-                                neigbour_char = lines[new_y][new_x]
-                                if neigbour_char != " ":
-                                    import pdb ; pdb.set_trace()
-                                    existing_track.left_neigbour = left_neigbour
-                                    #self.coord_to_track_dict[(new_x, new_y)] = left_neigbour
-                        except IndexError:
-                            left_neigbour = None
-                            pass
-                    """
-                    pass
-                else:
-
-                    if mychar != " ":
-
-                        left_neigbour = None
-                        right_neigbour = None
-                        up_neigbour = None
-                        down_neigbour = None
-
-
-                        try:
-                            new_x = x-1
-                            new_y = y
-                            if new_x >=0 and new_y >=0:
-                                neigbour_char = lines[new_y][new_x]
-                                if neigbour_char != " ":
-
-                                    left_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, new_segment, None, None)
-                                    self.coord_to_track_dict[(new_x, new_y)] = left_neigbour
-                        except IndexError:
-                            left_neigbour = None
-                            pass
-
-                        try:
-                            new_x = x+1
-                            new_y = y
-                            if new_x >=0 and new_y >=0:
-
-                                neigbour_char = lines[new_y][new_x]
-                                if neigbour_char != " ":
-                                    right_neigbour = TrackSegment(new_x, new_y, neigbour_char, new_segment, None, None, None)
-                                    self.coord_to_track_dict[(new_x, new_y)] = right_neigbour
-                        except IndexError:
-                            right_neigbour = None
-                            pass
-
-                        try:
-                            new_x = x
-                            new_y = y-1
-                            if new_x >=0 and new_y >=0:
-
-                                neigbour_char = lines[new_y][new_x]
-                                if neigbour_char != " ":
-
-                                    up_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, None, new_segment)
-                                    self.coord_to_track_dict[(new_x, new_y)] = up_neigbour
-                        except IndexError:
-                            up_neigbour = None
-                            pass
-
-                        try:
-                            new_x = x
-                            new_y = y+1
-                            if new_x >=0 and new_y >=0:
-
-                                neigbour_char = lines[new_y][new_x]
-                                if neigbour_char != " ":
-
-                                    down_neigbour = TrackSegment(new_x, new_y, neigbour_char, None, None, new_segment, None)
-                                    self.coord_to_track_dict[(new_x, new_y)] = down_neigbour
-                        except IndexError:
-                            down_neigbour = None
-                            pass
-
-
-
-                        #new_segment = TrackSegment(x,y, mychar, left_neigbour, right_neigbour, up_neigbour, down_neigbour)
-
-                        new_segment.left_neigbour = left_neigbour
-                        new_segment.right_neigbour = right_neigbour
-                        new_segment.down_neigbour = down_neigbour
-                        new_segment.up_neigbour = up_neigbour
-
-                        """
-                        if new_segment.left_neigbour:
-                            new_segment.left_neigbour.right_neighbour = new_segment
-
-                        if new_segment.right_neigbour:
-                            new_segment.right_neigbour.left_neighbour = new_segment
-
-                        if new_segment.up_neigbour:
-                            new_segment.up_neigbour.down_neighbour = new_segment
-
-                        if new_segment.down_neigbour:
-                            new_segment.down_neigbour.up_neighbour = new_segment
-                        """
-                        self.coord_to_track_dict[(x,y)] = new_segment
-
-                    pass
-
+                if mychar != " ":
+                    self.coord_to_track_dict[(x,y)] = TrackSegment(x,y, mychar, None, None, None, None)
                 x+=1
             y+=1
 
+
+
+        for key in self.coord_to_track_dict:
+
+            my_x = key[0]
+            my_y = key[1]
+            my_char =  self.coord_to_track_dict[key].track_shape
+            #print_debug("my_x is {}, my_y is {}".format(my_x, my_y))
+
+            left_neighbour = self.coord_to_track_dict.get((my_x-1, my_y))
+            right_neighbour = self.coord_to_track_dict.get((my_x+1, my_y))
+            up_neighbour = self.coord_to_track_dict.get((my_x, my_y-1))
+            down_neighbour = self.coord_to_track_dict.get((my_x, my_y+1))
+
+            newTrack = TrackSegment(my_x, my_y, my_char, left_neighbour, right_neighbour, up_neighbour, down_neighbour)
+
+            print_debug("Made new track {}".format(newTrack.get_string()))
+            self.track_dict[(my_x, my_y)] = newTrack
 
         print_debug("self.coord_to_track_dict is:")
 
@@ -3606,6 +3499,12 @@ class Track:
             #print_debug("k is {}".format(k))
             print_debug("For coord {}, the value is:\n{}".format(key, self.coord_to_track_dict[key].get_string()))
 
+        print_debug("\n\n\n\n\n\n\n\n\n")
+        print_debug("self.track_dict is:")
+
+        for key in self.track_dict:
+            #print_debug("k is {}".format(k))
+            print_debug("For coord {}, the value is:\n{}".format(key, self.track_dict[key].get_string()))
 
 
 
