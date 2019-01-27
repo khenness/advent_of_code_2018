@@ -3473,21 +3473,38 @@ class Track:
                 new_segment = TrackSegment(x, y, mychar, None, None, None, None)
 
                 #DEBUGGING - Delete me later
-                #print_debug("\n\n\n\n\n\n\n\n\n\n\n\n\n\nGot to here")
-                #for key in self.coord_to_track_dict:
-                #    # print_debug("k is {}".format(k))
-                #    print_debug(
+                print_debug("\n\n\n\n\n\n\n\n\n\n\n\n\n\nGot to here")
+                for key in self.coord_to_track_dict:
+                    # print_debug("k is {}".format(k))
+                    print_debug(
 
-                #        "For coord {}, the value is:\n{}".format(key, self.coord_to_track_dict[key].get_string()))
+                        "For coord {}, the value is:\n{}".format(key, self.coord_to_track_dict[key].get_string()))
                 #import pdb; pdb.set_trace()
 
 
                 if existing_track:
-                    new_segment = existing_track
+                    """
+                    if mychar != " ":
 
-                    
+                        left_neigbour = None
+                        right_neigbour = None
+                        up_neigbour = None
+                        down_neigbour = None
 
 
+                        try:
+                            new_x = x-1
+                            new_y = y
+                            if new_x >=0 and new_y >=0:
+                                neigbour_char = lines[new_y][new_x]
+                                if neigbour_char != " ":
+                                    import pdb ; pdb.set_trace()
+                                    existing_track.left_neigbour = left_neigbour
+                                    #self.coord_to_track_dict[(new_x, new_y)] = left_neigbour
+                        except IndexError:
+                            left_neigbour = None
+                            pass
+                    """
                     pass
                 else:
 
