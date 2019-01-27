@@ -3397,19 +3397,34 @@ class TrackSegment:
         self.up_neigbour = up_neigbour
         self.down_neigbour = down_neigbour
 
+    def get_small_string(self):
+
+        mystring = "Tracksegment: "
+        mystring += "self.x_pos is {}, ".format(self.x_pos)
+        mystring += "self.y_pos is {}, ".format(self.y_pos)
+        mystring += "self.track_shape is {}. ".format(self.track_shape)
+
 
     def get_string(self):
 
         mystring = ""
-        mystring += "TrackSegment:\n"
+        mystring += "TrackSegment:\n".format()
         mystring += "self.x_pos is {}\n".format(self.x_pos)
         mystring += "self.y_pos is {}\n".format(self.y_pos)
         mystring += "self.track_shape is {}\n".format(self.track_shape)
 
-        mystring += "self.left_neigbour is {}\n".format(self.left_neigbour)
-        mystring += "self.right_neigbour is {}\n".format(self.right_neigbour)
-        mystring += "self.up_neigbour is {}\n".format(self.up_neigbour)
-        mystring += "self.down_neigbour is {}\n".format(self.down_neigbour)
+
+        if self.left_neigbour:
+            mystring += "self.left_neigbour is:\n    {}".format(self.left_neigbour.get_small_string())
+
+        if self.right_neigbour:
+            mystring += "self.right_neigbour is:\n    {}".format(self.right_neigbour.get_small_string())
+
+        if self.up_neigbour:
+            mystring += "self.up_neigbour is:\n    {}".format(self.up_neigbour.get_small_string())
+
+        if self.down_neigbour:
+            mystring += "self.down_neigbour is:\n    {}".format(self.down_neigbour.get_small_string())
 
 
         mystring += "\n"
@@ -3453,6 +3468,9 @@ class Track:
                         right_neigbour = None
                         up_neigbour = None
                         down_neigbour = None
+
+
+                        
 
 
 
