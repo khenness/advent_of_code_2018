@@ -3471,9 +3471,17 @@ class Track:
 
                 existing_track = self.coord_to_track_dict.get((x, y))
 
+                #DEBUGGING - Delete me later
+                print_debug("\n\n\n\n\n\n\n\n\n\n\n\n\n\nGot to here")
+                for key in self.coord_to_track_dict:
+                    # print_debug("k is {}".format(k))
+                    print_debug(
+                        "For coord {}, the value is:\n{}".format(key, self.coord_to_track_dict[key].get_string()))
+                #import pdb; pdb.set_trace()
+
 
                 if existing_track:
-                    pass
+
 
                     pass
                 else:
