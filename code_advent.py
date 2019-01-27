@@ -3473,6 +3473,7 @@ class Track:
 
 
                 if existing_track:
+                    pass
 
                     pass
                 else:
@@ -3542,7 +3543,19 @@ class Track:
 
 
                         new_segment = TrackSegment(x,y, mychar, left_neigbour, right_neigbour, up_neigbour, down_neigbour)
+                        """
+                        if new_segment.left_neigbour:
+                            new_segment.left_neigbour.right_neighbour = new_segment
 
+                        if new_segment.right_neigbour:
+                            new_segment.right_neigbour.left_neighbour = new_segment
+
+                        if new_segment.up_neigbour:
+                            new_segment.up_neigbour.down_neighbour = new_segment
+
+                        if new_segment.down_neigbour:
+                            new_segment.down_neigbour.up_neighbour = new_segment
+                        """
                         self.coord_to_track_dict[(x,y)] = new_segment
 
                     pass
