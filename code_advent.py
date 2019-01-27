@@ -3565,7 +3565,7 @@ class Track:
         print_debug(" 012345678911111111112")
 
         count = 0
-        print_debug(lines)
+        #print_debug(lines)
         for line in lines:
             mystring = "{}".format(count)
             for mychar in line:
