@@ -29,6 +29,21 @@ def read_file_into_list(filepath):
 
     return line_list
 
+def read_file_into_list_v2(filepath):
+    # Read file into list of lines
+    # For bigger files look into using yield and doing chunking, even just for practice
+    # If the file is line-based, the file object is already a lazy generator of lines:
+    # https://stackoverflow.com/questions/519633/lazy-method-for-reading-big-file-in-python
+    with open(filepath) as fp:
+        line_list = []
+        line = fp.readline()
+        while line:
+            #print_debug(line.strip())
+            line_list.append(line.replace("\n", ""))
+            line = fp.readline()
+
+    return line_list
+
 def parse_problem_1_string(input_string):
     return_tuple = (input_string[0], int(input_string[1:]))
     #print_debug("Found tuple - {}".format(return_tuple))
@@ -3550,15 +3565,19 @@ class Track:
         print_debug(" 012345678911111111112")
 
         count = 0
+        print_debug(lines)
         for line in lines:
-            print_debug("{}{}".format(count,line))
+            mystring = "{}".format(count)
+            for mychar in line:
+                mystring += mychar
+            print_debug(mystring)
             count+=1
         print_debug("\n\n")
 
 
 def day_13_part1():
-    lines = read_file_into_list("problem_13_dummy_input.txt")
-    #lines = read_file_into_list("problem_12_input.txt")
+    lines = read_file_into_list_v2("problem_13_dummy_input.txt")
+    #lines = read_file_into_list_v2("problem_12_input.txt")
 
 
     myTrack = Track(lines)
